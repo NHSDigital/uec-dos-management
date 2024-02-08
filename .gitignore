@@ -1,13 +1,57 @@
-# WARNING: Please, DO NOT edit this section of the file! It is maintained in the repository template.
-
 .scannerwork
-*cloc*report*.json
-*sbom*report*.json
-*vulnerabilities*report*.json
-*report*json.zip
-.version
+# Local .terraform directories
+*.terraform
 
+# .tfstate files
+.terraform
+*terraform.tfstate*
+*terraform.lock.hcl*
+*.tfstate
+*.tfstate.*
+*.terraform.lock.hcl
+plan.out
+plan.out.json
+
+# System Files
+*.DS_Store*
+.DS_Store
+
+# Ignore override files as they are usually used to override resources locally and so
+# are not checked in
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# misc
+.coverage
+htmlcov
+coverage.xml
+**/__pycache__/
+.pytest_cache/
+htmlcov/
+*/test
+*/*.pyc
+__pycache__
+*/__pycache__
+*.pyc
+.coverage.*
+coverage.xml
+tests/*/reports/*
+cve-scan*.json
+sbom-spdx*.json
 *.code-workspace
 !project.code-workspace
+**/allure-reports/*
+**/allure-results/*
 
-# Please, add your custom content below!
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# ZIP files
+*ods_location_comparator.zip
+*deployment.zip
