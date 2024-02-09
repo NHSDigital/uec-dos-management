@@ -1,0 +1,69 @@
+name: Pipeline Deployment Application Development Environment
+
+on:
+  push:
+    branches:
+      - main
+      - 'task/*'
+
+jobs:
+  metadata:
+    name: Get metadata
+    runs-on: ubuntu-latest
+    outputs:
+      build_datetime: ${{ steps.metadata.outputs.build_datetime }}
+      build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
+      build_epoch: ${{ steps.metadata.outputs.build_epoch }}
+    steps:
+      - id: metadata
+        run: |
+          datetime=$(date -u +'%Y-%m-%dT%H:%M:%S%z')
+          echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
+          echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+          echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
+          echo "triggering action: ${{ github.event_name }}"
+          echo "ref type: ${{ github.ref_type }}"
+          echo "triggering reference: ${{ github.ref_name }}"
+          echo "github event ref: ${{ github.event.ref }}"
+          echo "username of user triggering the workflow: ${{ github.actor }}"
+          echo "repo name ${{ github.event.repository.name }}"
+  # quality-checks:
+  #   name: Run quality checks
+  #   uses: ./.github/workflows/check-python-black-format.yaml
+
+  # unit-tests:
+  #   name: Run unit test
+  #   needs:
+  #     [
+  #       quality-checks,
+  #     ]
+  #   uses: ./.github/workflows/unit-test.yaml
+  #   with:
+  #     github_environment: dev
+  #   secrets: inherit
+
+  # build:
+  #   name: Build artefacts
+  #   uses: ./.github/workflows/unit-test.yaml
+
+  # deploy:
+  #   name: Deploy application
+  #   needs:
+  #     [
+  #       build,
+  #     ]
+
+
+  # slack-notifications:
+  #   needs: [
+  #     build-and-deploy-application-code,
+  #     unit-tests,
+  #     deploy-support-tools-infrastructure,
+  #     deploy-vpc-vpn-infrastructure,
+  #   ]
+  #   if: always()
+  #   uses: ./.github/workflows/slack-notifications.yaml
+  #   with:
+  #     env: dev
+  #   secrets: inherit
+
