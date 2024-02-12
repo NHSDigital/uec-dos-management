@@ -1,5 +1,4 @@
 name: Metadata workflow
-description: "Reusable workflow that gathers metadata about the code repository and the triggering github action"
 
 on:
   workflow_call:
