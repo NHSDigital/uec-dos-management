@@ -30,6 +30,8 @@ jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
+    with:
+      git_ref: main
   echo-repo-name:
     name: "Echo repo name"
     needs:
