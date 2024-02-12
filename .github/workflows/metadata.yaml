@@ -10,7 +10,7 @@ on:
     outputs:
       reponame:
         description: "The name of the repo"
-        value: "${{ jobs.metadata.outputs.reponame }}"
+        value: "${{ jobs.echo-metadata.outputs.reponame }}"
       # tf_max_version:
       #   description: "The max version of terraform that the code supports"
       #   value: "${{ jobs.derive-tf-versions.outputs.tf_max_version }}"
