@@ -32,6 +32,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
       - name: "Get metadata2 step"
         uses: ./.github/actions/metadata
   # quality-checks:
