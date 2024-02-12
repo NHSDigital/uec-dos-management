@@ -40,7 +40,7 @@ jobs:
     steps:
       - id: echo
         run: |
-          echo ${{ metadata2.outputs.reponame }}
+          echo ${{ needs.metadata2.outputs.reponame }}
 
   # quality-checks:
   #   name: Run quality checks
