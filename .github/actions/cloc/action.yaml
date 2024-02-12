@@ -1,5 +1,5 @@
 name: "Cloc action"
-description: "Counts lines of code in the repository
+description: "Counts lines of code in the repository"
 runs:
   using: "composite"
   steps:
