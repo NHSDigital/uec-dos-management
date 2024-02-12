@@ -27,6 +27,13 @@ jobs:
           echo "github event ref: ${{ github.event.ref }}"
           echo "username of user triggering the workflow: ${{ github.actor }}"
           echo "repo name ${{ github.event.repository.name }}"
+  metadata2:
+    name: "Get metadata2"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Get metadata2 step"
+        uses: ./.github/actions/metadata
   # quality-checks:
   #   name: Run quality checks
   #   uses: ./.github/workflows/check-python-black-format.yaml

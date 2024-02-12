@@ -1,0 +1,19 @@
+name: "Get metadata"
+description: "Collects metadata for the pipeline being executed"
+runs:
+  using: "composite"
+  steps:
+    - name: "Get metadata step"
+      id: "metadata"
+      shell: bash
+      run : |
+        datetime=$(date -u +'%Y-%m-%dT%H:%M:%S%z')
+        echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
+        echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+        echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
+        echo "triggering action: ${{ github.event_name }}"
+        echo "ref type: ${{ github.ref_type }}"
+        echo "triggering reference: ${{ github.ref_name }}"
+        echo "github event ref: ${{ github.event.ref }}"
+        echo "username of user triggering the workflow: ${{ github.actor }}"
+        echo "repo name ${{ github.event.repository.name }}"
