@@ -3,14 +3,14 @@ description: "Collects metadata for the pipeline being executed"
 
 outputs:
   reponame:
-    description: "Name of the repo"
+    description: "Name of the code repo"
     value: ${{ steps.metadata.outputs.reponame }}
 
 runs:
   using: "composite"
 
   steps:
-    - name: "Get metadata step"
+    - name: "Get metadata"
       id: "metadata"
       shell: bash
       run : |

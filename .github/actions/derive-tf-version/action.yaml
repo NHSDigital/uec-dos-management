@@ -1,9 +1,9 @@
 name: "Derive Terraform Version"
-description: "Derive max version of terraform"
+description: "Derives the maximum version of terraform that the code base supports"
 
 outputs:
   tf_max_version:
-    description: "The max acceptable vers of terraform"
+    description: "The maximum version of terraform supported by the code base"
     value: ${{ steps.minMax.outputs.maxVersion }}
 
 runs:
