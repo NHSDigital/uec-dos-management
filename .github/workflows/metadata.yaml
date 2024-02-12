@@ -1,15 +1,16 @@
 name: Metadata workflow
+description: "Reusable workflow that gathers metadata about the code repository and the triggering github action"
 
 on:
   workflow_call:
     inputs:
         git_ref:
-          description: "The git tag to checkout or current branch if not passed in"
+          description: "The git tag to checkout or, if not passed in, the current branch"
           required: false
           type: string
     outputs:
       reponame:
-        description: "The name of the repo"
+        description: "The name of the code repo"
         value: "${{ jobs.echo-metadata.outputs.reponame }}"
       tf_max_version:
         description: "The max version of terraform that the code supports"
