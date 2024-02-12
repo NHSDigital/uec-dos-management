@@ -1,11 +1,6 @@
 name: "Code Line Count"
 description: "Counts lines of code in the repository"
 
-inputs:
-  git_ref:
-    description: "The git tag to checkout or current branch if not passed in"
-    required: false
-
 runs:
   using: "composite"
   steps:
