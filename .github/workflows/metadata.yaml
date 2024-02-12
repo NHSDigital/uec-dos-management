@@ -10,7 +10,7 @@ on:
     outputs:
       reponame:
         description: "The name of the repo"
-        value: "Echo stage 1"
+        value: "${{ jobs.metadata.outputs.reponame }}"
 
 jobs:
   metadata:
