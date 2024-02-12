@@ -1,10 +1,10 @@
-name: "Cloc action"
+name: "Code Line Count"
 description: "Counts lines of code in the repository"
 runs:
   using: "composite"
   steps:
     - name: "Get code line count"
-      id: "cloc"
+      id: "code-line-count"
       shell: bash
       run: |
         export FORMAT=default

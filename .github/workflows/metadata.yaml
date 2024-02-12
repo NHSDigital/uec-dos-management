@@ -11,26 +11,46 @@ on:
       reponame:
         description: "The name of the repo"
         value: "${{ jobs.metadata.outputs.reponame }}"
+      tf_max_version:
+        description: "The max version of terraform that the code supports"
+        value: "${{ jobs.derive-tf-versions.outputs.tf_max_version }}"
 
 jobs:
-  metadata:
-    name: "Get metadata2"
+  code-line-count:
+    name: "Code Line Count"
     runs-on: ubuntu-latest
-    outputs:
-      reponame: ${{ steps.get-metadata.outputs.reponame  }}
     timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+      - name: "Code line count"
+        uses: ./.github/actions/code-line-count
+  derive-tf-version:
+    name: "Derive TF Version"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    outputs:
+      tf_max_version: ${{ steps.derive_tf_version.outputs.tf_max_version  }}
+
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+      - name: "Derive TF Version"
+        id: derive_tf_version
+        uses: ./.github/actions/derive-tf-version
+  echo-metadata:
+    name: "Get Metadata"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    outputs:
+      reponame: ${{ steps.get_metadata.outputs.reponame  }}
+
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
       - name: "Get metadata2 step"
-        id: get-metadata
+        id: get_metadata
         uses: ./.github/actions/metadata
-  cloc-repository:
-    name: "Cloc"
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
-    steps:
-      - name: "Checkout code"
-        uses: actions/checkout@v4
-      - name: "Get cloc step"
-        uses: ./.github/actions/cloc
+

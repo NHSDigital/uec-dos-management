@@ -7,40 +7,41 @@ on:
       - 'task/*'
 
 jobs:
+  # metadata:
+  #   name: Get metadata
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     build_datetime: ${{ steps.metadata.outputs.build_datetime }}
+  #     build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
+  #     build_epoch: ${{ steps.metadata.outputs.build_epoch }}
+  #   steps:
+  #     - id: metadata
+  #       run: |
+  #         datetime=$(date -u +'%Y-%m-%dT%H:%M:%S%z')
+  #         echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
+  #         echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+  #         echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
+  #         echo "triggering action: ${{ github.event_name }}"
+  #         echo "ref type: ${{ github.ref_type }}"
+  #         echo "triggering reference: ${{ github.ref_name }}"
+  #         echo "github event ref: ${{ github.event.ref }}"
+  #         echo "username of user triggering the workflow: ${{ github.actor }}"
+  #         echo "repo name ${{ github.event.repository.name }}"
   metadata:
-    name: Get metadata
-    runs-on: ubuntu-latest
-    outputs:
-      build_datetime: ${{ steps.metadata.outputs.build_datetime }}
-      build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
-      build_epoch: ${{ steps.metadata.outputs.build_epoch }}
-    steps:
-      - id: metadata
-        run: |
-          datetime=$(date -u +'%Y-%m-%dT%H:%M:%S%z')
-          echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
-          echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-          echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
-          echo "triggering action: ${{ github.event_name }}"
-          echo "ref type: ${{ github.ref_type }}"
-          echo "triggering reference: ${{ github.ref_name }}"
-          echo "github event ref: ${{ github.event.ref }}"
-          echo "username of user triggering the workflow: ${{ github.actor }}"
-          echo "repo name ${{ github.event.repository.name }}"
-  metadata2:
-    name: "Get metadata2"
+    name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
   echo-repo-name:
     name: "Echo repo name"
     needs:
       [
-        metadata2,
+        metadata,
       ]
     runs-on: ubuntu-latest
     steps:
       - id: echo
         run: |
-          echo ${{ needs.metadata2.outputs.reponame }}
+          echo "Repo Name: " ${{ needs.metadata.outputs.reponame }}
+          echo "Max TF Version: " ${{ needs.metadata.outputs.tf_max_version }}
 
   # quality-checks:
   #   name: Run quality checks
