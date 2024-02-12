@@ -1,0 +1,24 @@
+name: Metadata Workflow
+
+on:
+  workflow_call:
+
+jobs:
+  metadata:
+    name: "Get metadata2"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+      - name: "Get metadata2 step"
+        uses: ./.github/actions/metadata
+  cloc-repository:
+    name: "Cloc"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+      - name: "Get cloc step"
+        uses: ./.github/actions/cloc

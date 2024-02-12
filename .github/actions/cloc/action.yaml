@@ -1,0 +1,11 @@
+name: "Cloc action"
+description: "Counts lines of code in the repository
+runs:
+  using: "composite"
+  steps:
+    - name: "Get code line count"
+      id: "cloc"
+      shell: bash
+      run: |
+        export FORMAT=default
+        ./scripts/cloc-repository.sh
