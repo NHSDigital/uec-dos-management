@@ -1,5 +1,11 @@
 name: "metadata action"
 description: "Collects metadata for the pipeline being executed"
+
+outputs:
+  reponame:
+    description: "Name of the repo"
+    value: ${{ steps.metadata.outputs.reponame }}
+
 runs:
   using: "composite"
 
