@@ -1,17 +1,29 @@
-name: Metadata Workflow
+name: Metadata workflow
 
 on:
   workflow_call:
+    inputs:
+        git_ref:
+          description: "The git tag to checkout or current branch if not passed in"
+          required: false
+          type: string
+    outputs:
+      reponame:
+        description: "The name of the repo"
+        value: "Echo stage 1"
 
 jobs:
   metadata:
     name: "Get metadata2"
     runs-on: ubuntu-latest
+    outputs:
+      reponame: ${{ steps.get-metadata.outputs.reponame  }}
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
       - name: "Get metadata2 step"
+        id: get-metadata
         uses: ./.github/actions/metadata
   cloc-repository:
     name: "Cloc"

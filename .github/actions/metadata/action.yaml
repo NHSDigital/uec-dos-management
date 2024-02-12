@@ -2,6 +2,7 @@ name: "metadata action"
 description: "Collects metadata for the pipeline being executed"
 runs:
   using: "composite"
+
   steps:
     - name: "Get metadata step"
       id: "metadata"
@@ -17,3 +18,4 @@ runs:
         echo "github event ref: ${{ github.event.ref }}"
         echo "username of user triggering the workflow: ${{ github.actor }}"
         echo "repo name ${{ github.event.repository.name }}"
+        echo "reponame=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT

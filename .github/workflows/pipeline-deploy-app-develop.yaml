@@ -30,6 +30,18 @@ jobs:
   metadata2:
     name: "Get metadata2"
     uses: ./.github/workflows/metadata.yaml
+  echo-repo-name:
+    name: "Echo repo name"
+    needs:
+      [
+        metadata2,
+      ]
+    runs-on: ubuntu-latest
+    steps:
+      - id: echo
+        run: |
+          echo ${{ metadata2.outputs.reponame }}
+
   # quality-checks:
   #   name: Run quality checks
   #   uses: ./.github/workflows/check-python-black-format.yaml
