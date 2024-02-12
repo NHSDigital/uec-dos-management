@@ -5,6 +5,7 @@ inputs:
   git_ref:
     description: "The git tag to checkout or current branch if not passed in"
     required: false
+    default: ''
 
 outputs:
   tf_max_version:
