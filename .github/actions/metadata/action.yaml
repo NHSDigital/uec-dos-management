@@ -3,6 +3,12 @@ description: "Collects metadata for the pipeline being executed"
 runs:
   using: "composite"
   steps:
+    - name: "Get code line count"
+      id: "cloc"
+      shell: bash
+      run: |
+        export FORMAT=default
+        ./scripts/cloc-repository.sh
     - name: "Get metadata step"
       id: "metadata"
       shell: bash
