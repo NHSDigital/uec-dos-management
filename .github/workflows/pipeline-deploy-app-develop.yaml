@@ -40,8 +40,8 @@ jobs:
     steps:
       - id: echo
         run: |
-          echo ${{ needs.metadata.outputs.reponame }}
-          echo ${{ needs.metadata.outputs.tf_max_version }}
+          echo "Repo name: ${{ needs.metadata.outputs.reponame }}"
+          echo "TF Version: ${{ needs.metadata.outputs.tf_max_version }}"
 
   # quality-checks:
   #   name: Run quality checks
