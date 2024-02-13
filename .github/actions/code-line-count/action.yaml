@@ -1,4 +1,4 @@
-name: "Code Line Count"
+name: "Count line code action"
 description: "Counts lines of code in the repository"
 
 runs:

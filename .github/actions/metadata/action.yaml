@@ -1,4 +1,4 @@
-name: "metadata action"
+name: "Collect metadata action"
 description: "Collects metadata for the pipeline being executed"
 
 outputs:
