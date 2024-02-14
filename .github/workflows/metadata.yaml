@@ -43,7 +43,7 @@ jobs:
           ref: ${{ inputs.git_ref }}
       - name: "Derive TF Version"
         id: derive_tf_version
-        uses: ./.github/actions/derive-tf-version
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version
   echo-metadata:
     name: "Get Metadata"
     runs-on: ubuntu-latest
@@ -59,4 +59,4 @@ jobs:
           ref: ${{ inputs.git_ref }}
       - name: "Get metadata"
         id: get_metadata
-        uses: ./.github/actions/metadata
+        uses: NHSDigital/uec-dos-management/.github/actions/metadata
