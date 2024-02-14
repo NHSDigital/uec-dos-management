@@ -1,0 +1,65 @@
+name: Pipeline Deployment Application Development Environment
+
+on:
+  push:
+    branches:
+      - main
+      - 'task/*'
+
+jobs:
+  metadata:
+    name: "Get Metadata"
+    uses: ./.github/workflows/metadata.yaml
+  echo-repo-name:
+    name: "Echo repo name"
+    needs:
+      [
+        metadata,
+      ]
+    runs-on: ubuntu-latest
+    steps:
+      - id: echo
+        run: |
+          echo "Repo name: ${{ needs.metadata.outputs.reponame }}"
+          echo "TF Version: ${{ needs.metadata.outputs.tf_max_version }}"
+
+  # quality-checks:
+  #   name: Run quality checks
+  #   uses: ./.github/workflows/check-python-black-format.yaml
+
+  # unit-tests:
+  #   name: Run unit test
+  #   needs:
+  #     [
+  #       quality-checks,
+  #     ]
+  #   uses: ./.github/workflows/unit-test.yaml
+  #   with:
+  #     github_environment: dev
+  #   secrets: inherit
+
+  # build:
+  #   name: Build artefacts
+  #   uses: ./.github/workflows/unit-test.yaml
+
+  # deploy:
+  #   name: Deploy application
+  #   needs:
+  #     [
+  #       build,
+  #     ]
+
+
+  # slack-notifications:
+  #   needs: [
+  #     build-and-deploy-application-code,
+  #     unit-tests,
+  #     deploy-support-tools-infrastructure,
+  #     deploy-vpc-vpn-infrastructure,
+  #   ]
+  #   if: always()
+  #   uses: ./.github/workflows/slack-notifications.yaml
+  #   with:
+  #     env: dev
+  #   secrets: inherit
+
