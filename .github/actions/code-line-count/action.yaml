@@ -4,9 +4,6 @@ description: "Counts lines of code in the repository"
 runs:
   using: "composite"
   steps:
-    - name: "Checkout code"
-      uses: actions/checkout@v4
-
     - name: "Get code line count"
       id: "code-line-count"
       shell: bash
