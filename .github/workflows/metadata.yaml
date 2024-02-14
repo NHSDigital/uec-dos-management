@@ -26,7 +26,8 @@ jobs:
         with:
           ref: ${{ inputs.git_ref }}
       - name: "Code line count"
-        uses: ./.github/actions/code-line-count
+        uses: NHSDigital/uec-dos-management/.github/actions/code-line-count
+
   derive-tf-version:
     name: "Derive TF Version"
     runs-on: ubuntu-latest
