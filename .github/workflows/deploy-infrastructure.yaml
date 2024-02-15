@@ -53,7 +53,7 @@ jobs:
       - name: "Checkout code"
         uses: actions/checkout@v4
         with:
-          repository: NHSDigital/uec-dos-management
+          repository: NHSDigital/${{ inputs.domain }}
         # with:
         #   ref: ${{ inputs.tag }}
 
