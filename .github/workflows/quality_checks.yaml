@@ -15,6 +15,14 @@ on:
           description: "The name of the github repo (to help identify the github runner)"
           required: true
           type: string
+        stack:
+          description: The terraform stack to be validated
+          required: true
+          type: string
+        tf_version:
+          description: The version of terraform used to validate terraform code
+          required: true
+          type: string
     # outputs:
     #   reponame:
     #     description: "The name of the code repo"
@@ -45,6 +53,9 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       - name: "Validate terraform"
         uses: NHSDigital/uec-dos-management/.github/actions/validate-terraform@task/DR-596_Create_quality_check_flow
+        with:
+          stack: ${{ inputs.stack }}
+          tf_version: ${{ inputs.tf_version }}
 
   # check-terraform-format:
   #   name: "Code Line Count"

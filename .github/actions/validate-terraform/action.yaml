@@ -1,12 +1,22 @@
 name: "Validate terraform code"
 description: "Validates terraform code in the repository"
 
+inputs:
+  tf_version:
+    description: 'Version of terraform used to validate stack'
+    required: true
+  stack:
+    description: 'Terraform stack to validate'
+    required: true
 runs:
   using: "composite"
   steps:
-    - name: "Run validation of terraform code"
-      id: "terraform-validation"
-      shell: bash
+    - name: Initialize terraform and validate stack ${{ inputs.stack }} against v${{ inputs.tf_version }}
+      id: validate_terraform
       run: |
-        export FORMAT=default
-        ./scripts/cloc-repository.sh
+        export ACTION=validate
+        export STACK=${{ inputs.stack }}
+        export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
+        export DEPLOYMENT_WORKSPACE=default
+        /bin/bash ./scripts/action-infra-stack.sh
+

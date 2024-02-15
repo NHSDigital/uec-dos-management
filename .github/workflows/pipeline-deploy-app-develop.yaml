@@ -33,6 +33,8 @@ jobs:
     with:
       env: dev
       repo_name : ${{ needs.metadata.outputs.reponame }}
+      stack: github-runner
+      tf_version: ${{ needs.metadata.outputs.tf_max_version }}
     secrets: inherit
 
 
