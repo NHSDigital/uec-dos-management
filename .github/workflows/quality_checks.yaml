@@ -81,7 +81,7 @@ jobs:
         with:
           ref: ${{ inputs.git_ref }}
       - name: "Check format of terraform code"
-        uses: NHSDigital/uec-dos-management/.github/actions/format_terrform@task/DR-596_Create_quality_check_flow
+        uses: NHSDigital/uec-dos-management/.github/actions/format-terraform@task/DR-596_Create_quality_check_flow
 
   # scan-secrets:
   #   name: "Code Line Count"
