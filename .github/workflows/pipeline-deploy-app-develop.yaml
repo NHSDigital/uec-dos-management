@@ -21,7 +21,7 @@ jobs:
     with:
       tf_version: ${{ needs.metadata.outputs.tf_max_version }}
       tag: DR-596
-      environment: dev
+      environment: mgmt
       workspace: DR-596
       stacks: application
       action: plan
