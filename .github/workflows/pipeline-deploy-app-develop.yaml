@@ -31,7 +31,7 @@ jobs:
       ]
     uses: ./.github/workflows/quality_checks.yaml
     with:
-      env: dev
+      env: mgmt
       repo_name : ${{ needs.metadata.outputs.reponame }}
       stack: github-runner
       tf_version: ${{ needs.metadata.outputs.tf_max_version }}
