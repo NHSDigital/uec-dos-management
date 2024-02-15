@@ -1,0 +1,138 @@
+name: Code quality checks workflow
+
+on:
+  workflow_call:
+    inputs:
+        git_ref:
+          description: "The git tag to checkout or, if not passed in, the current branch"
+          required: false
+          type: string
+        env:
+          description: The relevant github environment (for secrets and variables)
+          required: true
+          type: string
+        repo_name:
+          description: "The name of the github repo (to help identify the github runner)"
+          required: true
+          type: string
+    # outputs:
+    #   reponame:
+    #     description: "The name of the code repo"
+    #     value: "${{ jobs.echo-metadata.outputs.reponame }}"
+    #   tf_max_version:
+    #     description: "The max version of terraform that the code supports"
+    #     value: "${{ jobs.derive-tf-version.outputs.tf_max_version }}"
+
+jobs:
+  validate-terraform:
+    name: "Validate terraform code"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    environment: ${{ inputs.env }}
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_ref }}
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2.2.0
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/${{ inputs.repo_name }}-github-runner
+          role-session-name: github-pipeline-session
+          aws-region: ${{ vars.AWS_REGION }}
+      - name: "Validate terraform"
+        uses: NHSDigital/uec-dos-management/.github/actions/validate-terraform@task/DR-596_Create_quality_check_flow
+
+  # check-terraform-format:
+  #   name: "Code Line Count"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 2
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ inputs.git_ref }}
+  #     - name: "Code line count"
+  #       uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@main
+
+  # scan-secrets:
+  #   name: "Code Line Count"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 2
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ inputs.git_ref }}
+  #     - name: "Code line count"
+  #       uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@main
+
+  # check-file-format:
+  #   name: "Derive TF Version"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 5
+
+  #   outputs:
+  #     tf_max_version: ${{ steps.derive_tf_version.outputs.tf_max_version }}
+
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ inputs.git_ref }}
+  #     - name: "Derive TF Version"
+  #       id: derive_tf_version
+  #       uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@main
+  # check-markdown-format:
+  #   name: "Get Metadata"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 2
+
+  #   outputs:
+  #     reponame: ${{ steps.get_metadata.outputs.reponame }}
+
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ inputs.git_ref }}
+  #     - name: "Get metadata"
+  #       id: get_metadata
+  #       uses: NHSDigital/uec-dos-management/.github/actions/metadata@main
+
+  # check-python-black-format:
+  #   name: "Get Metadata"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 2
+
+  #   outputs:
+  #     reponame: ${{ steps.get_metadata.outputs.reponame }}
+
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ inputs.git_ref }}
+  #     - name: "Get metadata"
+  #       id: get_metadata
+  #       uses: NHSDigital/uec-dos-management/.github/actions/metadata@main
+  # check-python-flake-rules:
+  #   name: "Get Metadata"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 2
+
+  #   outputs:
+  #     reponame: ${{ steps.get_metadata.outputs.reponame }}
+
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ inputs.git_ref }}
+  #     - name: "Get metadata"
+  #       id: get_metadata
+  #       uses: NHSDigital/uec-dos-management/.github/actions/metadata@main
+

@@ -1,0 +1,12 @@
+name: "Validate terraform code"
+description: "Validates terraform code in the repository"
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Run validation of terraform code"
+      id: "terraform-validation"
+      shell: bash
+      run: |
+        export FORMAT=default
+        ./scripts/cloc-repository.sh

@@ -23,9 +23,17 @@ jobs:
           echo "Repo name: ${{ needs.metadata.outputs.reponame }}"
           echo "TF Version: ${{ needs.metadata.outputs.tf_max_version }}"
 
-  # quality-checks:
-  #   name: Run quality checks
-  #   uses: ./.github/workflows/check-python-black-format.yaml
+  quality-checks:
+    name: Run quality checks
+    needs:
+      [
+        metadata,
+      ]
+    uses: ./.github/workflows/quality_checks.yaml
+    with:
+      env: dev
+      repo_name : ${{ needs.metadata.outputs.reponame }}
+
 
   # unit-tests:
   #   name: Run unit test
