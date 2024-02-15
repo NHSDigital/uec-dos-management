@@ -14,11 +14,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install Terraform v${{ inputs.tf_version }}
+    - name: Install Terraform
       uses: hashicorp/setup-terraform@v2
       with:
         terraform_version: ${{ inputs.tf_version }}
-    - name: Initialize terraform and validate stack ${{ inputs.stack }} against v${{ inputs.tf_version }}
+    - name: Initialize terraform and validate stack
       id: validate_terraform
       shell: bash
       run: |

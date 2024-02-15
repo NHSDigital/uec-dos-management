@@ -29,11 +29,16 @@ jobs:
       [
         metadata,
       ]
+    strategy:
+      matrix:
+        stack:
+          - github-runner
+          - terraform_management
     uses: ./.github/workflows/quality_checks.yaml
     with:
       env: mgmt
       repo_name : ${{ needs.metadata.outputs.reponame }}
-      stack: github-runner
+      stack: ${{ matrix.stack }}
       tf_version: ${{ needs.metadata.outputs.tf_max_version }}
     secrets: inherit
 
