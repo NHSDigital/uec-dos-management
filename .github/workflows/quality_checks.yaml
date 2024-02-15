@@ -56,6 +56,7 @@ jobs:
         with:
           stack: ${{ inputs.stack }}
           tf_version: ${{ inputs.tf_version }}
+          account_type : ${{ vars.ACCOUNT_TYPE }}
 
   # check-terraform-format:
   #   name: "Code Line Count"
