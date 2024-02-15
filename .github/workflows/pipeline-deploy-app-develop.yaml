@@ -24,6 +24,7 @@ jobs:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: "['test-stack-1', 'test-stack-2']"
+      domain: "uec-dos-management"
       action: plan
     secrets: inherit
 
