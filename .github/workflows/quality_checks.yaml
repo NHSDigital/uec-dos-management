@@ -58,17 +58,17 @@ jobs:
           tf_version: ${{ inputs.tf_version }}
           account_type : ${{ vars.ACCOUNT_TYPE }}
 
-  # check-terraform-format:
-  #   name: "Code Line Count"
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 2
-  #   steps:
-  #     - name: "Checkout code"
-  #       uses: actions/checkout@v4
-  #       with:
-  #         ref: ${{ inputs.git_ref }}
-  #     - name: "Code line count"
-  #       uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@main
+  check-terraform-format:
+    name: "Check terraform code formatting"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_ref }}
+      - name: "Check format of terraform code"
+        uses: NHSDigital/uec-dos-management/.github/actions/format_terrform@task/DR-596_Create_quality_check_flow
 
   # scan-secrets:
   #   name: "Code Line Count"
