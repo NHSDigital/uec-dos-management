@@ -1,5 +1,4 @@
 #! /bin/bash
-set -e
 echo "Trigger: $TRIGGER"
 echo "Trigger action: $TRIGGER_ACTION"
 echo "Trigger reference: $TRIGGER_REFERENCE"
@@ -11,7 +10,6 @@ if [ "$TRIGGER" == "tag" ] ; then
   WORKSPACE="$TRIGGER_REFERENCE"
   export WORKSPACE
   echo "Workspace sh: $WORKSPACE"
-  exit
 fi
 
 # If we are dealing with a push action and the trigger is not a tag, we'll need to look at the branch name
@@ -24,16 +22,13 @@ if [ "$TRIGGER_ACTION" == "push" ] ; then
     WORKSPACE="default"
     export WORKSPACE
     echo "Workspace sh: $WORKSPACE"
-    exit
   fi
 
   IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
   IFS='_' read -r -a ref <<< "${name_array[1]}"
   WORKSPACE=$(echo "${ref[0]}" | tr "[:upper:]" "[:lower:]")
   export WORKSPACE
-  WORKSPACE="Test"
   echo "Workspace sh: $WORKSPACE"
-  exit
 
 fi
 
@@ -41,7 +36,5 @@ fi
 # TBC
 
 export WORKSPACE
-echo "Workspace sh: $WORKSPACE"
-
 
 
