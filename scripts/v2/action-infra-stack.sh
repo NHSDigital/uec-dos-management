@@ -18,8 +18,6 @@ export STACK="${STACK:-""}"                 # The terraform stack to be actioned
 export ENVIRONMENT="${ENVIRONMENT:-""}"     # The type of account being used - dev test
 export USE_REMOTE_STATE_STORE="${USE_REMOTE_STATE_STORE:-true}"
 
-export_terraform_workspace_name
-
 # check exports have been done
 EXPORTS_SET=0
 # Check key variables have been exported - see above
@@ -53,8 +51,8 @@ else
   fi
 fi
 
-if [ -z "$TERRAFORM_WORKSPACE_NAME" ] ; then
-  echo Set TERRAFORM_WORKSPACE_NAME
+if [ -z "$WORKSPACE" ] ; then
+  echo Set WORKSPACE
   EXPORTS_SET=1
 fi
 
@@ -68,7 +66,7 @@ STACK_TF_VARS_FILE="$STACK.tfvars"
 PROJECT_TF_VARS_FILE="$ACCOUNT_PROJECT-project.tfvars"
 ENV_TF_VARS_FILE="$ENVIRONMENT.tfvars"
 
-echo "Preparing to run terraform $ACTION for stack $STACK to terraform workspace $TERRAFORM_WORKSPACE_NAME for environment $ENVIRONMENT and project $ACCOUNT_PROJECT"
+echo "Preparing to run terraform $ACTION for stack $STACK to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $ACCOUNT_PROJECT"
 ROOT_DIR=$PWD
 # the directory that holds the stack to terraform
 STACK_DIR=$PWD/$INFRASTRUCTURE_DIR/stacks/$STACK
@@ -96,7 +94,7 @@ fi
 # init terraform
 terraform-initialise "$STACK" "$ENVIRONMENT" "$USE_REMOTE_STATE_STORE"
 #
-terraform workspace select "$TERRAFORM_WORKSPACE_NAME" || terraform workspace new "$TERRAFORM_WORKSPACE_NAME"
+terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
 #
 # plan
 if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
@@ -135,5 +133,5 @@ if [ $TEMP_STACK_TF_VARS_FILE = 1 ] ; then
   rm -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
 fi
 
-echo "Completed terraform $ACTION for stack $STACK to terraform workspace $TERRAFORM_WORKSPACE_NAME for account type $ENVIRONMENT  and project $ACCOUNT_PROJECT"
+echo "Completed terraform $ACTION for stack $STACK to terraform workspace $WORKSPACE for account type $ENVIRONMENT  and project $ACCOUNT_PROJECT"
 
