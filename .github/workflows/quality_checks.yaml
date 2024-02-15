@@ -86,6 +86,19 @@ jobs:
       - name: "Check general formatting"
         uses: NHSDigital/uec-dos-management/.github/actions/format-files@task/DR-596_Create_quality_check_flow
 
+  check-markdown-format:
+    name: "Check formatting of markdown files"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_ref }}
+          fetch-depth: 0
+      - name: "Check markdown file formatting"
+        uses: NHSDigital/uec-dos-management/.github/actions/format-markdown@task/DR-596_Create_quality_check_flow
+
 
 
   # scan-secrets:
