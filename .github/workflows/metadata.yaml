@@ -26,7 +26,8 @@ jobs:
         with:
           ref: ${{ inputs.git_ref }}
       - name: "Code line count"
-        uses: ./.github/actions/code-line-count
+        uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@main
+
   derive-tf-version:
     name: "Derive TF Version"
     runs-on: ubuntu-latest
@@ -42,7 +43,7 @@ jobs:
           ref: ${{ inputs.git_ref }}
       - name: "Derive TF Version"
         id: derive_tf_version
-        uses: ./.github/actions/derive-tf-version
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@main
   echo-metadata:
     name: "Get Metadata"
     runs-on: ubuntu-latest
@@ -58,4 +59,4 @@ jobs:
           ref: ${{ inputs.git_ref }}
       - name: "Get metadata"
         id: get_metadata
-        uses: ./.github/actions/metadata
+        uses: NHSDigital/uec-dos-management/.github/actions/metadata@main
