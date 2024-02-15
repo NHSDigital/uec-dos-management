@@ -32,16 +32,6 @@ on:
     #     value: "${{ jobs.derive-tf-version.outputs.tf_max_version }}"
 
 jobs:
-  # build-stack-matrix:
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     matrix: ${{ steps.setStack.outputs.matrix }}
-  #   steps:
-  #     - id: setStack
-  #       run: |
-  #         echo "::set-output name=matrix::$input"
-  #       env:
-  #         input: ${{ inputs.stack }}
   validate-terraform:
     name: "Validate terraform code"
     runs-on: ubuntu-latest
@@ -83,6 +73,21 @@ jobs:
       - name: "Check format of terraform code"
         uses: NHSDigital/uec-dos-management/.github/actions/format-terraform@task/DR-596_Create_quality_check_flow
 
+  check-file-format:
+    name: "Check general file formatting"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_ref }}
+          fetch-depth: 0
+      - name: "Check general formatting"
+        uses: NHSDigital/uec-dos-management/.github/actions/format-files@task/DR-596_Create_quality_check_flow
+
+
+
   # scan-secrets:
   #   name: "Code Line Count"
   #   runs-on: ubuntu-latest
@@ -95,13 +100,7 @@ jobs:
   #     - name: "Code line count"
   #       uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@main
 
-  # check-file-format:
-  #   name: "Derive TF Version"
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 5
-
-  #   outputs:
-  #     tf_max_version: ${{ steps.derive_tf_version.outputs.tf_max_version }}
+  #
 
   #   steps:
   #     - name: "Checkout code"
