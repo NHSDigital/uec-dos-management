@@ -52,6 +52,8 @@ jobs:
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
+        with:
+          repository: NHSDigital/uec-dos-management
         # with:
         #   ref: ${{ inputs.tag }}
 
