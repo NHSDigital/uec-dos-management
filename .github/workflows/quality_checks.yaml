@@ -47,17 +47,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     environment: ${{ inputs.env }}
-    # needs: [
-    #   build-stack-matrix
-    # ]
     permissions:
       id-token: write
       contents: read
     strategy:
       matrix:
         stack: ${{ fromJson(inputs.stack) }}
-          # - github-runner
-          # - terraform_management
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
@@ -85,8 +80,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.git_ref }}
-      # - name: "Check format of terraform code"
-      #   uses: NHSDigital/uec-dos-management/.github/actions/format_terrform@task/DR-596_Create_quality_check_flow
+      - name: "Check format of terraform code"
+        uses: NHSDigital/uec-dos-management/.github/actions/format_terrform@task/DR-596_Create_quality_check_flow
 
   # scan-secrets:
   #   name: "Code Line Count"
