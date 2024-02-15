@@ -38,7 +38,8 @@ jobs:
     with:
       env: mgmt
       repo_name : ${{ needs.metadata.outputs.reponame }}
-      stack: github-runner terraform_management
+      # stack: github-runner terraform_management
+      stack: '["github-runner", "terraform_management"]'
       tf_version: ${{ needs.metadata.outputs.tf_max_version }}
     secrets: inherit
 

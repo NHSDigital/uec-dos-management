@@ -32,19 +32,32 @@ on:
     #     value: "${{ jobs.derive-tf-version.outputs.tf_max_version }}"
 
 jobs:
+  build-stack-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.setStack.outputs.matrix }}
+    steps:
+      - id: setStack
+        run: |
+          echo "::set-output name=matrix::$input"
+        env:
+          input: ${{ inputs.stack }}
   validate-terraform:
     name: "Validate terraform code"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     environment: ${{ inputs.env }}
+    needs: [
+      build-stack-matrix
+    ]
     permissions:
       id-token: write
       contents: read
     strategy:
       matrix:
-        stack:
-          - github-runner
-          - terraform_management
+        stack: ${{ fromJson(needs.build-stack_matrix.outputs.matrix) }}
+          # - github-runner
+          # - terraform_management
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
