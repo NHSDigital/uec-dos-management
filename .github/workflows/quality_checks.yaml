@@ -62,7 +62,7 @@ jobs:
           account_type : ${{ vars.ACCOUNT_TYPE }}
 
   check-terraform-format:
-    name: "Check terraform code formatting"
+    name: "Check terraform formatting"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -74,7 +74,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@task/DR-596_Create_quality_check_flow
 
   check-file-format:
-    name: "Check general file formatting"
+    name: "Check general formatting"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -87,7 +87,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@task/DR-596_Create_quality_check_flow
 
   check-markdown-format:
-    name: "Check formatting of markdown files"
+    name: "Check markdown formatting "
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -100,7 +100,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@task/DR-596_Create_quality_check_flow
 
   check-python-black-format:
-    name: "Check formatting of python (black)"
+    name: "Check python formatting (black)"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -114,7 +114,7 @@ jobs:
 
 
   check-python-flake-rules:
-    name: "Check syntax of python code (flake)"
+    name: "Check python syntax"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -125,6 +125,20 @@ jobs:
           fetch-depth: 0
       - name: "Check python syntax - flake"
         uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@task/DR-596_Create_quality_check_flow
+
+
+  scan-secrets:
+    name: "Scan code for secrets"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_ref }}
+          fetch-depth: 0
+      - name: "Check python syntax - flake"
+        uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@task/DR-596_Create_quality_check_flow
 
 
   # scan-secrets:
