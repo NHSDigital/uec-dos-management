@@ -10,6 +10,23 @@ jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
+
+  deploy-service:
+    name: "Deploy Service"
+    needs:
+      [
+        metadata,
+      ]
+    uses: ./.github/workflows/deploy-service.yaml
+    with:
+      tf_version: ${{ needs.metadata.outputs.tf_max_version }}
+      tag: DR-596
+      environment: dev
+      workspace: DR-596
+      stacks: application
+      action: plan
+    secrets: inherit
+
   echo-repo-name:
     name: "Echo repo name"
     needs:

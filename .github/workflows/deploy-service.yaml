@@ -1,0 +1,86 @@
+name: Deploy Service workflow
+
+on:
+  workflow_call:
+    inputs:
+      tf_version:
+          description: "The version of terraform to use"
+          required: true
+      tag:
+          description: "The git tag identifying which artefacts to deploy"
+          required: true
+          type: string
+      environment:
+          description: "The name of the environment to deploy the service into"
+          required: false
+          default: "dev"
+          type: string
+      domain:
+          description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
+          required: false
+          default: ""
+          type: string
+      workspace:
+          description: "The name of the workspace to deploy the service into. If not supplied we will deploy into a workspace derived from the invoking branch or tag."
+          required: false
+          default: ""
+          type: string
+      stacks:
+          description: "A list of the infrastructure stacks to deploy from the domain. If not supplied, no infrastructure will be deployed"
+          required: false
+          default: ""
+          type: string
+      artefacts:
+          description: "A list of the service artefacts to deploy from the domain. If not supplied, no artefacts will be deployed"
+          required: false
+          default: ""
+          type: string
+      action:
+        description: "The type of action to perform with the stack."
+        required: false
+        default: "plan"
+
+jobs:
+  deploy-infrastructure:
+    name: "Deploy Infrastructure"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        # with:
+        #   ref: ${{ inputs.tag }}
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2.2.0
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-dos-management-github-runner
+          role-session-name: github-pipeline-session
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: "Deploy infrastructure stack"
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-infrastructure-stack@task/DR-596_Deploy_service_workflow
+        with:
+          tf_version: ${{ inputs.tf_version }}
+          tag: ${{ inputs.tag }}
+          environment: ${{ inputs.environment }}
+          workspace: ${{ inputs.workspace }}
+          stack: "application"
+          action: ${{ inputs.action }}
+
+  # deploy-artefacts:
+  #   name: "Deploy Artefacts"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 5
+
+  #   outputs:
+  #     tf_max_version: ${{ steps.derive_tf_version.outputs.tf_max_version }}
+
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: actions/checkout@v4
+  #       with:
+  #         ref: ${{ inputs.git_ref }}
+  #     - name: "Derive TF Version"
+  #       id: derive_tf_version
+  #       uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@main

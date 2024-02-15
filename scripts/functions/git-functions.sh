@@ -70,13 +70,13 @@ function check_commit_message_length {
 }
 
 # exports string to use as terraform workspace
-# equal to DEPLOYMENT_WORKSPACE if previously exported and not a R or V tag
+# equal to WORKSPACE if previously exported and not a R or V tag
 # or derived from branch name
 function export_terraform_workspace_name {
     TERRAFORM_WORKSPACE_NAME="default"
-    if [ -n "$DEPLOYMENT_WORKSPACE" ] ; then
-        if  ! [[ $DEPLOYMENT_WORKSPACE =~ ^[RV]{1} ]]; then
-          TERRAFORM_WORKSPACE_NAME=$(echo "$DEPLOYMENT_WORKSPACE" | tr "." "-")
+    if [ -n "$WORKSPACE" ] ; then
+        if  ! [[ $WORKSPACE =~ ^[RV]{1} ]]; then
+          TERRAFORM_WORKSPACE_NAME=$(echo "$WORKSPACE" | tr "." "-")
         fi
     else
       BRANCH_NAME="${BRANCH_NAME:-$(git rev-parse --abbrev-ref HEAD)}"
