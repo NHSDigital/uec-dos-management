@@ -8,15 +8,19 @@ inputs:
   stack:
     description: 'Terraform stack to validate'
     required: true
+  account_type:
+    description: "Purpose of aws account eg dev, test"
+    required: true
 runs:
   using: "composite"
   steps:
     - name: Initialize terraform and validate stack ${{ inputs.stack }} against v${{ inputs.tf_version }}
       id: validate_terraform
+      shell: bash
       run: |
         export ACTION=validate
         export STACK=${{ inputs.stack }}
-        export ACCOUNT_TYPE=${{ vars.ACCOUNT_TYPE }}
+        export ACCOUNT_TYPE=${{ inputs.account_type }}
         export DEPLOYMENT_WORKSPACE=default
         /bin/bash ./scripts/action-infra-stack.sh
 
