@@ -15,7 +15,7 @@ source ./scripts/v2/functions/git-functions.sh
 
 export ACTION="${ACTION:-""}"               # The terraform action to execute
 export STACK="${STACK:-""}"                 # The terraform stack to be actioned
-export ACCOUNT_TYPE="${ACCOUNT_TYPE:-""}"     # The type of account being used - dev test
+export ENVIRONMENT="${ENVIRONMENT:-""}"     # The type of account being used - dev test
 export USE_REMOTE_STATE_STORE="${USE_REMOTE_STATE_STORE:-true}"
 
 export_terraform_workspace_name
@@ -33,11 +33,11 @@ if [ -z "$STACK" ] ; then
   EXPORTS_SET=1
 fi
 
-if [ -z "$ACCOUNT_TYPE" ] ; then
+if [ -z "$ENVIRONMENT" ] ; then
   echo Set ACCOUNT_TYPE type of ACCOUNT_TYPE - one of dev, test, preprod, prod
   EXPORTS_SET=1
 else
-  if [[ ! $ACCOUNT_TYPE =~ ^(mgmt|dev|test|preprod|prod|security) ]]; then
+  if [[ ! $ENVIRONMENT =~ ^(mgmt|dev|test|preprod|prod|security) ]]; then
       echo ACCOUNT_TYPE should be mgmt dev test preprod security or prod
       EXPORTS_SET=1
   fi
@@ -66,9 +66,9 @@ fi
 COMMON_TF_VARS_FILE="common.tfvars"
 STACK_TF_VARS_FILE="$STACK.tfvars"
 PROJECT_TF_VARS_FILE="$ACCOUNT_PROJECT-project.tfvars"
-ENV_TF_VARS_FILE="$ACCOUNT_TYPE.tfvars"
+ENV_TF_VARS_FILE="$ENVIRONMENT.tfvars"
 
-echo "Preparing to run terraform $ACTION for stack $STACK to terraform workspace $TERRAFORM_WORKSPACE_NAME for account type $ACCOUNT_TYPE and project $ACCOUNT_PROJECT"
+echo "Preparing to run terraform $ACTION for stack $STACK to terraform workspace $TERRAFORM_WORKSPACE_NAME for environment $ENVIRONMENT and project $ACCOUNT_PROJECT"
 ROOT_DIR=$PWD
 # the directory that holds the stack to terraform
 STACK_DIR=$PWD/$INFRASTRUCTURE_DIR/stacks/$STACK
@@ -94,7 +94,7 @@ if [ ! -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE" ] ; then
 fi
 
 # init terraform
-terraform-initialise "$STACK" "$ACCOUNT_TYPE" "$USE_REMOTE_STATE_STORE"
+terraform-initialise "$STACK" "$ENVIRONMENT" "$USE_REMOTE_STATE_STORE"
 #
 terraform workspace select "$TERRAFORM_WORKSPACE_NAME" || terraform workspace new "$TERRAFORM_WORKSPACE_NAME"
 #
@@ -135,5 +135,5 @@ if [ $TEMP_STACK_TF_VARS_FILE = 1 ] ; then
   rm -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
 fi
 
-echo "Completed terraform $ACTION for stack $STACK to terraform workspace $TERRAFORM_WORKSPACE_NAME for account type $ACCOUNT_TYPE  and project $ACCOUNT_PROJECT"
+echo "Completed terraform $ACTION for stack $STACK to terraform workspace $TERRAFORM_WORKSPACE_NAME for account type $ENVIRONMENT  and project $ACCOUNT_PROJECT"
 

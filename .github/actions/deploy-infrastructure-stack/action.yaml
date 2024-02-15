@@ -1,0 +1,45 @@
+name: "Deploy infrastructure stack action"
+description: "Deploys an infrastructure stack of a given domain into a given environment and workspace."
+
+inputs:
+    tf_version:
+        description: "The version of terraform to use"
+        required: true
+    tag:
+        description: "The git tag identifying which infrastructure to deploy"
+        required: true
+    environment:
+        description: "The name of the environment to deploy the infrastructure into"
+        required: false
+        default: "dev"
+    workspace:
+        description: "The name of the workspace to deploy the infrastructure into. If not supplied we will deploy into a workspace derived from the invoking branch or tag."
+        required: false
+        default: ""
+    stack:
+        description: "The name of the infrastructure stack to deploy from the domain. If not supplied, no infrastructure will be deployed"
+        required: false
+        default: ""
+    action:
+        description: "The type of action to perform with the stack."
+        required: false
+        default: "plan"
+
+
+runs:
+  using: "composite"
+
+  steps:
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ inputs.tf_version }}
+
+      - name: Action Infrastructure Stack
+        shell: bash
+        run: |
+          export ACTION=${{ inputs.action }}
+          export STACK=${{ inputs.stack }}
+          export ENVIRONMENT=${{ inputs.environment }}
+          export WORKSPACE=${{ inputs.workspace }}
+          /bin/bash ./scripts/action-infra-stack.sh
