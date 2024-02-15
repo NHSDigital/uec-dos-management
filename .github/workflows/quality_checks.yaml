@@ -40,6 +40,11 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    strategy:
+      matrix:
+        stack:
+          - github-runner
+          - terraform_management
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
@@ -54,7 +59,7 @@ jobs:
       - name: "Validate terraform"
         uses: NHSDigital/uec-dos-management/.github/actions/validate-terraform@task/DR-596_Create_quality_check_flow
         with:
-          stack: ${{ inputs.stack }}
+          stack: ${{ matrix.stack }}
           tf_version: ${{ inputs.tf_version }}
           account_type : ${{ vars.ACCOUNT_TYPE }}
 
@@ -67,8 +72,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: ${{ inputs.git_ref }}
-      - name: "Check format of terraform code"
-        uses: NHSDigital/uec-dos-management/.github/actions/format_terrform@task/DR-596_Create_quality_check_flow
+      # - name: "Check format of terraform code"
+      #   uses: NHSDigital/uec-dos-management/.github/actions/format_terrform@task/DR-596_Create_quality_check_flow
 
   # scan-secrets:
   #   name: "Code Line Count"
