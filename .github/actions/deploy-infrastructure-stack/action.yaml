@@ -1,5 +1,5 @@
 name: "Deploy infrastructure stack action"
-description: "Deploys an infrastructure stack of a given domain into a given environment and workspace."
+description: "Deploys infrastructure stack of a given domain into a given environment and workspace."
 
 inputs:
     tf_version:
@@ -21,7 +21,7 @@ inputs:
         required: false
         default: ""
     action:
-        description: "The type of action to perform with the stack."
+        description: "The type of action to perform with the stacks."
         required: false
         default: "plan"
 

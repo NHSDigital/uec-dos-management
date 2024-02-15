@@ -51,6 +51,11 @@ jobs:
       id-token: write
       contents: read
     timeout-minutes: 2
+    strategy:
+      matrix:
+        stack:
+          - test-stack-1
+          - test-stack-2
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
@@ -71,7 +76,7 @@ jobs:
           tag: ${{ inputs.tag }}
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
-          stack: "application"
+          stack: ${{ matrix.stack }}
           action: ${{ inputs.action }}
 
   # deploy-artefacts:
