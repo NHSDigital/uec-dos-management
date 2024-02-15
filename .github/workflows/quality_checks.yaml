@@ -28,7 +28,7 @@ jobs:
     name: "Validate terraform code"
     runs-on: ubuntu-latest
     timeout-minutes: 2
-    environment: dev
+    environment: ${{ inputs.env }}
     permissions:
       id-token: write
       contents: read
