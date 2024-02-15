@@ -47,6 +47,9 @@ jobs:
     name: "Deploy Infrastructure"
     runs-on: ubuntu-latest
     environment: dev
+    permissions:
+      id-token: write
+      contents: read
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
