@@ -16,14 +16,9 @@ runs:
   steps:
     - name: "Derive workspace"
       id: "derive-workspace"
-      if: ${{ contains(github.ref_type, 'tag') }}
       shell: bash
       run: |
-        echo 'This is a tag'
-
-    - name: "Derive workspace"
-      id: "derive-workspace-2"
-      if: ${{ contains(github.ref_type, 'branch') }}
-      shell: bash
-      run: |
-        echo 'This is a branch'
+        export TRIGGER=${{ github.ref_type }}
+        export TRIGGER_ACTION=${{ github.event_name }}
+        export TRIGGER_REFERENCE=${{ github.ref_name }}
+        ./scripts/derive-workspace.sh
