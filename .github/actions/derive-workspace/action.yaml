@@ -17,5 +17,5 @@ runs:
         export TRIGGER_ACTION=${{ github.event_name }}
         export TRIGGER_REFERENCE=${{ github.ref_name }}
         ./scripts/derive-workspace.sh
-        echo "Workspace Name: $WORKSPACE"
-        echo "workspace=$WORKSPACE" >> $GITHUB_OUTPUT
+        echo "Workspace Name: ${WORKSPACE}"
+        echo "workspace=${WORKSPACE}" >> $GITHUB_OUTPUT

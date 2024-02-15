@@ -10,7 +10,6 @@ WORKSPACE="Unknown"
 if [ "$TRIGGER" == "tag" ] ; then
   WORKSPACE="$TRIGGER_REFERENCE"
   export WORKSPACE
-  echo ::set-output name=workspace::"$WORKSPACE"
   echo "Workspace sh: $WORKSPACE"
   exit
 fi
@@ -24,7 +23,6 @@ if [ "$TRIGGER_ACTION" == "push" ] ; then
   if [ "$BRANCH_NAME" == "main" ] ; then
     WORKSPACE="default"
     export WORKSPACE
-    echo ::set-output name=workspace::"$WORKSPACE"
     echo "Workspace sh: $WORKSPACE"
     exit
   fi
@@ -33,7 +31,7 @@ if [ "$TRIGGER_ACTION" == "push" ] ; then
   IFS='_' read -r -a ref <<< "${name_array[1]}"
   WORKSPACE=$(echo "${ref[0]}" | tr "[:upper:]" "[:lower:]")
   export WORKSPACE
-  echo ::set-output name=workspace::"$WORKSPACE"
+  WORKSPACE="Test"
   echo "Workspace sh: $WORKSPACE"
   exit
 
@@ -43,7 +41,6 @@ fi
 # TBC
 
 export WORKSPACE
-echo ::set-output name=workspace::"$WORKSPACE"
 echo "Workspace sh: $WORKSPACE"
 
 
