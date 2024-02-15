@@ -55,7 +55,7 @@ jobs:
       contents: read
     strategy:
       matrix:
-        stack: ${{ fromJson(needs.build-stack_matrix.outputs.matrix) }}
+        stack: ${{ fromJson(needs.build-stack-matrix.outputs.matrix) }}
           # - github-runner
           # - terraform_management
     steps:
