@@ -1,0 +1,29 @@
+name: "Derive Workspace action"
+description: "Derives the name of the workspace for subsequent actions to run against"
+
+inputs:
+    trigger-event:
+        description: "The event that has triggered the workflow"
+        required: true
+
+outputs:
+    workspace:
+        description: "The name of the derived workspace"
+        value: "Test"
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Derive workspace"
+      id: "derive-workspace"
+      if: ${{ contains(github.ref_type, 'tag') }}
+      shell: bash
+      run: |
+        echo 'This is a tag'
+
+    - name: "Derive workspace"
+      id: "derive-workspace-2"
+      if: ${{ contains(github.ref_type, 'branch') }}
+      shell: bash
+      run: |
+        echo 'This is a branch'

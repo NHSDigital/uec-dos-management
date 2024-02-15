@@ -11,13 +11,13 @@ jobs:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
-  deploy-service:
-    name: "Deploy Service"
+  deploy-infrastructure:
+    name: "Deploy Infrastructure"
     needs:
       [
         metadata,
       ]
-    uses: ./.github/workflows/deploy-service.yaml
+    uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
       tf_version: ${{ needs.metadata.outputs.tf_max_version }}
       tag: DR-596
@@ -26,6 +26,20 @@ jobs:
       stacks: "['test-stack-1', 'test-stack-2']"
       action: plan
     secrets: inherit
+
+  # deploy-services:
+  #   name: "Deploy Services"
+  #   needs:
+  #     [
+  #       deploy-infrastructure,
+  #     ]
+  #   uses: ./.github/workflows/deploy-python-services.yaml
+  #   with:
+  #     tag: DR-596
+  #     environment: mgmt
+  #     workspace: DR-596
+  #     services: "['application1', 'application2']"
+  #   secrets: inherit
 
   echo-repo-name:
     name: "Echo repo name"

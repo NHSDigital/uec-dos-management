@@ -1,0 +1,30 @@
+name: "Deploy service action"
+description: "Deploys service of a given domain into a given environment and workspace."
+
+inputs:
+    tag:
+        description: "The git tag identifying the version of the service to deploy"
+        required: true
+    environment:
+        description: "The name of the environment to deploy the service into"
+        required: false
+        default: "dev"
+    workspace:
+        description: "The name of the workspace to deploy the service into. If not supplied we will deploy into a workspace derived from the invoking branch or tag."
+        required: false
+        default: ""
+    service:
+        description: "The name of the service to deploy from the domain. If not supplied, no service will be deployed"
+        required: false
+        default: ""
+
+
+runs:
+  using: "composite"
+
+  steps:
+      - name: Deploy Service
+        shell: bash
+        run: |
+          export SERVICE=${{ inputs.service }}
+          /bin/bash ./scripts/app-build-deploy.sh
