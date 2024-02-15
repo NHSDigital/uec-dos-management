@@ -1,15 +1,10 @@
 name: "Derive Workspace action"
 description: "Derives the name of the workspace for subsequent actions to run against"
 
-inputs:
-    trigger-event:
-        description: "The event that has triggered the workflow"
-        required: true
-
 outputs:
     workspace:
-        description: "The name of the derived workspace"
-        value: "Test"
+        description: "The derived workspace name"
+        value: ${{ steps.derive-workspace.outputs.workspace }}
 
 runs:
   using: "composite"
@@ -22,3 +17,5 @@ runs:
         export TRIGGER_ACTION=${{ github.event_name }}
         export TRIGGER_REFERENCE=${{ github.ref_name }}
         ./scripts/derive-workspace.sh
+        echo "Workspace Name: $WORKSPACE"
+        echo "workspace=$WORKSPACE" >> $GITHUB_OUTPUT
