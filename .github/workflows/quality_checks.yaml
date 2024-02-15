@@ -99,6 +99,19 @@ jobs:
       - name: "Check markdown file formatting"
         uses: NHSDigital/uec-dos-management/.github/actions/format-markdown@task/DR-596_Create_quality_check_flow
 
+  check-python-black-format:
+    name: "Check formatting of python (black)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_ref }}
+          fetch-depth: 0
+      - name: "Check python formatting - black"
+        uses: NHSDigital/uec-dos-management/.github/actions/format-python-black@task/DR-596_Create_quality_check_flow
+
 
 
   # scan-secrets:
@@ -115,61 +128,5 @@ jobs:
 
   #
 
-  #   steps:
-  #     - name: "Checkout code"
-  #       uses: actions/checkout@v4
-  #       with:
-  #         ref: ${{ inputs.git_ref }}
-  #     - name: "Derive TF Version"
-  #       id: derive_tf_version
-  #       uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@main
-  # check-markdown-format:
-  #   name: "Get Metadata"
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 2
 
-  #   outputs:
-  #     reponame: ${{ steps.get_metadata.outputs.reponame }}
-
-  #   steps:
-  #     - name: "Checkout code"
-  #       uses: actions/checkout@v4
-  #       with:
-  #         ref: ${{ inputs.git_ref }}
-  #     - name: "Get metadata"
-  #       id: get_metadata
-  #       uses: NHSDigital/uec-dos-management/.github/actions/metadata@main
-
-  # check-python-black-format:
-  #   name: "Get Metadata"
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 2
-
-  #   outputs:
-  #     reponame: ${{ steps.get_metadata.outputs.reponame }}
-
-  #   steps:
-  #     - name: "Checkout code"
-  #       uses: actions/checkout@v4
-  #       with:
-  #         ref: ${{ inputs.git_ref }}
-  #     - name: "Get metadata"
-  #       id: get_metadata
-  #       uses: NHSDigital/uec-dos-management/.github/actions/metadata@main
-  # check-python-flake-rules:
-  #   name: "Get Metadata"
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 2
-
-  #   outputs:
-  #     reponame: ${{ steps.get_metadata.outputs.reponame }}
-
-  #   steps:
-  #     - name: "Checkout code"
-  #       uses: actions/checkout@v4
-  #       with:
-  #         ref: ${{ inputs.git_ref }}
-  #     - name: "Get metadata"
-  #       id: get_metadata
-  #       uses: NHSDigital/uec-dos-management/.github/actions/metadata@main
 
