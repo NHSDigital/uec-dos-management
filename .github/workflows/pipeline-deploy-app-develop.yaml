@@ -23,7 +23,7 @@ jobs:
       tag: DR-596
       environment: mgmt
       workspace: DR-596
-      stacks: test-stack-1 test-stack-2
+      stacks: "['test-stack-1', 'test-stack-2']"
       action: plan
     secrets: inherit
 

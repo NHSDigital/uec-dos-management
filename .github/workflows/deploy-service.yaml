@@ -53,9 +53,7 @@ jobs:
     timeout-minutes: 2
     strategy:
       matrix:
-        stack:
-          - test-stack-1
-          - test-stack-2
+        stack: ${{ fromJSON(inputs.stacks) }}
     steps:
       - name: "Checkout code"
         uses: actions/checkout@v4
