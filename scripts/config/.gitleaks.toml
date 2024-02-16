@@ -20,7 +20,9 @@ files = ['.terraform.lock.hcl', 'poetry.lock', 'yarn.lock']
 Regexes = ['''=========================================''',
 # Allow AWS account number for Lambda Layers
 '''(.*)017000801446(.*)''',
-'''(.*)336392948345(.*)'''
+'''(.*)336392948345(.*)''',
+# Found in docs imported from template repo
+'''ID=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'''
 ]
 
 [[rules]]
