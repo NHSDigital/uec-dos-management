@@ -71,7 +71,7 @@ jobs:
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
       tf_version: ${{ needs.metadata.outputs.tf_max_version }}
-      environment: mgmt
+      environment: dev
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: "['application']"
       domain: "uec-dos-service-management"
