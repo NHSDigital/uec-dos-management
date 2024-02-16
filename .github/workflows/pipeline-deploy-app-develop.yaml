@@ -20,27 +20,12 @@ jobs:
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
       tf_version: ${{ needs.metadata.outputs.tf_max_version }}
-      tag: DR-596
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: "['test-stack-1', 'test-stack-2']"
       domain: "uec-dos-management"
       action: plan
     secrets: inherit
-
-  # deploy-services:
-  #   name: "Deploy Services"
-  #   needs:
-  #     [
-  #       deploy-infrastructure,
-  #     ]
-  #   uses: ./.github/workflows/deploy-python-services.yaml
-  #   with:
-  #     tag: DR-596
-  #     environment: mgmt
-  #     workspace: DR-596
-  #     services: "['application1', 'application2']"
-  #   secrets: inherit
 
   echo-repo-name:
     name: "Echo repo name"
