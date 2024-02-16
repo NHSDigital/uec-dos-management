@@ -2,7 +2,7 @@ name: "Configure Credentials action"
 description: "Wrapper for the configure AWS credentials action"
 
 inputs:
-  secret_account_id:
+  aws_account_id:
     description: "The account to retrieve credentials from"
     required: true
   aws_region:
@@ -15,6 +15,6 @@ runs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4.0.2
       with:
-        role-to-assume: arn:aws:iam::${{ inputs.secret_account_id }}:role/${{ github.event.repository.name }}-github-runner
+        role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/${{ github.event.repository.name }}-github-runner
         role-session-name: github-pipeline-session
         aws-region: ${{ inputs.aws_region }}
