@@ -58,6 +58,9 @@ jobs:
 
       - name: Configure AWS Credentials
         uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-596_Deploy_service_workflow
+        with:
+          secret_account_id: ${{ secrets.ACCOUNT_ID }}
+          aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Deploy infrastructure stack"
         uses: NHSDigital/uec-dos-management/.github/actions/deploy-infrastructure-stack@task/DR-596_Deploy_service_workflow
