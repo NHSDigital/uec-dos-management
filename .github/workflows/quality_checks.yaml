@@ -93,9 +93,9 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
         with:
-          ref: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check markdown file formatting"
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@task/DR-596_Create_quality_check_flow
@@ -106,9 +106,9 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
         with:
-          ref: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check python formatting - black"
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@task/DR-596_Create_quality_check_flow
@@ -120,9 +120,9 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
         with:
-          ref: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check python syntax - flake"
         uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@task/DR-596_Create_quality_check_flow
@@ -134,9 +134,9 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
         with:
-          ref: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Scan code for secrets"
         uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@task/DR-596_Create_quality_check_flow
@@ -148,9 +148,9 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
         with:
-          ref: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check Javascipt formating"
         uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@task/DR-596_Create_quality_check_flow
