@@ -22,9 +22,9 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Checkout_action_wrapper
         with:
-          ref: ${{ inputs.git_ref }}
+          tag: ${{ inputs.git_ref }}
       - name: "Code line count"
         uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@main
 
