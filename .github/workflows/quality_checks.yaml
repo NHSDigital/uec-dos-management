@@ -46,9 +46,9 @@ jobs:
         stack: ${{ fromJson(inputs.stack) }}
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
-          ref: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2.2.0
         with:
@@ -67,10 +67,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
+      #
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
-          ref: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
       - name: "Check format of terraform code"
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@task/DR-596_Create_quality_check_flow
 
