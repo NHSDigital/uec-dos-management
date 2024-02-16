@@ -67,7 +67,6 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      #
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
@@ -81,9 +80,9 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
         with:
-          ref: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check general formatting"
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@task/DR-596_Create_quality_check_flow
