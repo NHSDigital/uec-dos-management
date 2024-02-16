@@ -9,7 +9,7 @@ on:
           type: string
       tag:
           description: "The git tag identifying the timeline in the repository to deploy from"
-          required: true
+          required: false
           type: string
       environment:
           description: "The name of the environment to deploy the service into"
