@@ -1,4 +1,0 @@
-boto3
-moto[all]==4.2.0
-pandas
-openpyxl==3.1.2
