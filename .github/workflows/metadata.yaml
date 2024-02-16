@@ -3,7 +3,7 @@ name: Metadata workflow
 on:
   workflow_call:
     inputs:
-        git_ref:
+        tag:
           description: "The git tag to checkout or, if not passed in, the current branch"
           required: false
           type: string
@@ -24,7 +24,7 @@ jobs:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Checkout_action_wrapper
         with:
-          tag: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
       - name: "Code line count"
         uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@main
 
@@ -40,7 +40,7 @@ jobs:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Checkout_action_wrapper
         with:
-          tag: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
       - name: "Derive TF Version"
         id: derive_tf_version
         uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@main
@@ -56,7 +56,7 @@ jobs:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Checkout_action_wrapper
         with:
-          tag: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
       - name: "Get metadata"
         id: get_metadata
         uses: NHSDigital/uec-dos-management/.github/actions/metadata@main
