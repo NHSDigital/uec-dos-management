@@ -11,8 +11,8 @@ jobs:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
-  deploy-infrastructure:
-    name: "Deploy Infrastructure"
+  deploy-infrastructure-plan:
+    name: "Plan Deploy Infrastructure"
     needs:
       [
         metadata,
@@ -25,6 +25,22 @@ jobs:
       stacks: "['test-stack-1', 'test-stack-2']"
       domain: "uec-dos-management"
       action: plan
+    secrets: inherit
+
+  deploy-infrastructure-apply:
+    name: "Apply Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      tf_version: ${{ needs.metadata.outputs.tf_max_version }}
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: "['lambda-stack']"
+      domain: "uec-dos-management"
+      action: apply
     secrets: inherit
 
   echo-repo-name:
