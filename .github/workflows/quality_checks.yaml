@@ -3,9 +3,6 @@ name: Code quality checks workflow
 on:
   workflow_call:
 
-env:
-  workflow_version: task/DR-596_Create_quality_check_flow
-
     inputs:
         git_ref:
           description: "The git tag to checkout or, if not passed in, the current branch"
@@ -59,7 +56,7 @@ jobs:
           role-session-name: github-pipeline-session
           aws-region: ${{ vars.AWS_REGION }}
       - name: "Validate terraform"
-        uses: NHSDigital/uec-dos-management/.github/actions/validate-terraform@$workflow_version
+        uses: NHSDigital/uec-dos-management/.github/actions/validate-terraform@task/DR-596_Create_quality_check_flow
         with:
           stack: ${{ matrix.stack }}
           tf_version: ${{ inputs.tf_version }}
@@ -75,7 +72,7 @@ jobs:
         with:
           ref: ${{ inputs.git_ref }}
       - name: "Check format of terraform code"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@$workflow_version
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@task/DR-596_Create_quality_check_flow
 
   check-file-format:
     name: "Check File Format"
@@ -88,7 +85,7 @@ jobs:
           ref: ${{ inputs.git_ref }}
           fetch-depth: 0
       - name: "Check general formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@$workflow_version
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@task/DR-596_Create_quality_check_flow
 
   check-markdown-format:
     name: "Check Markdown Format"
@@ -101,7 +98,7 @@ jobs:
           ref: ${{ inputs.git_ref }}
           fetch-depth: 0
       - name: "Check markdown file formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@$workflow_version
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@task/DR-596_Create_quality_check_flow
 
   check-python-black-format:
     name: "Check Python Format"
@@ -114,7 +111,7 @@ jobs:
           ref: ${{ inputs.git_ref }}
           fetch-depth: 0
       - name: "Check python formatting - black"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@$workflow_version
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@task/DR-596_Create_quality_check_flow
 
 
   check-python-flake-rules:
@@ -128,7 +125,7 @@ jobs:
           ref: ${{ inputs.git_ref }}
           fetch-depth: 0
       - name: "Check python syntax - flake"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@$workflow_version
+        uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@task/DR-596_Create_quality_check_flow
 
 
   scan-secrets:
@@ -142,7 +139,7 @@ jobs:
           ref: ${{ inputs.git_ref }}
           fetch-depth: 0
       - name: "Scan code for secrets"
-        uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@$workflow_version
+        uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@task/DR-596_Create_quality_check_flow
 
 
   check-eslint:
@@ -156,5 +153,5 @@ jobs:
           ref: ${{ inputs.git_ref }}
           fetch-depth: 0
       - name: "Check Javascipt formating"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@$workflow_version
+        uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@task/DR-596_Create_quality_check_flow
 
