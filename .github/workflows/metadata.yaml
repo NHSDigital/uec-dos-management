@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
         tag:
-          description: "The git tag to checkout or, if not passed in, the current branch"
+          description: "The git tag to checkout, this defaults to the head of the triggering branch"
           required: false
           type: string
     outputs:
@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Checkout_action_wrapper
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
       - name: "Code line count"
@@ -38,7 +38,7 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Checkout_action_wrapper
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
       - name: "Derive TF Version"
@@ -54,7 +54,7 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Checkout_action_wrapper
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
       - name: "Get metadata"
