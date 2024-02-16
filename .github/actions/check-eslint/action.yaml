@@ -1,0 +1,12 @@
+name: "Check formatting of javascript code"
+description: "Checks correct formatting of javascript and typescript code in the repository"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checking format of javascript and typescript code
+      id: format_javascript
+      shell: bash
+      run: |
+        ./scripts/githooks/front-end-npm-lint-pre-commit.sh
+

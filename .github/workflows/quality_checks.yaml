@@ -33,7 +33,7 @@ on:
 
 jobs:
   validate-terraform:
-    name: "Validate terraform code"
+    name: "Validate Terraform"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     environment: ${{ inputs.env }}
@@ -62,7 +62,7 @@ jobs:
           account_type : ${{ vars.ACCOUNT_TYPE }}
 
   check-terraform-format:
-    name: "Check terraform formatting"
+    name: "Check Terraform Format"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -74,7 +74,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@task/DR-596_Create_quality_check_flow
 
   check-file-format:
-    name: "Check general formatting"
+    name: "Check File Format"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -87,7 +87,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@task/DR-596_Create_quality_check_flow
 
   check-markdown-format:
-    name: "Check markdown formatting "
+    name: "Check Markdown Format"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -100,7 +100,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@task/DR-596_Create_quality_check_flow
 
   check-python-black-format:
-    name: "Check python formatting (black)"
+    name: "Check Python Format"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -114,7 +114,7 @@ jobs:
 
 
   check-python-flake-rules:
-    name: "Check python syntax"
+    name: "Check Python Syntax"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -128,7 +128,7 @@ jobs:
 
 
   scan-secrets:
-    name: "Scan code for secrets"
+    name: "Scan secrets"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
@@ -137,23 +137,20 @@ jobs:
         with:
           ref: ${{ inputs.git_ref }}
           fetch-depth: 0
-      - name: "Check python syntax - flake"
+      - name: "Scan code for secrets"
         uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@task/DR-596_Create_quality_check_flow
 
 
-  # scan-secrets:
-  #   name: "Code Line Count"
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 2
-  #   steps:
-  #     - name: "Checkout code"
-  #       uses: actions/checkout@v4
-  #       with:
-  #         ref: ${{ inputs.git_ref }}
-  #     - name: "Code line count"
-  #       uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@main
-
-  #
-
-
+  check-eslint:
+    name: "Check ESLint"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_ref }}
+          fetch-depth: 0
+      - name: "Check Javascipt formating"
+        uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@task/DR-596_Create_quality_check_flow
 
