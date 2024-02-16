@@ -22,7 +22,7 @@ Regexes = ['''=========================================''',
 '''(.*)017000801446(.*)''',
 '''(.*)336392948345(.*)''',
 # Found in docs imported from template repo
-'''ID=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'''
+'''(.*)ID=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX(.*)'''
 ]
 
 [[rules]]
