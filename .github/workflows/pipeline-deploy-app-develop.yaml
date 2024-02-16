@@ -61,6 +61,23 @@ jobs:
       action: destroy
     secrets: inherit
 
+  deploy-infrastructure-plan-diff-repo:
+    name: "Plan Deploy Infrastructure Diff Repo"
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-destroy,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      tf_version: ${{ needs.metadata.outputs.tf_max_version }}
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: "['application']"
+      domain: "uec-dos-service-management"
+      action: plan
+    secrets: inherit
+
   echo-repo-name:
     name: "Echo repo name"
     needs:
