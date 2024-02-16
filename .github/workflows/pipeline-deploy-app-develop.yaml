@@ -44,6 +44,23 @@ jobs:
       action: apply
     secrets: inherit
 
+  deploy-infrastructure-destroy:
+    name: "Destroy Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-apply,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      tf_version: ${{ needs.metadata.outputs.tf_max_version }}
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: "['lambda-stack']"
+      domain: "uec-dos-management"
+      action: destroy
+    secrets: inherit
+
   echo-repo-name:
     name: "Echo repo name"
     needs:
