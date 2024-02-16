@@ -57,7 +57,7 @@ jobs:
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2.2.0
+        uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-dos-management-github-runner
           role-session-name: github-pipeline-session
