@@ -1,5 +1,5 @@
 name: "Checkout Repository action"
-description: "Wrapper for the checkout action"
+description: "Wrapper for the checkout action to give options of checking out from other repositories and from a given tag in the history of a repository"
 
 inputs:
   repository:
