@@ -17,5 +17,5 @@ runs:
     - name: Checkout Repository
       uses: actions/checkout@v4
       with:
-        repository: ${{ inputs.repository }}
+        repository: "NHSDigital/${{ inputs.repository }}"
         ref: ${{ inputs.tag }}
