@@ -1,0 +1,21 @@
+name: "Checkout Repository action"
+description: "Wrapper for the checkout action to give options of checking out from other repositories and from a given tag in the history of the repository"
+
+inputs:
+  repository:
+    description: "The code repository to checkout"
+    required: false
+    default: ${{ github.event.repository.name }}
+  tag:
+    description: "The tag in the repository history to checkout"
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        repository: "NHSDigital/${{ inputs.repository }}"
+        ref: ${{ inputs.tag }}
