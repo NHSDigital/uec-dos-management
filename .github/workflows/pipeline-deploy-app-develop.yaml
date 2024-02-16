@@ -41,7 +41,7 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: "['lambda-stack']"
       domain: "uec-dos-management"
-      action: plan
+      action: apply
     secrets: inherit
 
   echo-repo-name:
