@@ -50,11 +50,10 @@ jobs:
         with:
           tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2.2.0
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@main
         with:
-          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/${{ inputs.repo_name }}-github-runner
-          role-session-name: github-pipeline-session
-          aws-region: ${{ vars.AWS_REGION }}
+          aws_account_id: ${{ secrets.ACCOUNT_ID }}
+          aws_region: ${{ vars.AWS_REGION }}
       - name: "Validate terraform"
         uses: NHSDigital/uec-dos-management/.github/actions/validate-terraform@task/DR-596_Create_quality_check_flow
         with:
