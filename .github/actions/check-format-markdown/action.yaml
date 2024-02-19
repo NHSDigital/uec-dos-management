@@ -8,6 +8,5 @@ runs:
       id: format_markdown
       shell: bash
       run: |
-        # export BRANCH_NAME=origin/${{ github.ref }}
         ./scripts/githooks/check-markdown-format.sh
 
