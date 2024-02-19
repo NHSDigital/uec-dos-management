@@ -1,4 +1,4 @@
-name: "Check formatting of javascript code"
+name: "Check formatting of javascript code action"
 description: "Checks correct formatting of javascript and typescript code in the repository"
 
 runs:
