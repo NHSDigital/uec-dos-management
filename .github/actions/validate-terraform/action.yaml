@@ -1,0 +1,30 @@
+name: "Validate terraform code"
+description: "Validates terraform code in the repository"
+
+inputs:
+  tf_version:
+    description: 'Version of terraform used to validate stack'
+    required: true
+  stack:
+    description: 'Terraform stack to validate'
+    required: true
+  account_type:
+    description: "Purpose of aws account eg dev, test"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: ${{ inputs.tf_version }}
+    - name: Initialize terraform and validate stack
+      id: validate_terraform
+      shell: bash
+      run: |
+        export ACTION=validate
+        export STACK=${{ inputs.stack }}
+        export ACCOUNT_TYPE=${{ inputs.account_type }}
+        export DEPLOYMENT_WORKSPACE=default
+        /bin/bash ./scripts/action-infra-stack.sh
+

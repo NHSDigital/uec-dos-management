@@ -1,0 +1,156 @@
+name: Code quality checks workflow
+
+on:
+  workflow_call:
+
+    inputs:
+        git_ref:
+          description: "The git tag to checkout or, if not passed in, the current branch"
+          required: false
+          type: string
+        env:
+          description: The relevant github environment (for secrets and variables)
+          required: true
+          type: string
+        repo_name:
+          description: "The name of the github repo (to help identify the github runner)"
+          required: true
+          type: string
+        stack:
+          description: The terraform stack to be validated
+          required: true
+          type: string
+        tf_version:
+          description: The version of terraform used to validate terraform code
+          required: true
+          type: string
+    # outputs:
+    #   reponame:
+    #     description: "The name of the code repo"
+    #     value: "${{ jobs.echo-metadata.outputs.reponame }}"
+    #   tf_max_version:
+    #     description: "The max version of terraform that the code supports"
+    #     value: "${{ jobs.derive-tf-version.outputs.tf_max_version }}"
+
+jobs:
+  validate-terraform:
+    name: "Validate Terraform"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    environment: ${{ inputs.env }}
+    permissions:
+      id-token: write
+      contents: read
+    strategy:
+      matrix:
+        stack: ${{ fromJson(inputs.stack) }}
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        with:
+          tag: ${{ inputs.tag }}
+      - name: Configure AWS Credentials
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@main
+        with:
+          aws_account_id: ${{ secrets.ACCOUNT_ID }}
+          aws_region: ${{ vars.AWS_REGION }}
+      - name: "Validate terraform"
+        uses: NHSDigital/uec-dos-management/.github/actions/validate-terraform@task/DR-596_Create_quality_check_flow
+        with:
+          stack: ${{ matrix.stack }}
+          tf_version: ${{ inputs.tf_version }}
+          account_type : ${{ vars.ACCOUNT_TYPE }}
+
+  check-terraform-format:
+    name: "Check Terraform Format"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        with:
+          tag: ${{ inputs.tag }}
+      - name: "Check format of terraform code"
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@task/DR-596_Create_quality_check_flow
+
+  check-file-format:
+    name: "Check File Format"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
+        with:
+          tag: ${{ inputs.tag }}
+          fetch-depth: 0
+      - name: "Check general formatting"
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@task/DR-596_Create_quality_check_flow
+
+  check-markdown-format:
+    name: "Check Markdown Format"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
+        with:
+          tag: ${{ inputs.tag }}
+          fetch-depth: 0
+      - name: "Check markdown file formatting"
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@task/DR-596_Create_quality_check_flow
+
+  check-python-black-format:
+    name: "Check Python Format"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
+        with:
+          tag: ${{ inputs.tag }}
+          fetch-depth: 0
+      - name: "Check python formatting - black"
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@task/DR-596_Create_quality_check_flow
+
+
+  check-python-flake-rules:
+    name: "Check Python Syntax"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
+        with:
+          tag: ${{ inputs.tag }}
+          fetch-depth: 0
+      - name: "Check python syntax - flake"
+        uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@task/DR-596_Create_quality_check_flow
+
+
+  scan-secrets:
+    name: "Scan secrets"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
+        with:
+          tag: ${{ inputs.tag }}
+          fetch-depth: 0
+      - name: "Scan code for secrets"
+        uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@task/DR-596_Create_quality_check_flow
+
+
+  check-eslint:
+    name: "Check ESLint"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Create_quality_check_flow
+        with:
+          tag: ${{ inputs.tag }}
+          fetch-depth: 0
+      - name: "Check Javascipt formating"
+        uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@task/DR-596_Create_quality_check_flow
+

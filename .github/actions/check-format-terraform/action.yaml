@@ -1,0 +1,13 @@
+name: "Check formatting of terraform code"
+description: "Checks correct formatting of terraform code in the repository"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Check formatting of tf code
+      id: format_terraform
+      shell: bash
+      run: |
+        export CHECK_ONLY=true
+        ./scripts/githooks/check-terraform-format.sh
+

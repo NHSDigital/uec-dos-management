@@ -10,7 +10,10 @@ inputs:
     description: "The tag in the repository history to checkout"
     required: false
     default: ''
-
+  fetch-depth:
+    description: "Number of commits to fetch. 0 indicates all history for all branches and tags; default is 1"
+    required: false
+    default: ''
 runs:
   using: "composite"
   steps:
@@ -19,3 +22,4 @@ runs:
       with:
         repository: "NHSDigital/${{ inputs.repository }}"
         ref: ${{ inputs.tag }}
+        fetch-depth: ${{ inputs.fetch-depth }}
