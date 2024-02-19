@@ -12,4 +12,4 @@ runs:
     - name: Install Terraform
       uses: hashicorp/setup-terraform@v3
       with:
-        terraform_version: ${{ inputs.tf_version }}
+        terraform_version: ${{ inputs.terraform_version }}
