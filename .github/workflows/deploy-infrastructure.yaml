@@ -3,7 +3,7 @@ name: Deploy Infrastructure workflow
 on:
   workflow_call:
     inputs:
-      tf_version:
+      terraform_version:
           description: "The version of terraform to use"
           required: true
           type: string
@@ -65,7 +65,7 @@ jobs:
       - name: "Deploy infrastructure stack"
         uses: NHSDigital/uec-dos-management/.github/actions/deploy-infrastructure-stack@task/DR-888_Deploy_service_workflow
         with:
-          tf_version: ${{ inputs.tf_version }}
+          terraform_version: ${{ inputs.terraform_version }}
           tag: ${{ inputs.tag }}
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}

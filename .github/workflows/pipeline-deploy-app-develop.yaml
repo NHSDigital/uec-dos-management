@@ -53,7 +53,7 @@ jobs:
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
-      tf_version: ${{ needs.metadata.outputs.tf_max_version }}
+      terraform_version: ${{ needs.metadata.outputs.tf_max_version }}
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: "['lambda-stack']"
