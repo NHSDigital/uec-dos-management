@@ -15,7 +15,7 @@ runs:
   using: "composite"
   steps:
     - name: Install Terraform
-      uses: hashicorp/setup-terraform@v2
+      uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: ${{ inputs.tf_version }}
     - name: Initialize terraform and validate stack
