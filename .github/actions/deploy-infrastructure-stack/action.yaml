@@ -2,9 +2,6 @@ name: "Deploy infrastructure stack action"
 description: "Deploys infrastructure stack of a given domain into a given environment and workspace."
 
 inputs:
-    terraform_version:
-        description: "The version of terraform to use"
-        required: true
     tag:
         description: "The git tag identifying which infrastructure to deploy"
         required: true
@@ -29,10 +26,14 @@ runs:
   using: "composite"
 
   steps:
+      - name: "Derive TF Version"
+        id: derive_tf_version
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@main
+
       - name: Install Terraform
         uses: NHSDigital/uec-dos-management/.github/actions/install-terraform@task/DR-888_Deploy_service_workflow
         with:
-          terraform_version: ${{ inputs.terraform_version }}
+          terraform_version: ${{ outputs.steps.derive_tf_version.terraform_version }}
 
       - name: Action Infrastructure Stack
         shell: bash

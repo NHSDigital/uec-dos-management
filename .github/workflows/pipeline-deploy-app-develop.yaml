@@ -19,7 +19,6 @@ jobs:
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
-      terraform_version: ${{ needs.metadata.outputs.tf_max_version }}
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: "['test-stack-1', 'test-stack-2']"
@@ -36,7 +35,6 @@ jobs:
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
-      terraform_version: ${{ needs.metadata.outputs.tf_max_version }}
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: "['lambda-stack']"
@@ -53,7 +51,6 @@ jobs:
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
-      terraform_version: ${{ needs.metadata.outputs.tf_max_version }}
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       stacks: "['lambda-stack']"
@@ -74,7 +71,6 @@ jobs:
       - id: echo
         run: |
           echo "Repo name: ${{ needs.metadata.outputs.reponame }}"
-          echo "TF Version: ${{ needs.metadata.outputs.tf_max_version }}"
 
   quality-checks:
     name: Run quality checks

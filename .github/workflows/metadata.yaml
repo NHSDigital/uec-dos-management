@@ -11,9 +11,6 @@ on:
       reponame:
         description: "The name of the code repo"
         value: "${{ jobs.echo-metadata.outputs.reponame }}"
-      tf_max_version:
-        description: "The max version of terraform that the code supports"
-        value: "${{ jobs.derive-tf-version.outputs.tf_max_version }}"
       workspace:
         description: "The name of the workspace that we interacting with"
         value: "${{ jobs.derive-workspace.outputs.workspace }}"
@@ -30,23 +27,6 @@ jobs:
           tag: ${{ inputs.tag }}
       - name: "Code line count"
         uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@main
-
-  derive-tf-version:
-    name: "Derive TF Version"
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-
-    outputs:
-      tf_max_version: ${{ steps.derive_tf_version.outputs.tf_max_version }}
-
-    steps:
-      - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
-        with:
-          tag: ${{ inputs.tag }}
-      - name: "Derive TF Version"
-        id: derive_tf_version
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@main
 
   echo-metadata:
     name: "Get Metadata"
