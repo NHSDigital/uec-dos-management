@@ -2,7 +2,7 @@ name: "Deploy infrastructure stack action"
 description: "Deploys infrastructure stack of a given domain into a given environment and workspace."
 
 inputs:
-    tf_version:
+    terraform_version:
         description: "The version of terraform to use"
         required: true
     tag:
@@ -25,15 +25,14 @@ inputs:
         required: false
         default: "plan"
 
-
 runs:
   using: "composite"
 
   steps:
       - name: Install Terraform
-        uses: hashicorp/setup-terraform@v3
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-infrastructure-stack@task/DR-888_Deploy_service_workflow
         with:
-          terraform_version: ${{ inputs.tf_version }}
+          terraform_version: ${{ inputs.terraform_version }}
 
       - name: Action Infrastructure Stack
         shell: bash

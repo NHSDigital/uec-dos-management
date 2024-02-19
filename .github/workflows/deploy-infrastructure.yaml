@@ -12,7 +12,7 @@ on:
           required: false
           type: string
       environment:
-          description: "The name of the environment to deploy the service into"
+          description: "The name of the environment to deploy the infrastructure into"
           required: false
           default: "dev"
           type: string
@@ -22,7 +22,7 @@ on:
           default: ""
           type: string
       workspace:
-          description: "The name of the workspace to deploy the service into. If not supplied we will deploy into a workspace derived from the invoking branch or tag."
+          description: "The name of the workspace to deploy the infrastructure into. If not supplied we will deploy into a workspace derived from the invoking branch or tag."
           required: false
           default: ""
           type: string
@@ -63,7 +63,7 @@ jobs:
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Deploy infrastructure stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-infrastructure-stack@task/DR-596_Deploy_service_workflow
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-infrastructure-stack@task/DR-888_Deploy_service_workflow
         with:
           tf_version: ${{ inputs.tf_version }}
           tag: ${{ inputs.tag }}
