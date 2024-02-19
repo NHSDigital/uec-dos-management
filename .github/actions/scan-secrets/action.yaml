@@ -1,10 +1,10 @@
-name: "Scan code for secrets"
+name: "Scan code for secrets action"
 description: "Scan code in the repository for secrets"
 
 runs:
   using: "composite"
   steps:
-    - name: Checking code for secrets action
+    - name: Checking code for secrets
       id: scan_secrets
       shell: bash
       run: |
