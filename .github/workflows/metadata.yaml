@@ -60,6 +60,6 @@ jobs:
           tag: ${{ inputs.tag }}
       - name: "Derive workspace"
         id: derive_workspace
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@task/DR-888_Deploy_service_workflow
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@main/DR-888_Deploy_service_workflow
 
 
