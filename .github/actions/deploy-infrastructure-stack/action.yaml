@@ -30,7 +30,7 @@ runs:
 
   steps:
       - name: Install Terraform
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-infrastructure-stack@task/DR-888_Deploy_service_workflow
+        uses: NHSDigital/uec-dos-management/.github/actions/install-terraform@task/DR-888_Deploy_service_workflow
         with:
           terraform_version: ${{ inputs.terraform_version }}
 
