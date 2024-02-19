@@ -1,4 +1,4 @@
-name: "Derive Terraform Version"
+name: "Derive Terraform Version action"
 description: "Derives the maximum version of terraform that the code base supports"
 
 outputs:

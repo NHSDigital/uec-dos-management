@@ -1,4 +1,4 @@
-name: "Validate terraform code"
+name: "Validate terraform code action"
 description: "Validates terraform code in the repository"
 
 inputs:

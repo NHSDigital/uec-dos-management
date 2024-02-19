@@ -1,4 +1,4 @@
-name: "Check formatting of general files"
+name: "Check formatting of general files action"
 description: "Checks correct formatting of files in the repository"
 
 runs:

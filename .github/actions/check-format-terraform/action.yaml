@@ -1,4 +1,4 @@
-name: "Check formatting of terraform code"
+name: "Check formatting of terraform code action"
 description: "Checks correct formatting of terraform code in the repository"
 
 runs:

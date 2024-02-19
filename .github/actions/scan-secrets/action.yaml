@@ -4,7 +4,7 @@ description: "Scan code in the repository for secrets"
 runs:
   using: "composite"
   steps:
-    - name: Checking code for secrets
+    - name: Checking code for secrets action
       id: scan_secrets
       shell: bash
       run: |

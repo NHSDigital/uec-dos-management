@@ -1,4 +1,4 @@
-name: "Check formatting of python code"
+name: "Check formatting of python code action"
 description: "Checks correct formatting of python code in the repository"
 
 runs:
