@@ -97,7 +97,7 @@ jobs:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check markdown file formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@task/DR-596_Switch_quality_check_flow_main
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@main
 
   check-python-black-format:
     name: "Check Python Format"
