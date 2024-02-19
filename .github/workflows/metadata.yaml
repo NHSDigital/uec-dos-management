@@ -75,11 +75,11 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@v4
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
-          ref: ${{ inputs.git_ref }}
+          tag: ${{ inputs.tag }}
       - name: "Derive workspace"
         id: derive_workspace
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@task/DR-596_Deploy_service_workflow
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@task/DR-888_Deploy_service_workflow
 
 
