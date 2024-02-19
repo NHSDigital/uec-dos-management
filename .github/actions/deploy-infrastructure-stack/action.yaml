@@ -33,7 +33,7 @@ runs:
       - name: Install Terraform
         uses: NHSDigital/uec-dos-management/.github/actions/install-terraform@task/DR-888_Deploy_service_workflow
         with:
-          terraform_version: ${{ outputs.steps.derive_tf_version.terraform_version }}
+          terraform_version: ${{ steps.derive_tf_version.outputs.terraform_version }}
 
       - name: Action Infrastructure Stack
         shell: bash
