@@ -46,7 +46,7 @@ jobs:
       ]
     uses: ./.github/workflows/unit_test.yaml
     with:
-      github_environment: dev
+      env: dev
     secrets: inherit
 
   # build:
