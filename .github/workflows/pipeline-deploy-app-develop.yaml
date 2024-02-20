@@ -37,17 +37,17 @@ jobs:
       tf_version: ${{ needs.metadata.outputs.tf_max_version }}
     secrets: inherit
 
-
-  # unit-tests:
-  #   name: Run unit test
-  #   needs:
-  #     [
-  #       quality-checks,
-  #     ]
-  #   uses: ./.github/workflows/unit-test.yaml
-  #   with:
-  #     github_environment: dev
-  #   secrets: inherit
+  unit-tests:
+    name: Run unit test
+    needs:
+      [
+        quality-checks,
+        metadata,
+      ]
+    uses: ./.github/workflows/unit_test.yaml
+    with:
+      github_environment: dev
+    secrets: inherit
 
   # build:
   #   name: Build artefacts

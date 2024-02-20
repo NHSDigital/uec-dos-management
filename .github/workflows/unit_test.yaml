@@ -1,0 +1,49 @@
+name: Code quality checks workflow
+
+on:
+  workflow_call:
+
+    inputs:
+      # tag:
+      #   description: "The tag in the repository history to checkout"
+      #   required: false
+      #   default: ''
+      env:
+        description: The relevant github environment (for secrets and variables)
+        required: true
+        type: string
+    # outputs:
+    #   reponame:
+    #     description: "The name of the code repo"
+    #     value: "${{ jobs.echo-metadata.outputs.reponame }}"
+    #   tf_max_version:
+    #     description: "The max version of terraform that the code supports"
+    #     value: "${{ jobs.derive-tf-version.outputs.tf_max_version }}"
+
+jobs:
+  unit-test-python:
+    name: "Python unit tests"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    environment: ${{ inputs.env }}
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        # with:
+        #   tag: ${{ inputs.tag }}
+      - name: Configure AWS Credentials
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@main
+        with:
+          aws_account_id: ${{ secrets.ACCOUNT_ID }}
+          aws_region: ${{ vars.AWS_REGION }}
+      - name: "Run python unit test"
+        uses: NHSDigital/uec-dos-management/.github/actions/unit-test-python@task/DR-5964_Add_unit_test_workflow
+        with:
+          sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
+          sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}
+          sonar_token: ${{ secrets.SONAR_TOKEN }}
+          aws_region: ${{ vars.AWS_REGION }}
