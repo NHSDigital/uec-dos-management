@@ -1,20 +1,20 @@
-name: "Deploy infrastructure stack action"
-description: "Deploys infrastructure stack of a given domain into a given environment and workspace."
+name: "Action infrastructure stack action"
+description: "Actions infrastructure stack of a given domain into a given environment and workspace."
 
 inputs:
     tag:
-        description: "The git tag identifying which infrastructure to deploy"
+        description: "The git tag identifying the place (timeline) in the code repository to use"
         required: true
     environment:
-        description: "The name of the environment to deploy the infrastructure into"
+        description: "The name of the environment to action the infrastructure"
         required: false
         default: "dev"
     workspace:
-        description: "The name of the workspace to deploy the infrastructure into. If not supplied we will deploy into a workspace derived from the invoking branch or tag."
+        description: "The name of the workspace to action the infrastructure into. If not supplied we will action into a workspace derived from the invoking branch or tag."
         required: false
         default: ""
     stack:
-        description: "The name of the infrastructure stack to deploy from the domain. If not supplied, no infrastructure will be deployed"
+        description: "The name of the infrastructure stack to action from the domain. If not supplied, no infrastructure will be actioned"
         required: false
         default: ""
     action:

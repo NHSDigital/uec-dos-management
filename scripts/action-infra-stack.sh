@@ -32,11 +32,11 @@ if [ -z "$STACK" ] ; then
 fi
 
 if [ -z "$ENVIRONMENT" ] ; then
-  echo Set ACCOUNT_TYPE type of ACCOUNT_TYPE - one of dev, test, preprod, prod
+  echo Set ENVIRONMENT type of ENVIRONMENT - one of dev, test, preprod, prod
   EXPORTS_SET=1
 else
   if [[ ! $ENVIRONMENT =~ ^(mgmt|dev|test|preprod|prod|security) ]]; then
-      echo ACCOUNT_TYPE should be mgmt dev test preprod security or prod
+      echo ENVIRONMENT should be mgmt dev test preprod security or prod
       EXPORTS_SET=1
   fi
 fi

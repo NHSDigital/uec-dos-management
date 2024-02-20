@@ -58,8 +58,6 @@ jobs:
       action: destroy
     secrets: inherit
 
-
-
   echo-repo-name:
     name: "Echo repo name"
     needs:
@@ -80,10 +78,8 @@ jobs:
       ]
     uses: ./.github/workflows/quality_checks.yaml
     with:
-      env: mgmt
-      repo_name : ${{ needs.metadata.outputs.reponame }}
-      stack: '["github-runner", "terraform_management"]'
-      tf_version: ${{ needs.metadata.outputs.tf_max_version }}
+      environment: mgmt
+      stacks: '["github-runner", "terraform_management"]'
     secrets: inherit
 
 
