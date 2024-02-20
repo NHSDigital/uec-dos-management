@@ -42,7 +42,6 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-888_Deploy_service_workflow
         with:
           environment: ${{ inputs.environment }}
-          workspace: ${{ inputs.workspace }}
           stack: ${{ matrix.stack }}
           action: validate
 
