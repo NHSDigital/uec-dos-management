@@ -43,7 +43,7 @@ jobs:
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
-          stack: ${{ matrix.stacks }}
+          stack: ${{ matrix.stack }}
           action: validate
 
   check-terraform-format:
