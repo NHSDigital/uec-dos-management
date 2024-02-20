@@ -11,18 +11,32 @@ jobs:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
+  quality-checks:
+    name: Run quality checks
+    needs:
+      [
+        metadata,
+      ]
+    uses: ./.github/workflows/quality_checks.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: '["github-runner", "terraform_management"]'
+    secrets: inherit
+
   deploy-infrastructure-plan:
     name: "Plan Deploy Infrastructure"
     needs:
       [
         metadata,
+        quality-checks,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
-      stacks: "['test-stack-1', 'test-stack-2']"
       domain: "uec-dos-management"
+      stacks: "['test-stack-1', 'test-stack-2']"
       action: plan
     secrets: inherit
 
@@ -37,8 +51,8 @@ jobs:
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
-      stacks: "['lambda-stack']"
       domain: "uec-dos-management"
+      stacks: "['lambda-stack']"
       action: apply
     secrets: inherit
 
@@ -53,35 +67,12 @@ jobs:
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
-      stacks: "['lambda-stack']"
       domain: "uec-dos-management"
+      stacks: "['lambda-stack']"
       action: destroy
     secrets: inherit
 
-  echo-repo-name:
-    name: "Echo repo name"
-    needs:
-      [
-        metadata,
-      ]
-    runs-on: ubuntu-latest
-    steps:
-      - id: echo
-        run: |
-          echo "Repo name: ${{ needs.metadata.outputs.reponame }}"
 
-  quality-checks:
-    name: Run quality checks
-    needs:
-      [
-        metadata,
-      ]
-    uses: ./.github/workflows/quality_checks.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      stacks: '["github-runner", "terraform_management"]'
-    secrets: inherit
 
   unit-tests:
     name: Run unit test

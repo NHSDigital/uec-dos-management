@@ -3,23 +3,18 @@ name: Deploy Infrastructure workflow
 on:
   workflow_call:
     inputs:
-      tag:
-          description: "The git tag identifying the timeline in the repository to deploy from"
-          required: false
-          type: string
       environment:
           description: "The name of the environment to deploy the infrastructure into"
-          required: false
-          default: "dev"
+          required: true
+          type: string
+      workspace:
+          description: "The name of the workspace to deploy the infrastructure into"
+          required: true
           type: string
       domain:
           description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
           required: false
           default: ""
-          type: string
-      workspace:
-          description: "The name of the workspace to deploy the infrastructure into"
-          required: true
           type: string
       stacks:
           description: "A list of the infrastructure stacks to deploy from the domain. If not supplied, no infrastructure will be deployed"
@@ -31,6 +26,10 @@ on:
         required: false
         default: "plan"
         type: string
+      tag:
+          description: "The git tag identifying the timeline in the repository to deploy from"
+          required: false
+          type: string
 
 jobs:
   deploy-infrastructure:

@@ -4,17 +4,17 @@ on:
   workflow_call:
 
     inputs:
-        tag:
-          description: "The git tag to checkout or, if not passed in, the current branch"
-          required: false
+        environment:
+          description: The relevant github environment (for secrets and variables)
+          required: true
           type: string
         workspace:
           description: "The name of the workspace to validate the infrastructure against."
           required: true
           type: string
-        environment:
-          description: The relevant github environment (for secrets and variables)
-          required: true
+        tag:
+          description: "The git tag to checkout or, if not passed in, the current branch"
+          required: false
           type: string
         stacks:
           description: The terraform stacks to be validated
