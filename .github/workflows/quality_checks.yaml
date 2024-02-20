@@ -8,6 +8,10 @@ on:
           description: "The git tag to checkout or, if not passed in, the current branch"
           required: false
           type: string
+        workspace:
+          description: "The name of the workspace to validate the infrastructure against."
+          required: true
+          type: string
         environment:
           description: The relevant github environment (for secrets and variables)
           required: true
@@ -42,6 +46,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-888_Deploy_service_workflow
         with:
           environment: ${{ inputs.environment }}
+          workspace: ${{ inputs.workspace }}
           stack: ${{ matrix.stack }}
           action: validate
 
