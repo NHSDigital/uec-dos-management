@@ -3,7 +3,7 @@ description: "Run unit tests of python code"
 
 inputs:
   sonar_organisation_key:
-    description: 'Sonar Organisation '
+    description: 'Sonar Organisation'
     required: true
   sonar_project_key:
     description: 'Sonar Project'
