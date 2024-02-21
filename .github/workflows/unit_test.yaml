@@ -1,0 +1,42 @@
+name: Code quality checks workflow
+
+on:
+  workflow_call:
+
+    inputs:
+      env:
+        description: The relevant github environment (for secrets and variables)
+        required: true
+        type: string
+      python_version:
+        description: 'Version of python'
+        type: string
+        default: "3.9"
+        required: false
+
+jobs:
+  unit-test-python:
+    name: "Python unit tests"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    environment: ${{ inputs.env }}
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+      - name: Configure AWS Credentials
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@main
+        with:
+          aws_account_id: ${{ secrets.ACCOUNT_ID }}
+          aws_region: ${{ vars.AWS_REGION }}
+      - name: "Run python unit test"
+        uses: NHSDigital/uec-dos-management/.github/actions/unit-test-python@main
+        with:
+          sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
+          sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}
+          sonar_token: ${{ secrets.SONAR_TOKEN }}
+          aws_region: ${{ vars.AWS_REGION }}
+          python_version: ${{ inputs.python_version }}
