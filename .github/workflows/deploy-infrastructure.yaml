@@ -45,19 +45,19 @@ jobs:
         stack: ${{ fromJSON(inputs.stacks) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-888_Deploy_service_workflow
         with:
           repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@main
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-888_Deploy_service_workflow
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Deploy infrastructure stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@main
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-888_Deploy_service_workflow
         with:
           tag: ${{ inputs.tag }}
           environment: ${{ inputs.environment }}

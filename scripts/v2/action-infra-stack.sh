@@ -1,38 +1,36 @@
 #! /bin/bash
 # You will need to export
-# ACTION eg plan, apply, destroy
-# STACK eg iam-policy
-# ACCOUNT_TYPE eg dev,test
-# Optional exports
-# DEPLOYMENT_WORKSPACE name of terraform workspace to be created/used
+# ACTION - The terraform action to perform, e.g. plan, apply, destroy, validate
+# STACK - The infrastructure stack to action
+# ENVIRONEMNT - The name of the environment to run the terraform action on, e.g. dev, test
+# WORKSPACE - The name of the workspace to action the terraform into, e.g. DR-123
 
 # fail on first error
 set -e
 # functions
-source ./scripts/v2/project-common.sh
-source ./scripts/v2/functions/terraform-functions.sh
-source ./scripts/v2/functions/git-functions.sh
+source ./scripts/project-common.sh
+source ./scripts/functions/terraform-functions.sh
 
-export ACTION="${ACTION:-""}"               # The terraform action to execute
-export STACK="${STACK:-""}"                 # The terraform stack to be actioned
-export ENVIRONMENT="${ENVIRONMENT:-""}"     # The type of account being used - dev test
+export ACTION="${ACTION:-""}"
+export STACK="${STACK:-""}"
+export ENVIRONMENT="${ENVIRONMENT:-""}"
 export USE_REMOTE_STATE_STORE="${USE_REMOTE_STATE_STORE:-true}"
 
 # check exports have been done
 EXPORTS_SET=0
 # Check key variables have been exported - see above
 if [ -z "$ACTION" ] ; then
-  echo Set ACTION to terraform action one of plan apply or destroy
+  echo Set ACTION to terraform action one of plan, apply, destroy, or validate
   EXPORTS_SET=1
 fi
 
 if [ -z "$STACK" ] ; then
-  echo Set STACK to name of the stack to be planned, applied, destroyed
+  echo Set STACK to name of the stack to be actioned
   EXPORTS_SET=1
 fi
 
 if [ -z "$ENVIRONMENT" ] ; then
-  echo Set ENVIRONMENT type of ENVIRONMENT - one of dev, test, preprod, prod
+  echo Set ENVIRONMENT to the environment to action the terraform in - one of dev, test, preprod, prod
   EXPORTS_SET=1
 else
   if [[ ! $ENVIRONMENT =~ ^(mgmt|dev|test|preprod|prod|security) ]]; then
@@ -52,12 +50,18 @@ else
 fi
 
 if [ -z "$WORKSPACE" ] ; then
-  echo Set WORKSPACE
+  echo Set WORKSPACE to the workspace to action the terraform in
   EXPORTS_SET=1
 fi
 
 if [ $EXPORTS_SET = 1 ] ; then
   echo One or more exports not set
+  exit 1
+fi
+
+# Only allow destroy on dev and test accounts for now
+if [[ ! $ENVIRONEMNT =~ ^(dev|test)  ]] && [ "$ACTION" = 'destroy' ] ; then
+  echo Cannot run destroy action on this environment
   exit 1
 fi
 
