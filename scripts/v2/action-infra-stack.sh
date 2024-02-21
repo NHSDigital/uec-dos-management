@@ -38,7 +38,7 @@ if [ -z "$ACCOUNT_TYPE" ] ; then
   EXPORTS_SET=1
 else
   if [[ ! $ACCOUNT_TYPE =~ ^(mgmt|dev|test|preprod|prod|security) ]]; then
-      echo ACCOUNT_TYPE should be dev test preprod security or prod
+      echo ACCOUNT_TYPE should be mgmt dev test preprod security or prod
       EXPORTS_SET=1
   fi
 fi
