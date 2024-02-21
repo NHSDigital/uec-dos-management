@@ -33,7 +33,7 @@ jobs:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
       - name: "Run python unit test"
-        uses: NHSDigital/uec-dos-management/.github/actions/unit-test-python@task/DR-5964_Add_unit_test_workflow
+        uses: NHSDigital/uec-dos-management/.github/actions/unit-test-python@main
         with:
           sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
           sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}
