@@ -46,16 +46,16 @@ jobs:
         stack: ${{ fromJson(inputs.stack) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5965_Add_scripts_version2
         with:
           tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@main
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-5965_Add_scripts_version2
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
       - name: "Validate terraform"
-        uses: NHSDigital/uec-dos-management/.github/actions/validate-terraform@main
+        uses: NHSDigital/uec-dos-management/.github/actions/validate-terraform@task/DR-5965_Add_scripts_version2
         with:
           stack: ${{ matrix.stack }}
           tf_version: ${{ inputs.tf_version }}
@@ -67,11 +67,11 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5965_Add_scripts_version2
         with:
           tag: ${{ inputs.tag }}
       - name: "Check format of terraform code"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@main
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@task/DR-5965_Add_scripts_version2
 
   check-file-format:
     name: "Check File Format"
@@ -79,12 +79,12 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5965_Add_scripts_version2
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check general formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@main
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@task/DR-5965_Add_scripts_version2
 
   check-markdown-format:
     name: "Check Markdown Format"
@@ -92,12 +92,12 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5965_Add_scripts_version2
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check markdown file formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@main
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@task/DR-5965_Add_scripts_version2
 
   check-python-black-format:
     name: "Check Python Format"
@@ -105,12 +105,12 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5965_Add_scripts_version2
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check python formatting - black"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@main
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@task/DR-5965_Add_scripts_version2
 
 
   check-python-flake-rules:
@@ -119,12 +119,12 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5965_Add_scripts_version2
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check python syntax - flake"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@main
+        uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@task/DR-5965_Add_scripts_version2
 
 
   scan-secrets:
@@ -133,12 +133,12 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5965_Add_scripts_version2
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Scan code for secrets"
-        uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@main
+        uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@task/DR-5965_Add_scripts_version2
 
 
   check-eslint:
@@ -147,10 +147,10 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5965_Add_scripts_version2
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check Javascipt formating"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@main
+        uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@task/DR-5965_Add_scripts_version2
 

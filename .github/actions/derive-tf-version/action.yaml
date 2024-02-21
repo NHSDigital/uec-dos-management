@@ -11,6 +11,6 @@ runs:
   steps:
     - name: Extract Terraform min/max versions
       id: minMax
-      uses: clowdhaus/terraform-min-max@main
+      uses: clowdhaus/terraform-min-max@task/DR-5965_Add_scripts_version2
       with:
         directory: ./infrastructure/remote
