@@ -2,6 +2,9 @@ name: "Python unit tests action"
 description: "Run unit tests of python code"
 
 inputs:
+  python_version:
+    description: 'Version of python to use'
+    required: true
   sonar_organisation_key:
     description: 'Sonar Organisation'
     required: true
@@ -18,8 +21,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: "Checkout code"
+    - name: "Install python"
+      id: unit_test_python_install
       uses: NHSDigital/uec-dos-management/.github/actions/install-python@task/DR-5964_Add_unit_test_workflow
+      with:
+        python_version: ${{ inputs.python_version }}
     - name: Run unit tests of python code
       id: run-unit-tests-python
       shell: bash
