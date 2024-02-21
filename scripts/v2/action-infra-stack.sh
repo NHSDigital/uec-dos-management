@@ -8,8 +8,8 @@
 # fail on first error
 set -e
 # functions
-source ./scripts/project-common.sh
-source ./scripts/functions/terraform-functions.sh
+source ./scripts/v2/project-common.sh
+source ./scripts/v2/functions/terraform-functions.sh
 
 export ACTION="${ACTION:-""}"
 export STACK="${STACK:-""}"
