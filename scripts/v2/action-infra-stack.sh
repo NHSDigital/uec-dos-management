@@ -9,9 +9,9 @@
 # fail on first error
 set -e
 # functions
-source ./scripts/project-common.sh
-source ./scripts/functions/terraform-functions.sh
-source ./scripts/functions/git-functions.sh
+source ./scripts/v2/project-common.sh
+source ./scripts/v2/functions/terraform-functions.sh
+source ./scripts/v2/functions/git-functions.sh
 
 export ACTION="${ACTION:-""}"               # The terraform action to execute
 export STACK="${STACK:-""}"                 # The terraform stack to be actioned

@@ -26,5 +26,5 @@ runs:
         export STACK=${{ inputs.stack }}
         export ACCOUNT_TYPE=${{ inputs.account_type }}
         export DEPLOYMENT_WORKSPACE=default
-        /bin/bash ./scripts/action-infra-stack.sh
+        /bin/bash ./scripts/v2/action-infra-stack.sh
 

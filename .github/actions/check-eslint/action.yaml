@@ -8,5 +8,5 @@ runs:
       id: format_javascript
       shell: bash
       run: |
-        ./scripts/githooks/front-end-npm-lint-pre-commit.sh
+        ./scripts/v2/githooks/front-end-npm-lint-pre-commit.sh
 

@@ -9,4 +9,4 @@ runs:
       shell: bash
       run: |
         export FORMAT=default
-        ./scripts/cloc-repository.sh
+        ./scripts/v2/cloc-repository.sh
