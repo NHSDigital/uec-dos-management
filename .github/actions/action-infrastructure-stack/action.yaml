@@ -36,4 +36,4 @@ runs:
           export STACK=${{ inputs.stack }}
           export ENVIRONMENT=${{ inputs.environment }}
           export WORKSPACE=${{ inputs.workspace }}
-          /bin/bash ./scripts/action-infra-stack.sh
+          /bin/bash ./scripts/v2/action-infra-stack.sh
