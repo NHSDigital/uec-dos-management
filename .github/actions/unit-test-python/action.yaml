@@ -18,11 +18,8 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install python
-      id: install-python
-      uses: actions/setup-python@v4
-      with:
-        python-version: 3.9
+    - name: "Checkout code"
+      uses: NHSDigital/uec-dos-management/.github/actions/install-python@task/DR-5964_Add_unit_test_workflow
     - name: Run unit tests of python code
       id: run-unit-tests-python
       shell: bash
