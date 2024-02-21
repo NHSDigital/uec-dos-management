@@ -60,7 +60,7 @@ if [ $EXPORTS_SET = 1 ] ; then
 fi
 
 # Only allow destroy on dev and test accounts for now
-if [[ ! $ENVIRONEMNT =~ ^(dev|test)  ]] && [ "$ACTION" = 'destroy' ] ; then
+if [[ ! $ENVIRONEMNT =~ ^(mgmt|dev|test)  ]] && [ "$ACTION" = 'destroy' ] ; then
   echo Cannot run destroy action on this environment
   exit 1
 fi
