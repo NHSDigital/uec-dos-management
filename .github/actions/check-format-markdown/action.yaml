@@ -9,5 +9,5 @@ runs:
       shell: bash
       run: |
         export BRANCH_NAME=${{ github.ref }}
-        ./scripts/githooks/check-markdown-format.sh
+        ./scripts/v2/githooks/check-markdown-format.sh
 

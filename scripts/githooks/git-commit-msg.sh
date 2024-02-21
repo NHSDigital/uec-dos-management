@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./scripts/functions/git-functions.sh
+source ./scripts/v2/functions/git-functions.sh
 
 exit_code=0
 BUILD_COMMIT_MESSAGE=${BUILD_COMMIT_MESSAGE:-"$(cat $1)"}

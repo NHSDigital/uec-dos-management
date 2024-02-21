@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./scripts/functions/git-functions.sh
+source ./scripts/v2/functions/git-functions.sh
 set -e
 
 # https://flake8.pycqa.org/en/6.0.0/

@@ -13,8 +13,8 @@ export AWS_REGION="${AWS_REGION:-""}"                             # The AWS regi
 export ACCOUNT_TYPE="${ACCOUNT_TYPE:-""}"                    # Identify the purpose of the account/environment (one of dev,test,security,preprod or prod) usually part of the account name
 
 # functions
-source ./scripts/project-common.sh
-source ./scripts/functions/terraform-functions.sh
+source ./scripts/v2/project-common.sh
+source ./scripts/v2/functions/terraform-functions.sh
 
 # Github org
 export TF_VAR_github_org="NHSDigital"
@@ -72,7 +72,7 @@ else
 fi
 
 # deploy stack
-/bin/bash ./scripts/action-infra-stack.sh
+/bin/bash ./scripts/v2/action-infra-stack.sh
 
 # having build the stack using a local backend we need to push
 # the state to the remote
@@ -112,6 +112,6 @@ export TF_VAR_oidc_provider_url="https://token.actions.githubusercontent.com"
 export TF_VAR_oidc_thumbprint=$THUMBPRINT
 export TF_VAR_oidc_client="sts.amazonaws.com"
 export STACK=github-runner
-/bin/bash ./scripts/action-infra-stack.sh
+/bin/bash ./scripts/v2/action-infra-stack.sh
 
 

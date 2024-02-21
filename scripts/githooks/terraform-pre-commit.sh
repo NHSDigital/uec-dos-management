@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./scripts/functions/git-functions.sh
+source ./scripts/v2/functions/git-functions.sh
 set -e
 
 TF_VERSION=1.4.6@sha256:1dd96bd77801daa3880ab4943c5cb9d55ad5af51b803dcf6152b8bf8901a0a82

@@ -1,0 +1,39 @@
+name: "Action infrastructure stack action"
+description: "Actions infrastructure stack of a given domain into a given environment and workspace."
+
+inputs:
+    environment:
+        description: "The name of the environment to action the infrastructure"
+        required: true
+    workspace:
+        description: "The name of the workspace to action the infrastructure into."
+        required: true
+    stack:
+        description: "The name of the infrastructure stack to action from the domain. If not supplied, no infrastructure will be actioned"
+        required: true
+    action:
+        description: "The type of action to perform with the stacks."
+        required: false
+        default: "plan"
+
+runs:
+  using: "composite"
+
+  steps:
+      - name: "Derive TF Version"
+        id: derive_tf_version
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@main
+
+      - name: Install Terraform
+        uses: NHSDigital/uec-dos-management/.github/actions/install-terraform@main
+        with:
+          terraform_version: ${{ steps.derive_tf_version.outputs.terraform_version }}
+
+      - name: Action Infrastructure Stack
+        shell: bash
+        run: |
+          export ACTION=${{ inputs.action }}
+          export STACK=${{ inputs.stack }}
+          export ENVIRONMENT=${{ inputs.environment }}
+          export WORKSPACE=${{ inputs.workspace }}
+          /bin/bash ./scripts/v2/action-infra-stack.sh

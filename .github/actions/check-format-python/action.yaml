@@ -9,5 +9,5 @@ runs:
       shell: bash
       run: |
         export PRECOMMIT=false
-          ./scripts/githooks/python-black-pre-commit.sh
+          ./scripts/v2/githooks/python-black-pre-commit.sh
 

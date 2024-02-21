@@ -1,5 +1,5 @@
 #!/bin/bash
-source ./scripts/functions/git-functions.sh
+source ./scripts/v2/functions/git-functions.sh
 set -e
 
 exit_code=0
