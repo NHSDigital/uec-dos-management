@@ -10,18 +10,6 @@ jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
-  echo-repo-name:
-    name: "Echo repo name"
-    needs:
-      [
-        metadata,
-      ]
-    runs-on: ubuntu-latest
-    steps:
-      - id: echo
-        run: |
-          echo "Repo name: ${{ needs.metadata.outputs.reponame }}"
-          echo "TF Version: ${{ needs.metadata.outputs.tf_max_version }}"
 
   quality-checks:
     name: Run quality checks
@@ -31,11 +19,60 @@ jobs:
       ]
     uses: ./.github/workflows/quality_checks.yaml
     with:
-      env: mgmt
-      repo_name : ${{ needs.metadata.outputs.reponame }}
-      stack: '["github-runner", "terraform_management"]'
-      tf_version: ${{ needs.metadata.outputs.tf_max_version }}
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: '["github-runner", "terraform_management"]'
     secrets: inherit
+
+  deploy-infrastructure-plan:
+    name: "Plan Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+        quality-checks,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['test-stack-1', 'test-stack-2']"
+      action: plan
+    secrets: inherit
+
+  deploy-infrastructure-apply:
+    name: "Apply Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-plan,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['lambda-stack']"
+      action: apply
+    secrets: inherit
+
+  deploy-infrastructure-destroy:
+    name: "Destroy Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-apply,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['lambda-stack']"
+      action: destroy
+    secrets: inherit
+
+
 
   unit-tests:
     name: Run unit test

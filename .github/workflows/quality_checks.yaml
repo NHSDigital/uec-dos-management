@@ -4,46 +4,34 @@ on:
   workflow_call:
 
     inputs:
-        git_ref:
-          description: "The git tag to checkout or, if not passed in, the current branch"
-          required: false
-          type: string
-        env:
+        environment:
           description: The relevant github environment (for secrets and variables)
           required: true
           type: string
-        repo_name:
-          description: "The name of the github repo (to help identify the github runner)"
+        workspace:
+          description: "The name of the workspace to validate the infrastructure against."
           required: true
           type: string
-        stack:
-          description: The terraform stack to be validated
+        tag:
+          description: "The git tag to checkout or, if not passed in, the current branch"
+          required: false
+          type: string
+        stacks:
+          description: The terraform stacks to be validated
           required: true
           type: string
-        tf_version:
-          description: The version of terraform used to validate terraform code
-          required: true
-          type: string
-    # outputs:
-    #   reponame:
-    #     description: "The name of the code repo"
-    #     value: "${{ jobs.echo-metadata.outputs.reponame }}"
-    #   tf_max_version:
-    #     description: "The max version of terraform that the code supports"
-    #     value: "${{ jobs.derive-tf-version.outputs.tf_max_version }}"
-
 jobs:
   validate-terraform:
     name: "Validate Terraform"
     runs-on: ubuntu-latest
     timeout-minutes: 2
-    environment: ${{ inputs.env }}
+    environment: ${{ inputs.environment }}
     permissions:
       id-token: write
       contents: read
     strategy:
       matrix:
-        stack: ${{ fromJson(inputs.stack) }}
+        stack: ${{ fromJson(inputs.stacks) }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
@@ -54,12 +42,13 @@ jobs:
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
-      - name: "Validate terraform"
-        uses: NHSDigital/uec-dos-management/.github/actions/validate-terraform@main
+      - name: "Validate terraform stack"
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@main
         with:
+          environment: ${{ inputs.environment }}
+          workspace: ${{ inputs.workspace }}
           stack: ${{ matrix.stack }}
-          tf_version: ${{ inputs.tf_version }}
-          account_type : ${{ vars.ACCOUNT_TYPE }}
+          action: validate
 
   check-terraform-format:
     name: "Check Terraform Format"
@@ -112,7 +101,6 @@ jobs:
       - name: "Check python formatting - black"
         uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@main
 
-
   check-python-flake-rules:
     name: "Check Python Syntax"
     runs-on: ubuntu-latest
@@ -126,7 +114,6 @@ jobs:
       - name: "Check python syntax - flake"
         uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@main
 
-
   scan-secrets:
     name: "Scan secrets"
     runs-on: ubuntu-latest
@@ -139,7 +126,6 @@ jobs:
           fetch-depth: 0
       - name: "Scan code for secrets"
         uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@main
-
 
   check-eslint:
     name: "Check ESLint"
