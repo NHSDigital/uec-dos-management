@@ -22,10 +22,10 @@ runs:
   steps:
       - name: "Derive TF Version"
         id: derive_tf_version
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@main
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@task/DR-5966_Fix_pipeline_issues
 
       - name: Install Terraform
-        uses: NHSDigital/uec-dos-management/.github/actions/install-terraform@main
+        uses: NHSDigital/uec-dos-management/.github/actions/install-terraform@task/DR-5966_Fix_pipeline_issues
         with:
           terraform_version: ${{ steps.derive_tf_version.outputs.terraform_version }}
 
