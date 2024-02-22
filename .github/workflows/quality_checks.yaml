@@ -34,16 +34,16 @@ jobs:
         stack: ${{ fromJson(inputs.stacks) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@main
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
       - name: "Validate terraform stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@main
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
@@ -56,11 +56,11 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
       - name: "Check format of terraform code"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@main
 
   check-file-format:
     name: "Check File Format"
@@ -68,12 +68,12 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check general formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@main
 
   check-markdown-format:
     name: "Check Markdown Format"
@@ -81,12 +81,12 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check markdown file formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@main
 
   check-python-black-format:
     name: "Check Python Format"
@@ -94,12 +94,12 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check python formatting - black"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@main
 
   check-python-flake-rules:
     name: "Check Python Syntax"
@@ -107,12 +107,12 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check python syntax - flake"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@main
 
   scan-secrets:
     name: "Scan secrets"
@@ -120,12 +120,12 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Scan code for secrets"
-        uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@main
 
   check-eslint:
     name: "Check ESLint"
@@ -133,10 +133,10 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@main
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check Javascipt formating"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@task/DR-5966_Fix_pipeline_issues
+        uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@main
 
