@@ -10,6 +10,10 @@ inputs:
     description: "The tag in the repository history to checkout"
     required: false
     default: ''
+  management-tag:
+    description: "Version of the uec-dos-management repo to checkout"
+    required: false
+    default: task/DR-5967_Sparse_checkout_repo
   fetch-depth:
     description: "Number of commits to fetch. 0 indicates all history for all branches and tags; default is 1"
     required: false
@@ -33,3 +37,11 @@ runs:
         fetch-depth: ${{ inputs.fetch-depth }}
         sparse-checkout: ${{ inputs.sparse-checkout }}
         path: ${{ inputs.path }}
+    - name: Checkout Management Repository
+      uses: actions/checkout@v4
+      with:
+        repository:  "NHSDigital/uec-dos-management"
+        ref: ${{ inputs.management-tag }}
+        sparse-checkout: |
+          scripts
+        path: 'uec-dos-management'
