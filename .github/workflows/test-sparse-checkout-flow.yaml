@@ -11,9 +11,9 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout full repo"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Sparse_checkout_repo
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5967_Sparse_checkout_repo
       - name: "Sparse checkout partial repo"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Sparse_checkout_repo
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5967_Sparse_checkout_repo
         with:
           repository: uec-dos-service-management
           sparse-checkout: |
