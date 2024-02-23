@@ -6,7 +6,7 @@ set -e
 #
 APPLICATION_TEST_DIR='tests/integration'
 
-source ./scripts/v2/functions/git-functions.sh
+source ./scripts/functions/git-functions.sh
 
 # identify the workspace name and set TERRAFORM_WORKSPACE_NAME
 export_terraform_workspace_name

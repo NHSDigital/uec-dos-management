@@ -9,5 +9,5 @@ runs:
       shell: bash
       run: |
         export PRECOMMIT=false
-        ./scripts/v2/githooks/python-flake-pre-commit.sh
+        ./scripts/githooks/python-flake-pre-commit.sh
 

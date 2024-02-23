@@ -10,9 +10,9 @@ set -e
 # COMMIT_HASH_SHORT = short version of the commit hash (ie commit to be tagged)
 
 # functions
-source ./scripts/v2/project-common.sh
-source ./scripts/v2/functions/terraform-functions.sh
-source ./scripts/v2/functions/git-functions.sh
+source ./scripts/project-common.sh
+source ./scripts/functions/terraform-functions.sh
+source ./scripts/functions/git-functions.sh
 
 # check exports have been done
 EXPORTS_SET=0

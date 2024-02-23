@@ -13,8 +13,8 @@ export AWS_REGION="${AWS_REGION:-""}"                             # The AWS regi
 export ACCOUNT_TYPE="${ACCOUNT_TYPE:-""}"                    # Identify the purpose of the account/environment (one of dev,test,security,preprod or prod) usually part of the account name
 
 # functions
-source ./scripts/v2/project-common.sh
-source ./scripts/v2/functions/terraform-functions.sh
+source ./scripts/project-common.sh
+source ./scripts/functions/terraform-functions.sh
 
 # Github org
 export TF_VAR_github_org="NHSDigital"

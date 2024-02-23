@@ -9,5 +9,5 @@ runs:
       shell: bash
       run: |
         export ALL_FILES=true
-        ./scripts/v2/githooks/secret-scan-pre-commit.sh
+        ./scripts/githooks/secret-scan-pre-commit.sh
 

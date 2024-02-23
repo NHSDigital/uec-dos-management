@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     steps:
-      - name: "Checkout full repo"
+      - name: "Checkout repo"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5967_Sparse_checkout_repo
       - name: "Check sparse checkout"
         shell: bash

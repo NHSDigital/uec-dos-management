@@ -6,7 +6,7 @@
 # fail on first error
 set -e
 #INPUT ARGUMENTS
-source ./scripts/v2/functions/git-functions.sh
+source ./scripts/functions/git-functions.sh
 
 export SERVICE_NAME="${SERVICE_NAME:-""}"
 echo "Service Name: ${SERVICE_NAME}"
