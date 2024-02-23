@@ -13,12 +13,7 @@ jobs:
       - name: "Checkout full repo"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5967_Sparse_checkout_repo
       - name: "Sparse checkout partial repo"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5967_Sparse_checkout_repo
-        with:
-          repository: uec-dos-service-management
-          sparse-checkout: |
-            scripts
-          path: 'uec-dos-management'
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-management-repository@task/DR-5967_Sparse_checkout_repo
       - name: "Check sparse checkout"
         shell: bash
         run : |
