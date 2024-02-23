@@ -20,28 +20,17 @@ if [ "$TRIGGER_ACTION" == "push" ] ; then
 
   if [ "$BRANCH_NAME" == "main" ] ; then
     WORKSPACE="default"
-    # export WORKSPACE
     echo "Workspace from main: $WORKSPACE"
   else
     IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
     IFS='_' read -r -a ref <<< "${name_array[1]}"
     WORKSPACE=$(echo "${ref[0]}" | tr "[:upper:]" "[:lower:]")
-    # export WORKSPACE
     echo "Workspace every: $WORKSPACE"
   fi
-
-  # IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
-  # IFS='_' read -r -a ref <<< "${name_array[1]}"
-  # echo ${ref[0]}
-  # WORKSPACE=$(echo "${ref[0]}" | tr "[:upper:]" "[:lower:]")
-  # export WORKSPACE
-  # echo "Workspace every: $WORKSPACE"
-
 fi
 
 # We will need some further logic here to derive the workspace upon branch deletion
 # TBC
-# echo "$WORKSPACE"
 export WORKSPACE
 
 
