@@ -36,4 +36,4 @@ runs:
           export STACK=${{ inputs.stack }}
           export ENVIRONMENT=${{ inputs.environment }}
           export WORKSPACE=${{ inputs.workspace }}
-          /bin/bash ./scripts/workflow/action-infra-stack.sh
+          /bin/bash ./uec-dos-management2/scripts/workflow/action-infra-stack.sh
