@@ -43,5 +43,5 @@ runs:
         repository:  "NHSDigital/uec-dos-management"
         ref: ${{ inputs.management-tag }}
         sparse-checkout: |
-          scripts
+          scripts/workflow
         path: 'uec-dos-management2'
