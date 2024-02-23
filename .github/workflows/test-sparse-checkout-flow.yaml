@@ -1,0 +1,35 @@
+on:
+  push:
+    branches:
+      - main
+      - 'task/*'
+
+jobs:
+  sparse-checkout-diff-repo:
+    name: "Sparse checkout of different repo"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout full repo"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Sparse_checkout_repo
+      - name: "Sparse checkout partial repo"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5966_Sparse_checkout_repo
+        with:
+          repository: uec-dos-service-management
+          sparse-checkout: |
+            scripts
+          path: 'uec-dos-management'
+      - name: "Check sparse checkout"
+        shell: bash
+        run : |
+          echo $(eval dir)
+      - name: "Go into sparse checkout area"
+        shell: bash
+        run : |
+          cd uec-dos-management
+          echo $(eval dir)
+      - name: "Test that the scripts directory is present"
+        shell: bash
+        run : |
+          cd scripts
+          echo $(eval dir)
