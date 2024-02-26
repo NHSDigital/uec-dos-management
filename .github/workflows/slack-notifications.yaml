@@ -8,6 +8,12 @@ on:
           required: true
           type: string
 
+        organisation:
+          description: "organisation name"
+          required: true
+          type: string
+          default: NHSDigital
+
 jobs:
   slack-notifications:
     runs-on: ubuntu-latest
@@ -36,13 +42,13 @@ jobs:
       with:
         payload: |
             {
-            "text": "GitHub Action build result: ${{ env.WORKFLOW_CONCLUSION }}\nhttps://github.com/NHSDigital/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }} \nPushed by: @${{ github.actor }}",
+            "text": "GitHub Action build result: ${{ env.WORKFLOW_CONCLUSION }}\nhttps://github.com/${{ inputs.organisation }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }} \nPushed by: @${{ github.actor }}",
             "blocks": [
                 {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "GitHub Action build result: ${{ env.WORKFLOW_CONCLUSION }}\nhttps://github.com/NHSDigital/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }}\nPushed by: @${{ github.actor }}"
+                    "text": "GitHub Action build result: ${{ env.WORKFLOW_CONCLUSION }}\nhttps://github.com/${{ inputs.organisation }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }}\nPushed by: @${{ github.actor }}"
                 }
                 }
             ]
