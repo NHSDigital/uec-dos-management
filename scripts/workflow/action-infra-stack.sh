@@ -9,7 +9,6 @@
 # fail on first error
 set -e
 # functions
-source ../uec-dos-management/scripts/workflow/functions/terraform-functions.sh
 
 export ACTION="${ACTION:-""}"
 export STACK="${STACK:-""}"
@@ -17,6 +16,8 @@ export ENVIRONMENT="${ENVIRONMENT:-""}"
 export USE_REMOTE_STATE_STORE="${USE_REMOTE_STATE_STORE:-true}"
 export ACCOUNT_PROJECT="${ACCOUNT_PROJECT:-"dos"}"
 export TF_VAR_repo_name="${REPOSITORY:-"$(basename -s .git "$(git config --get remote.origin.url)")"}"
+
+source ../uec-dos-management/scripts/workflow/functions/terraform-functions.sh
 
 # check exports have been done
 EXPORTS_SET=0
