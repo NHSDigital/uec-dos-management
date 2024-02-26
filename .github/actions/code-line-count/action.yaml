@@ -9,4 +9,4 @@ runs:
       shell: bash
       run: |
         export FORMAT=default
-        ./uec-dos-management2/scripts/workflow/cloc-repository.sh
+        ./uec-dos-management/scripts/workflow/cloc-repository.sh

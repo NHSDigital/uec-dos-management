@@ -19,7 +19,7 @@ jobs:
       - name: "Go into sparse checkout area"
         shell: bash
         run : |
-          cd uec-dos-management2
+          cd uec-dos-management
           echo $(eval dir)
       - name: "Test that the scripts directory is present"
         shell: bash

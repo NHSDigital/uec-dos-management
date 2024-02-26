@@ -16,6 +16,6 @@ runs:
         export TRIGGER=${{ github.ref_type }}
         export TRIGGER_ACTION=${{ github.event_name }}
         export TRIGGER_REFERENCE=${{ github.ref_name }}
-        . uec-dos-management2/scripts/workflow/derive-workspace.sh
+        . uec-dos-management/scripts/workflow/derive-workspace.sh
         echo "Workspace Name: ${WORKSPACE}"
         echo "workspace=${WORKSPACE}" >> $GITHUB_OUTPUT

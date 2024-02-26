@@ -44,4 +44,4 @@ runs:
         ref: ${{ inputs.management-tag }}
         sparse-checkout: |
           scripts/workflow
-        path: 'uec-dos-management2'
+        path: 'uec-dos-management'
