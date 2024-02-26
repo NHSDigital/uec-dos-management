@@ -9,7 +9,7 @@
 # fail on first error
 set -e
 # functions
-source ./uec-dos-management/scripts/workflow/functions/terraform-functions.sh
+source ../uec-dos-management/scripts/workflow/functions/terraform-functions.sh
 
 export ACTION="${ACTION:-""}"
 export STACK="${STACK:-""}"
