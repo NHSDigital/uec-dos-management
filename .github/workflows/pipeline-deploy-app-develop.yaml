@@ -98,16 +98,18 @@ jobs:
   #     ]
 
 
-  # slack-notifications:
-  #   needs: [
-  #     build-and-deploy-application-code,
-  #     unit-tests,
-  #     deploy-support-tools-infrastructure,
-  #     deploy-vpc-vpn-infrastructure,
-  #   ]
-  #   if: always()
-  #   uses: ./.github/workflows/slack-notifications.yaml
-  #   with:
-  #     env: dev
-  #   secrets: inherit
+  slack-notifications:
+    needs: [
+      metadata,
+      quality-checks,
+      deploy-infrastructure-plan,
+      deploy-infrastructure-apply,
+      deploy-infrastructure-destroy,
+      unit-tests,
+    ]
+    if: always()
+    uses: ./.github/workflows/slack-notifications.yaml
+    with:
+      env: mgmt
+    secrets: inherit
 
