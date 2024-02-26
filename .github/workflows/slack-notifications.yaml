@@ -10,7 +10,7 @@ on:
 
         organisation:
           description: "organisation name"
-          required: true
+          required: false
           type: string
           default: NHSDigital
 
