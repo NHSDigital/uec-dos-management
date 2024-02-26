@@ -4,17 +4,21 @@
 # STACK - The infrastructure stack to action
 # ENVIRONEMNT - The name of the environment to run the terraform action on, e.g. dev, test
 # WORKSPACE - The name of the workspace to action the terraform into, e.g. DR-123
+# REPOSITORY - The name of the repository to action the terraform on e.g. uec-dos-service-management
 
 # fail on first error
 set -e
 # functions
-source ./scripts/project-common.sh
-source ./scripts/functions/terraform-functions.sh
+# source ./scripts/workflow/functions/terraform-functions.sh
 
 export ACTION="${ACTION:-""}"
 export STACK="${STACK:-""}"
 export ENVIRONMENT="${ENVIRONMENT:-""}"
 export USE_REMOTE_STATE_STORE="${USE_REMOTE_STATE_STORE:-true}"
+export ACCOUNT_PROJECT="${ACCOUNT_PROJECT:-"dos"}"
+export TF_VAR_repo_name="${REPOSITORY:-"$(basename -s .git "$(git config --get remote.origin.url)")"}"
+
+source ../uec-dos-management/scripts/workflow/functions/terraform-functions.sh
 
 # check exports have been done
 EXPORTS_SET=0
@@ -51,6 +55,11 @@ fi
 
 if [ -z "$WORKSPACE" ] ; then
   echo Set WORKSPACE to the workspace to action the terraform in
+  EXPORTS_SET=1
+fi
+
+if [ -z "$TF_VAR_repo_name" ] ; then
+  echo Set REPOSITORY to the REPOSITORY to action the terraform in
   EXPORTS_SET=1
 fi
 
