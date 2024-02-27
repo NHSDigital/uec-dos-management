@@ -9,5 +9,5 @@ runs:
       shell: bash
       run: |
         export BRANCH_NAME=origin/${{ github.event.repository.default_branch }}
-        ./scripts/v2/githooks/check-file-format.sh
+        ./scripts/githooks/check-file-format.sh
 

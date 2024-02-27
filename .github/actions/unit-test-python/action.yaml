@@ -23,7 +23,7 @@ runs:
   steps:
     - name: "Install python"
       id: unit_test_python_install
-      uses: NHSDigital/uec-dos-management/.github/actions/install-python@v0.2
+      uses: NHSDigital/uec-dos-management/.github/actions/install-python@v0.3
       with:
         python_version: ${{ inputs.python_version }}
     - name: Run unit tests of python code
@@ -31,7 +31,7 @@ runs:
       shell: bash
       run: |
         export AWS_DEFAULT_REGION=${{ inputs.aws_region }}
-        ./scripts/v2/run-test-coverage.sh
+        ./uec-dos-management/scripts/workflow/run-test-coverage.sh
     - name: Run static analysis
       id: run-static-analysis
       shell: bash
@@ -40,4 +40,4 @@ runs:
         export SONAR_ORGANISATION_KEY=${{ inputs.sonar_organisation_key }}
         export SONAR_PROJECT_KEY=${{ inputs.sonar_project_key }}
         export SONAR_TOKEN=${{ inputs.sonar_token }}
-        ./scripts/v2/reports/perform-static-analysis.sh
+        ./uec-dos-management/scripts/workflow/perform-static-analysis.sh
