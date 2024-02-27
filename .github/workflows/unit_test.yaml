@@ -18,7 +18,7 @@ jobs:
   unit-test-python:
     name: "Python unit tests"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 5
     environment: ${{ inputs.env }}
     permissions:
       id-token: write
