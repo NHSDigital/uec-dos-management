@@ -16,8 +16,8 @@ export ENVIRONMENT="${ENVIRONMENT:-""}"
 export USE_REMOTE_STATE_STORE="${USE_REMOTE_STATE_STORE:-true}"
 export ACCOUNT_PROJECT="${ACCOUNT_PROJECT:-"dos"}"
 export TF_VAR_repo_name="${REPOSITORY:-"$(basename -s .git "$(git config --get remote.origin.url)")"}"
-
-source ./uec-dos-management/scripts/workflow/functions/terraform-functions.sh
+export TERRAFORM_BUCKET_NAME="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state"  # globally unique name
+export TERRAFORM_LOCK_TABLE="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state-lock"
 
 # check exports have been done
 EXPORTS_SET=0
@@ -67,6 +67,23 @@ if [ $EXPORTS_SET = 1 ] ; then
   exit 1
 fi
 
+function terraform-initialise {
+
+    echo "Terraform S3 State Bucket Name: ${TERRAFORM_BUCKET_NAME}"
+    echo "Terraform Lock Table Name: ${TERRAFORM_LOCK_TABLE}"
+
+    if [[ "$USE_REMOTE_STATE_STORE" =~ ^(false|no|n|off|0|FALSE|NO|N|OFF) ]]; then
+      terraform init
+    else
+      terraform init \
+          -backend-config="bucket=$TERRAFORM_BUCKET_NAME" \
+          -backend-config="dynamodb_table=$TERRAFORM_LOCK_TABLE" \
+          -backend-config="encrypt=true" \
+          -backend-config="key=$STACK/terraform.state" \
+          -backend-config="region=$AWS_REGION"
+    fi
+}
+
 COMMON_TF_VARS_FILE="common.tfvars"
 STACK_TF_VARS_FILE="$STACK.tfvars"
 PROJECT_TF_VARS_FILE="$ACCOUNT_PROJECT-project.tfvars"
@@ -98,7 +115,7 @@ if [ ! -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE" ] ; then
 fi
 
 # init terraform
-terraform-initialise "$STACK" "$ENVIRONMENT" "$USE_REMOTE_STATE_STORE"
+terraform-initialise
 #
 terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
 #
