@@ -10,6 +10,10 @@
 set -e
 # functions
 
+export PROGRAM_CODE="${PROGRAM_CODE:-"nhse-uec"}"
+export AWS_REGION="${AWS_REGION:-"eu-west-2"}"
+export INFRASTRUCTURE_DIR="${INFRASTRUCTURE_DIR:-"infrastructure"}"
+export TERRAFORM_DIR="${TERRAFORM_DIR:-"$INFRASTRUCTURE_DIR/stacks"}"
 export ACTION="${ACTION:-""}"
 export STACK="${STACK:-""}"
 export ENVIRONMENT="${ENVIRONMENT:-""}"
@@ -92,7 +96,7 @@ ENV_TF_VARS_FILE="$ENVIRONMENT.tfvars"
 echo "Preparing to run terraform $ACTION for stack $STACK to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $ACCOUNT_PROJECT"
 ROOT_DIR=$PWD
 # the directory that holds the stack to terraform
-STACK_DIR=$PWD/$INFRASTRUCTURE_DIR/stacks/$STACK
+STACK_DIR=$PWD/$TERRAFORM_DIR/$STACK
 # remove any previous local backend for stack
 rm -rf "$STACK_DIR"/.terraform
 rm -f "$STACK_DIR"/.terraform.lock.hcl
