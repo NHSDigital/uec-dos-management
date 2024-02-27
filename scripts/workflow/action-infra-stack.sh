@@ -95,7 +95,7 @@ ENV_TF_VARS_FILE="$ENVIRONMENT.tfvars"
 
 echo "Preparing to run terraform $ACTION for stack $STACK to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $ACCOUNT_PROJECT"
 ROOT_DIR=$PWD
-echo "Infrastructure dir "$INFRASTRUCTURE_DIR"
+echo "Infrastructure dir $INFRASTRUCTURE_DIR"
 # the directory that holds the stack to terraform
 STACK_DIR=$PWD/$TERRAFORM_DIR/$STACK
 # remove any previous local backend for stack
