@@ -2,15 +2,16 @@ name: Build and Deploy Application workflow
 
 on:
   workflow_call:
-    services:
-          description: "A list of the services to build and deploy"
-          required: false
-          default: ""
-          type: string
-    workspace:
-          description: "The name of the workspace to deploy the application into"
-          required: true
-          type: string
+    inputs:
+      services:
+            description: "A list of the services to build and deploy"
+            required: false
+            default: ""
+            type: string
+      workspace:
+            description: "The name of the workspace to deploy the application into"
+            required: true
+            type: string
 
 jobs:
   build-application:
