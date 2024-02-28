@@ -73,33 +73,6 @@ jobs:
         id: get_metadata
         uses: NHSDigital/uec-dos-management/.github/actions/metadata@v0.3
 
-  #derive-tf-versions:
-  # uses: ./.github/workflows/derive-tf-version.yaml
-  # TODO
-  #get-metadata:
-  #  runs-on: ubuntu-latest
-  #  outputs:
-  #    build_datetime: ${{ steps.metadata.outputs.build_datetime }}
-  #    build_timestamp: ${{ steps.metadata.outputs.build_timestamp }}
-  #    build_epoch: ${{ steps.metadata.outputs.build_epoch }}
-  #  steps:
-  #    - id: metadata
-  #      run: |
-  #        datetime=$(date -u +'%Y-%m-%dT%H:%M:%S%z')
-  #        echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
-  #        echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-  #        echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
-  #        echo "triggering action: ${{ github.event_name }}"
-  #        echo "ref type: ${{ github.ref_type }}"
-  #        echo "triggering reference: ${{ github.ref_name }}"
-  #        echo "github.event.ref : ${{ github.event.ref }}"
-  #        echo "github.head_ref" ${{github.head_ref }}
-  #        echo "username of user triggering the workflow: ${{ github.actor }}"
-  #derive-workspace:
-  #  uses: ./.github/workflows/derive-terraform-workspace-from-branch-name.yaml
-  #  with:
-  #    branch_name: ${{ inputs.branch_name }}
-
   destroy-application-infrastructure:
         needs:
           [
@@ -114,24 +87,12 @@ jobs:
           deployment_workspace: ${{needs.derive-workspace.outputs.workspace}}
           tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
         secrets: inherit
-  # cleardown-terraform-state:
-  #     needs:
-  #       [
-  #         #destroy-application-infrastructure,
-  #         minMax,
-  #         derive-workspace
-  #       ]
-  #     uses: ./.github/workflows/cleardown-terraform-state.yaml
-  #     with:
-  #       github_environment: ${{ inputs.github_environment }}
-  #       deployment_workspace: ${{needs.derive-workspace.outputs.workspace}}
-  #   secrets: inherit
+
     delete-ft-state:
       name: "Delete terraform state file"
       runs-on: ubuntu-latest
       timeout-minutes: 2
-      # outputs:
-      #   reponame: ${{ steps.get_metadata.outputs.reponame }}
+
       steps:
         - name: "Checkout code"
           uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
