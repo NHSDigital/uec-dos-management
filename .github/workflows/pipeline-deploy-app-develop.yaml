@@ -86,17 +86,17 @@ jobs:
       env: dev
     secrets: inherit
 
-  # build:
-  #   name: Build artefacts
-  #   uses: ./.github/workflows/unit-test.yaml
-
-  # deploy:
-  #   name: Deploy application
-  #   needs:
-  #     [
-  #       build,
-  #     ]
-
+  build-and-deploy-application:
+    name: Build and deploy application
+    needs:
+    [
+      metadata
+    ]
+    uses: ./.github/workflows/build-and-deploy-application.yaml
+    with:
+      services: "['lambda-stack']"
+      workspace: ${{ needs.metadata.outputs.workspace }}
+    secrets: inherit
 
   slack-notifications:
     needs: [

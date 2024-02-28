@@ -1,0 +1,26 @@
+name: "Deploy service action"
+description: "Builds a service."
+
+inputs:
+    service:
+        description: "The name of the service to deploy"
+        required: true
+    workspace:
+        description: "The name of the workspace to deploy the service into."
+        required: true
+    tag:
+      description: "The version of the service to deploy"
+      required: false
+
+
+runs:
+  using: "composite"
+
+  steps:
+      - name: Deploy Service
+        shell: bash
+        run: |
+          export SERVICE=${{ inputs.service }}
+          export TAG=${{ inputs.tag }}
+          export WORKSPACE=${{ inputs.workspace }}
+          /bin/bash ./uec-dos-management/scripts/workflow/deploy-service.sh
