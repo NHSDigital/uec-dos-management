@@ -32,7 +32,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.4
         with:
-          aws_account_id: ${{ secrets.MGMT_ACCOUNT_ID }}
+          aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Build service"
