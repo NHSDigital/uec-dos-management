@@ -15,4 +15,4 @@ runs:
         shell: bash
         run: |
           export SERVICE=${{ inputs.service }}
-          /bin/bash ./uec-dos-management/scripts/workflow/build-service.sh
+          /bin/bash ./uec-dos-management/scripts/workflow/action-infra-stack.sh
