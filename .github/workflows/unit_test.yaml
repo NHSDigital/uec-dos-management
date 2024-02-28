@@ -18,7 +18,7 @@ jobs:
   unit-test-python:
     name: "Python unit tests"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 5
     environment: ${{ inputs.env }}
     permissions:
       id-token: write
@@ -26,14 +26,14 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.4
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.3
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.4
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
       - name: "Run python unit test"
-        uses: NHSDigital/uec-dos-management/.github/actions/unit-test-python@v0.3
+        uses: NHSDigital/uec-dos-management/.github/actions/unit-test-python@v0.4
         with:
           sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
           sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}

@@ -6,8 +6,6 @@ set -e
 #
 APPLICATION_DIR=application
 APPLICATION_UTIL_DIR=application-utils
-SCRIPT_LOAD_DIR=scripts
-
 
 # cleardown cache from previous run needs
 rm -f .coverage
@@ -23,9 +21,15 @@ for path in "$APPLICATION_DIR"/*/ ; do
         done
 done
 
+# if command line argument provided use that to target specific sub directory ; otherwise loops thru all subdirectories
 # find each directory under application
 # if test code exists copy it from sub-dir in prep for running it
-for path in "$APPLICATION_DIR"/*/ ; do
+if [ -n "$1" ] ; then
+  parent_directory="$APPLICATION_DIR"/"$1/"
+else
+  parent_directory="$APPLICATION_DIR/*/"
+fi
+for path in $parent_directory ; do
     dirs=$(echo "$path" | tr "\/" '\n')
     for dir in $dirs
         do
@@ -44,42 +48,25 @@ for path in "$APPLICATION_DIR"/*/ ; do
         done
 done
 
-# # test utils
-# for path in "$APPLICATION_UTIL_DIR"/*/ ; do
-#     dirs=$(echo "$path" | tr "\/" '\n')
-#     for dir in $dirs
-#         do
-#             if ! [ "$dir" == $APPLICATION_UTIL_DIR ] ; then
-#                 if [ -d $APPLICATION_UTIL_DIR/"$dir/test" ]; then
-#                     echo "Preparing tests for $dir"
-#                     echo "Running tests for $dir"
-#                     pip install -r $APPLICATION_UTIL_DIR/"$dir"/test/requirements.txt
-#                     coverage run -a --source=$APPLICATION_UTIL_DIR/"$dir" -m pytest $APPLICATION_UTIL_DIR/"$dir"
-#                 else
-#                     echo "No tests written for $dir"
-#                 fi
-#             fi
-#         done
-# done
-
-# # find each directory under scripts
-# # if test code exists copy it from sub-dir in prep for running it
-# for path in "$SCRIPT_LOAD_DIR"/*/ ; do
-#     dirs=$(echo "$path" | tr "\/" '\n')
-#     for dir in $dirs
-#         do
-#             if ! [ "$dir" == $SCRIPT_LOAD_DIR ] ; then
-#                 if [ -d $SCRIPT_LOAD_DIR/"$dir/test" ]; then
-#                     echo "Preparing tests for $dir"
-#                     echo "Running tests for $dir"
-#                     pip install -r $SCRIPT_LOAD_DIR/"$dir"/test/requirements.txt
-#                     coverage run -a --source=$SCRIPT_LOAD_DIR/"$dir" -m pytest $SCRIPT_LOAD_DIR/"$dir"
-#                 else
-#                     echo "No tests written for $dir"
-#                 fi
-#             fi
-#         done
-# done
+# test utils if we are not targetting specific subfolder
+if [ -z "$1" ] ; then
+  for path in "$APPLICATION_UTIL_DIR"/*/ ; do
+      dirs=$(echo "$path" | tr "\/" '\n')
+      for dir in $dirs
+          do
+              if ! [ "$dir" == $APPLICATION_UTIL_DIR ] ; then
+                  if [ -d $APPLICATION_UTIL_DIR/"$dir/test" ]; then
+                      echo "Preparing tests for $dir"
+                      echo "Running tests for $dir"
+                      pip install -r $APPLICATION_UTIL_DIR/"$dir"/test/requirements.txt
+                      coverage run -a --source=$APPLICATION_UTIL_DIR/"$dir" -m pytest $APPLICATION_UTIL_DIR/"$dir"
+                  else
+                      echo "No tests written for $dir"
+                  fi
+              fi
+          done
+  done
+fi
 
 #  use requirements defined for tests/unit
 coverage report
