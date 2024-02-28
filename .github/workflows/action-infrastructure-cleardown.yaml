@@ -118,6 +118,7 @@ jobs:
       needs:
         [
           #destroy-application-infrastructure,
+          minMax,
           derive-workspace
         ]
       uses: ./.github/workflows/cleardown-terraform-state.yaml
