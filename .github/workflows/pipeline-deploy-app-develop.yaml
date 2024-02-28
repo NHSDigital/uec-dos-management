@@ -89,9 +89,9 @@ jobs:
   build-and-deploy-application:
     name: Build and deploy application
     needs:
-    [
-      metadata
-    ]
+      [
+        metadata
+      ]
     uses: ./.github/workflows/build-and-deploy-application.yaml
     with:
       services: "['lambda-stack']"
