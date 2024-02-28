@@ -35,7 +35,7 @@ jobs:
       ]
     uses: ./.github/workflows/build-and-deploy-application.yaml
     with:
-      services: "['lambda-stack']"
+      services: "['healthcare-services-data-manager']"
       workspace: ${{ needs.metadata.outputs.workspace }}
     secrets: inherit
 
