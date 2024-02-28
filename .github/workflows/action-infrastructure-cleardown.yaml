@@ -114,15 +114,29 @@ jobs:
           deployment_workspace: ${{needs.derive-workspace.outputs.workspace}}
           tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
         secrets: inherit
-  cleardown-terraform-state:
-      needs:
-        [
-          #destroy-application-infrastructure,
-          minMax,
-          derive-workspace
-        ]
-      uses: ./.github/workflows/cleardown-terraform-state.yaml
-      with:
-        github_environment: ${{ inputs.github_environment }}
-        deployment_workspace: ${{needs.derive-workspace.outputs.workspace}}
-      secrets: inherit
+  # cleardown-terraform-state:
+  #     needs:
+  #       [
+  #         #destroy-application-infrastructure,
+  #         minMax,
+  #         derive-workspace
+  #       ]
+  #     uses: ./.github/workflows/cleardown-terraform-state.yaml
+  #     with:
+  #       github_environment: ${{ inputs.github_environment }}
+  #       deployment_workspace: ${{needs.derive-workspace.outputs.workspace}}
+  #   secrets: inherit
+    delete-ft-state:
+      name: "Delete terraform state file"
+      runs-on: ubuntu-latest
+      timeout-minutes: 2
+      # outputs:
+      #   reponame: ${{ steps.get_metadata.outputs.reponame }}
+      steps:
+        - name: "Checkout code"
+          uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
+          with:
+            tag: ${{ inputs.tag }}
+        - name: "Delete terraform state file"
+          id: delete_tf_state
+          uses: NHSDigital/uec-dos-management/.github/actions/cleardown-tf-state
