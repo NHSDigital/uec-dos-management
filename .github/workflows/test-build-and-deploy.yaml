@@ -16,7 +16,6 @@ jobs:
     needs:
       [
         metadata,
-        deploy-infrastructure-plan,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
