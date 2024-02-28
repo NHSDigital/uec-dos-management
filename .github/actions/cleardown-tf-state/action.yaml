@@ -1,0 +1,12 @@
+name: "Cleardown terraform state"
+description: "Delete the terraform state"
+
+runs:
+  using: composite
+  steps:
+    - name: Delete terraform state
+      id: delete_tf_state
+      shell: bash
+      run: |
+        export FORMAT=default
+        /.github/workflows/cleardown-terraform-state.yaml
