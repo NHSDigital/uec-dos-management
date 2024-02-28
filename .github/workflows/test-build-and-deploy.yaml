@@ -30,7 +30,8 @@ jobs:
     name: Build and deploy application
     needs:
       [
-        metadata
+        metadata,
+        deploy-infrastructure-apply
       ]
     uses: ./.github/workflows/build-and-deploy-application.yaml
     with:
