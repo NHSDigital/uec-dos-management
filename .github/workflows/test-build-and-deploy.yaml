@@ -1,0 +1,41 @@
+name: Test Build and Deploy Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - 'task/*'
+
+jobs:
+  metadata:
+    name: "Get Metadata"
+    uses: ./.github/workflows/metadata.yaml
+
+  deploy-infrastructure-apply:
+    name: "Apply Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-plan,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['lambda-stack']"
+      action: apply
+    secrets: inherit
+
+  build-and-deploy-application:
+    name: Build and deploy application
+    needs:
+      [
+        metadata
+      ]
+    uses: ./.github/workflows/build-and-deploy-application.yaml
+    with:
+      services: "['lambda-stack']"
+      workspace: ${{ needs.metadata.outputs.workspace }}
+    secrets: inherit
+
