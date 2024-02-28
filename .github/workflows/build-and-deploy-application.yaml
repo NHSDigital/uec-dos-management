@@ -1,0 +1,47 @@
+name: Build and Deploy Application workflow
+
+on:
+  workflow_call:
+    services:
+          description: "A list of the services to build and deploy"
+          required: false
+          default: ""
+          type: string
+    workspace:
+          description: "The name of the workspace to deploy the application into"
+          required: true
+          type: string
+
+jobs:
+  build-application:
+    name: "Build Application"
+    runs-on: ubuntu-latest
+    environment: dev
+    permissions:
+      id-token: write
+      contents: read
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        service: ${{ fromJSON(inputs.services) }}
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.4
+
+      - name: Configure AWS Credentials
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.4
+        with:
+          aws_account_id: ${{ secrets.MGMT_ACCOUNT_ID }}
+          aws_region: ${{ vars.AWS_REGION }}
+
+      - name: "Build service"
+        uses: NHSDigital/uec-dos-management/.github/actions/build-service@task/DR-5961_Refactor_build_Deploy
+        with:
+          service: ${{ matrix.service }}
+
+      - name: "Deploy service"
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@task/DR-5961_Refactor_build_Deploy
+        with:
+          service: ${{ matrix.service }}
+          workflow: ${{ inputs.workspace }}
+
