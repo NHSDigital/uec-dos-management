@@ -27,6 +27,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
 
+    outputs:
+      reponame: ${{ steps.get_metadata.outputs.reponame }}
+
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
+        with:
+          tag: ${{ inputs.tag }}
+      - name: "Get TF Version"
+        id: minMax
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@v0.3
+
   derive-workspace:
     name: "Derive Workspace"
     runs-on: ubuntu-latest
@@ -48,6 +60,18 @@ jobs:
     name: "Get Metadata"
     runs-on: ubuntu-latest
     timeout-minutes: 2
+
+    outputs:
+      reponame: ${{ steps.get_metadata.outputs.reponame }}
+
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
+        with:
+          tag: ${{ inputs.tag }}
+      - name: "Get metadata"
+        id: get_metadata
+        uses: NHSDigital/uec-dos-management/.github/actions/metadata@v0.3
 
   #derive-tf-versions:
   # uses: ./.github/workflows/derive-tf-version.yaml
