@@ -44,5 +44,5 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@task/DR-5961_Refactor_build_Deploy
         with:
           service: ${{ matrix.service }}
-          workflow: ${{ inputs.workspace }}
+          workspace: ${{ inputs.workspace }}
 
