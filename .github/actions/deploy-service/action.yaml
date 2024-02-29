@@ -1,5 +1,5 @@
 name: "Deploy service action"
-description: "Builds a service."
+description: "Deploys a service into a Lambda."
 
 inputs:
     service:
@@ -11,7 +11,6 @@ inputs:
     tag:
       description: "The version of the service to deploy"
       required: false
-
 
 runs:
   using: "composite"

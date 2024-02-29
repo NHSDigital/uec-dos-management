@@ -6,7 +6,6 @@ inputs:
         description: "The name of the service to build"
         required: true
 
-
 runs:
   using: "composite"
 
