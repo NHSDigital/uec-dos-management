@@ -48,7 +48,6 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.5
         with:
           repository: ${{ inputs.domain }}
-          management-tag: task/DR-5967_Refactor_bootstrapper_workflow
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
