@@ -57,7 +57,7 @@ jobs:
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Deploy infrastructure stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@v0.5
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-5967_Refactor_bootstrapper_workflow
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
