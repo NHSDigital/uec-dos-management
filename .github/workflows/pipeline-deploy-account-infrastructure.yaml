@@ -18,7 +18,7 @@ jobs:
           ]
         uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.3
         with:
-          environment: dev
+          environment: mgmt
           domain: "uec-dos-management"
           workspace: ${{ needs.metadata.outputs.workspace }}
           stacks: "['github-runner','terraform_management']"
@@ -32,7 +32,7 @@ jobs:
       if: always()
       uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.3
       with:
-        env: dev
+        env: mgmt
       secrets: inherit
 
 
