@@ -20,8 +20,23 @@ export ENVIRONMENT="${ENVIRONMENT:-""}"
 export USE_REMOTE_STATE_STORE="${USE_REMOTE_STATE_STORE:-true}"
 export ACCOUNT_PROJECT="${ACCOUNT_PROJECT:-"dos"}"
 export TF_VAR_repo_name="${REPOSITORY:-"$(basename -s .git "$(git config --get remote.origin.url)")"}"
-export TERRAFORM_BUCKET_NAME="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state"  # globally unique name
-export TERRAFORM_LOCK_TABLE="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state-lock"
+# export TERRAFORM_BUCKET_NAME="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state"  # globally unique name
+# export TERRAFORM_LOCK_TABLE="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state-lock"
+
+# needed for terraform management stack
+export TF_VAR_terraform_state_bucket_name="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state"  # globally unique name
+export TF_VAR_terraform_lock_table_name="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state-lock"
+
+# needed only by github-runner stack
+# Github org
+export TF_VAR_github_org="NHSDigital"
+export HOST=$(curl https://token.actions.githubusercontent.com/.well-known/openid-configuration)
+export CERT_URL=$(jq -r '.jwks_uri | split("/")[2]' <<< $HOST)
+export THUMBPRINT=$(echo | openssl s_client -servername "$CERT_URL" -showcerts -connect "$CERT_URL":443 2> /dev/null | tac | sed -n '/-----END CERTIFICATE-----/,/-----BEGIN CERTIFICATE-----/p; /-----BEGIN CERTIFICATE-----/q' | tac | openssl x509 -sha1 -fingerprint -noout | sed 's/://g' | awk -F= '{print tolower($2)}')
+# ------------- Step four create oidc identity provider, github runner role and policies for that role -----------
+export TF_VAR_oidc_provider_url="https://token.actions.githubusercontent.com"
+export TF_VAR_oidc_thumbprint=$THUMBPRINT
+export TF_VAR_oidc_client="sts.amazonaws.com"
 
 # check exports have been done
 EXPORTS_SET=0
@@ -73,15 +88,15 @@ fi
 
 function terraform-initialise {
 
-    echo "Terraform S3 State Bucket Name: ${TERRAFORM_BUCKET_NAME}"
-    echo "Terraform Lock Table Name: ${TERRAFORM_LOCK_TABLE}"
+    echo "Terraform S3 State Bucket Name: ${TF_VAR_terraform_state_bucket_name}"
+    echo "Terraform Lock Table Name: ${TF_VAR_terraform_lock_table_name}"
 
     if [[ "$USE_REMOTE_STATE_STORE" =~ ^(false|no|n|off|0|FALSE|NO|N|OFF) ]]; then
       terraform init
     else
       terraform init \
-          -backend-config="bucket=$TERRAFORM_BUCKET_NAME" \
-          -backend-config="dynamodb_table=$TERRAFORM_LOCK_TABLE" \
+          -backend-config="bucket=$TF_VAR_terraform_state_bucket_name" \
+          -backend-config="dynamodb_table=$TF_VAR_terraform_lock_table_name" \
           -backend-config="encrypt=true" \
           -backend-config="key=$STACK/terraform.state" \
           -backend-config="region=$AWS_REGION"
