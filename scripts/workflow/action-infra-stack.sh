@@ -38,6 +38,7 @@ export TF_VAR_oidc_provider_url="https://token.actions.githubusercontent.com"
 export TF_VAR_oidc_thumbprint=$THUMBPRINT
 export TF_VAR_oidc_client="sts.amazonaws.com"
 
+echo Thumbprint "$TF_VAR_oidc_thumbprint"
 # check exports have been done
 EXPORTS_SET=0
 # Check key variables have been exported - see above
@@ -138,6 +139,7 @@ terraform-initialise
 #
 terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
 #
+echo Pos init
 # plan
 if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
   terraform plan \
