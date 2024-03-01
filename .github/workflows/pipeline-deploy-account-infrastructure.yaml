@@ -21,79 +21,13 @@ jobs:
           environment: dev
           domain: "uec-dos-management"
           workspace: ${{ needs.metadata.outputs.workspace }}
-          stacks: "['network','aurora','github-runner','terraform_management']"
+          stacks: "['github-runner','terraform_management']"
           action: plan
         secrets: inherit
-    # deploy-github-runner-infrastructure-apply:
-    #   name: "Maintain Github Runner and Terraform State Infrastructure"
-    #   needs:
-    #     [
-    #       metadata,
-    #     ]
-    #   uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.3
-    #   with:
-    #     environment: dev
-    #     domain: "uec-dos-management"
-    #     workspace: ${{ needs.metadata.outputs.workspace }}
-    #     stacks: "['github-runner','terraform_management']"
-    #     action: plan
-    #   secrets: inherit
-    # deploy-bootstrap-dos-dev:
-    #   name: Maintain github runner and terraform management for dos dev account
-    #   uses: ./.github/workflows/deploy-bootstrap.yaml
-    #   with:
-    #     ENV: dev
-    #   secrets: inherit
-    # deploy-bootstrap-dos-test:
-    #   name: Maintain github runner and terraform management for dos test account
-    #   uses: ./.github/workflows/deploy-bootstrap.yaml
-    #   with:
-    #     ENV: test
-    #   secrets: inherit
-    # deploy-bootstrap-dos-dev:
-    #   name: "Maintain github runner and terraform management - dos dev account"
-    #   needs:
-    #     [
-    #       metadata,
-    #     ]
-    #   uses: NHSDigital/uec-dos-management/.github/actions/run-bootstrapper@task/DR-5967_Refactor_bootstrapper_workflow
-    #   with:
-    #     action: plan
-    #     environment: dev
-    #   secrets: inherit
-    # deploy-bootstrap-dos-test:
-    #   name: "Maintain github runner and terraform management - dos test account"
-    #   needs:
-    #     [
-    #       metadata,
-    #     ]
-    #   uses: NHSDigital/uec-dos-management/.github/actions/run-bootstrapper@task/DR-5967_Refactor_bootstrapper_workflow
-    #   with:
-    #     action: plan
-    #     environment: test
-    #   secrets: inherit
-      # TODO restore when stack exists
-    # deploy-account-infrastructure-apply:
-    #   name: "Deploy VPN and Aurora Infrastructure"
-    #   needs:
-    #     [
-    #       metadata,
-    #     ]
-    #   uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.3
-    #   with:
-    #     environment: dev
-    #     domain: "uec-dos-management"
-    #     workspace: ${{ needs.metadata.outputs.workspace }}
-    #     stacks: "['network','aurora']"
-    #     action: plan
-    #   secrets: inherit
-
-
     slack-notifications:
       needs: [
         metadata,
         deploy-account-infrastructure-apply,
-        deploy-bootstrap-dos-dev,
       ]
       if: always()
       uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.3
