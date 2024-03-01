@@ -6,6 +6,9 @@ on:
       - main
       - 'task/*'
 
+env:
+  ENVIRONMENT: mgmt
+
 jobs:
   metadata:
     name: "Get Metadata"
@@ -19,7 +22,7 @@ jobs:
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
-      environment: mgmt
+      environment: $ENVIRONMENT
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: "uec-dos-management"
       stacks: "['lambda-stack']"
@@ -35,7 +38,8 @@ jobs:
       ]
     uses: ./.github/workflows/build-and-deploy-application.yaml
     with:
-      services: "['healthcare-services-data-manager']"
+      environment: $ENVIRONMENT
       workspace: ${{ needs.metadata.outputs.workspace }}
+      services: "['healthcare-services-data-manager']"
     secrets: inherit
 

@@ -3,21 +3,25 @@ name: Build and Deploy Application workflow
 on:
   workflow_call:
     inputs:
-      services:
-            description: "A list of the services to build and deploy"
-            required: false
-            default: ""
+      environment:
+            description: "The name of the environment to deploy into"
+            required: true
             type: string
       workspace:
             description: "The name of the workspace to deploy the application into"
             required: true
+            type: string
+      services:
+            description: "A list of the services to build and deploy"
+            required: false
+            default: ""
             type: string
 
 jobs:
   build-application:
     name: "Build Application"
     runs-on: ubuntu-latest
-    environment: dev
+    environment: ${{ inputs.environment }}
     permissions:
       id-token: write
       contents: read
