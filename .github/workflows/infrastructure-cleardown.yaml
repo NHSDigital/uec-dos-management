@@ -79,7 +79,7 @@ jobs:
             minMax,
             derive-workspace
           ]
-        uses: ./.github/workflows/action-infrastructure-stack.yaml
+        uses: ./.github/workflows/deploy-infrastructure.yaml
         with:
           github_environment: ${{ inputs.github_environment }}
           stack: application
@@ -100,4 +100,4 @@ jobs:
             tag: ${{ inputs.tag }}
         - name: "Delete terraform state file"
           id: delete_tf_state
-          uses: NHSDigital/uec-dos-management/.github/actions/cleardown-tf-state
+          uses: NHSDigital/uec-dos-management/scripts/workflows/cleardown-terraform-state.sh
