@@ -20,7 +20,8 @@ jobs:
         with:
           environment: mgmt
           domain: "uec-dos-management"
-          workspace: ${{ needs.metadata.outputs.workspace }}
+          workspace: "default"
+          # workspace: ${{ needs.metadata.outputs.workspace }}
           stacks: "['github-runner','terraform_management']"
           action: plan
         secrets: inherit
