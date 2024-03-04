@@ -29,14 +29,10 @@ jobs:
       contents: read
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: .github/actions/checkout-repository@v0.4
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2.2.0
-        with:
-          role-to-assume: arn:aws:iam::${{ secrets.ACCOUNT_ID }}:role/uec-dos-service-management-github-runner
-          role-session-name: github-pipeline-session
-          aws-region: ${{ vars.AWS_REGION }}
+        uses: .github/actions/configure-credentials@v0.4
 
       - name: Cleardown Terraform State
         run: |

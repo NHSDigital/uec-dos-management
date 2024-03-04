@@ -1,4 +1,4 @@
-name: "Cleardown terraform state"
+name: "Cleardown terraform state action"
 description: "Delete the terraform state"
 
 runs:
