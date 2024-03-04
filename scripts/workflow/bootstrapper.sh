@@ -19,9 +19,6 @@ export TF_VAR_terraform_lock_table_name="nhse-$ENVIRONMENT-$TF_VAR_repo_name-ter
 export WORKSPACE="${WORKSPACE:-"default"}"
 INFRASTRUCTURE_DIR="${INFRASTRUCTURE_DIR:-"infrastructure"}"
 TERRAFORM_DIR="${TERRAFORM_DIR:-"$INFRASTRUCTURE_DIR/stacks"}"
-# functions
-# source ./scripts/project-common.sh
-# source ./scripts/functions/terraform-functions.sh
 
 # Github org
 export TF_VAR_github_org="NHSDigital"
@@ -105,11 +102,7 @@ function terraform-initialise {
           -backend-config="region=$AWS_REGION"
     fi
 }
-# deploy stack
-# TODO cant call a script from here if calling from domain repo unless that script is there too
-# /bin/bash ./scripts/workflow/action-infra-stack.sh
-# can we just run tf here ?
-# insert starts here
+
 # These used by both stacks to be bootstrapped
 ROOT_DIR=$PWD
 COMMON_TF_VARS_FILE="common.tfvars"
@@ -151,11 +144,7 @@ fi
 
 # init terraform
 terraform-initialise
-#
-# we can use the default
-# terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
-#
-# plan
+
 if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
   terraform plan \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
@@ -189,7 +178,7 @@ fi
 
 # back to root
 cd "$ROOT_DIR" || exit
-#  end insert
+
 # having build the stack using a local backend we need to migrate the state held locally to newly build remote
 
 if ! $USE_REMOTE_STATE_STORE  ; then
@@ -266,11 +255,7 @@ fi
 
 # init terraform
 terraform-initialise
-#
-# we can use the default
-# terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
-#
-# plan
+
 if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
   terraform plan \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
