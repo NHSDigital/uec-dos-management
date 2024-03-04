@@ -52,7 +52,7 @@ jobs:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: "uec-dos-management"
-      stacks: "['lambda-stack']"
+      stacks: "['test-stack-1']"
       action: apply
     secrets: inherit
 
@@ -68,11 +68,9 @@ jobs:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: "uec-dos-management"
-      stacks: "['lambda-stack']"
+      stacks: "['test-stack-1']"
       action: destroy
     secrets: inherit
-
-
 
   unit-tests:
     name: Run unit test
@@ -85,18 +83,6 @@ jobs:
     with:
       env: dev
     secrets: inherit
-
-  # build:
-  #   name: Build artefacts
-  #   uses: ./.github/workflows/unit-test.yaml
-
-  # deploy:
-  #   name: Deploy application
-  #   needs:
-  #     [
-  #       build,
-  #     ]
-
 
   slack-notifications:
     needs: [
