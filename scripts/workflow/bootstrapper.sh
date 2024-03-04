@@ -183,7 +183,7 @@ cd "$ROOT_DIR" || exit
 
 if ! $USE_REMOTE_STATE_STORE  ; then
   # check if remote state bucket exists we are okay to migrate state to it
-  if aws s3api head-bucket --bucket "$$TF_VAR_terraform_state_bucket_name" 2>/dev/null; then
+  if aws s3api head-bucket --bucket "$TF_VAR_terraform_state_bucket_name" 2>/dev/null; then
     export USE_REMOTE_STATE_STORE=true
     echo Preparing to migrate stack from local backend to remote backend
     # the directory that holds the stack to terraform
