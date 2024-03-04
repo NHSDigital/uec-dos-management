@@ -14,14 +14,6 @@ on:
         type: string
 
 jobs:
-  echo-workflow-inputs:
-    runs-on: ubuntu-latest
-    steps:
-      - name: echo workflow inputs
-        run: |
-          echo "github environment: ${{ inputs.github_environment }}"
-          echo "branch_name: ${{ inputs.branch_name }}"
-
   minMax:
     name: "Derive TF Version"
     runs-on: ubuntu-latest
