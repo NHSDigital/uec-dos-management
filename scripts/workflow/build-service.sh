@@ -12,7 +12,7 @@ rsync -av --exclude='test/' ./application-utils/* ./application/"${SERVICE}"
 
 cd ./application/"${SERVICE}"
 
-zip -r deployment.zip -x "test" .
+zip -r deployment.zip . -x "test*"
 
 echo "Tidy up temporary files"
 rm -rf ../../application/"${SERVICE}"/common/
