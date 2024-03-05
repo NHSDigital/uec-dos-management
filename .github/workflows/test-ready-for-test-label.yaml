@@ -1,5 +1,10 @@
-name: Test Deploy to test via tag
-
+name: Test Ready for Test Label
+# You have to use your imagination a bit here in that when the PR has a 'Test Ready' label saved to it, a workflow
+# will fire off that will:
+# Generate a tag and tag the code repo
+# Deploy the infrastructure
+# Deploy the application
+# That's pretty much what this test pipeline does
 on:
   push:
     branches:
@@ -34,7 +39,7 @@ jobs:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: "uec-dos-management"
-      stacks: "['test-stack-1']"
+      stacks: "['test-ready-for-test-stack']"
       tag: ${{ needs.tag-repository.outputs.tag }}
       action: apply
     secrets: inherit
