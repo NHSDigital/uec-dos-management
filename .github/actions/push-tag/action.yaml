@@ -1,4 +1,4 @@
-name: "Apply tag action"
+name: "Push tag action"
 description: "Pushes tag to repository."
 
 inputs:
@@ -6,7 +6,7 @@ inputs:
         description: "The tag to push"
         required: true
     tag_overwrite:
-        description: "Yes No flag to configure overwriting (or moving) existing tags"
+        description: "Yes No flag to configure overwriting (or moving) the tag if it exists already"
         required: false
         default: "no"
 runs:

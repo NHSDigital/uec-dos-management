@@ -1,0 +1,43 @@
+name: Tag repository workflow
+
+on:
+  workflow_call:
+    inputs:
+      workspace:
+          description: "The name of the workspace to use when generating the name of the tag"
+          required: true
+          type: string
+      tag_type:
+          description: "The tag type to use when generating the name of the tag; i.e. test, prod, stage"
+          required: true
+          type: string
+      tag_overwrite:
+          description: "Option to specify whether or not to overwrite (move) the tag if it already exists in the repository"
+          required: false
+          default: "no"
+          type: string
+      use_commit_hash:
+          description: "Option to specify whether or not to include the commit hash in the tag name"
+          required: false
+          default: "yes"
+          type: string
+jobs:
+  tag_repository:
+    name: "Tag repository"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5962_Refactor_test_deploy
+      - name: "Generate tag"
+        id: "generate-tag"
+        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag@task/DR-5962_Refactor_test_deploy
+        with:
+          workspace: ${{ inputs.workspace }}
+          tag_type: ${{ inputs.tag_type }}
+          use_commit_hash: ${{ inputs.use_commit_hash }}
+      - name: "Push tag"
+        uses: NHSDigital/uec-dos-management/.github/actions/push-tag@task/DR-5962_Refactor_test_deploy
+        with:
+          tag: ${{ steps.generate-tag.outputs.tag }}
+          tag_overwrite: ${{ inputs.tag_overwrite }}
