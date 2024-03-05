@@ -13,7 +13,7 @@ inputs:
   management-tag:
     description: "Version of the uec-dos-management repo to checkout"
     required: false
-    default: task/DR-5962_Refactor_test_deploy
+    default: task/DR-774_Ready_for_test_flows
   fetch-depth:
     description: "Number of commits to fetch. 0 indicates all history for all branches and tags; default is 1"
     required: false
