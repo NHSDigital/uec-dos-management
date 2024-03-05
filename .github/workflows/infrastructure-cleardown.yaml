@@ -79,7 +79,7 @@ jobs:
           workspace: ${{ inputs.workspace }}
           stacks: ${{ inputs.stacks }}
           domain: ${{ inputs.domain }}
-          action: plan
+          action: destroy
         secrets: inherit
 
     # delete-ft-state:
