@@ -4,13 +4,13 @@
 set -e
 # This script pushes a tag to the repository or moves an existing tag.
 
-# TAG The name of the tag to push to the repository
+# TAG_TO_PUSH The name of the tag to push to the repository
 # TAG_OVERWRITE Option as to whether we are allowed to move the tag if it exists in the repository already
 
 EXPORTS_SET=0
 
-if [ -z "$TAG" ] ; then
-    echo TAG not set
+if [ -z "$TAG_TO_PUSH" ] ; then
+    echo TAG_TO_PUSH not set
     EXPORTS_SET=1
 fi
 
@@ -25,25 +25,25 @@ if [ $EXPORTS_SET = 1 ] ; then
 fi
 
 echo "Push Tag Script invoked with the following parameters: "
-echo "TAG: $TAG"
+echo "TAG_TO_PUSH: $TAG_TO_PUSH"
 echo "TAG_OVERWRITE: $TAG_OVERWRITE"
 
-echo "Checking to see if tag already exists: $TAG"
+echo "Checking to see if tag already exists: $TAG_TO_PUSH"
 git fetch --tags
-if [ -z "$(git tag -l "$TAG")" ]; then
+if [ -z "$(git tag -l "$TAG_TO_PUSH")" ]; then
   echo "Tag does not exist"
 else
   echo "Tag exists"
   if [ "$TAG_OVERWRITE" == "yes" ]; then
-    git push --delete origin "$TAG"
-    git tag -d "$TAG"
+    git push --delete origin "$TAG_TO_PUSH"
+    git tag -d "$TAG_TO_PUSH"
   else
     echo "Exiting with error as we cannot overwrite an existing tag"
     exit 1
   fi
 fi
 
-echo "About to push tag: $TAG"
+echo "About to push tag: $TAG_TO_PUSH"
 
-git tag "$TAG"
-git push origin "$TAG"
+git tag "$TAG_TO_PUSH"
+git push origin "$TAG_TO_PUSH"

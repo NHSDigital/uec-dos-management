@@ -19,7 +19,7 @@ on:
     outputs:
       tag_name:
         description: "The name of the generated tag"
-        value: ${{ jobs.generate_tag.outputs.tag }}
+        value: ${{ jobs.generate_tag.outputs.tag_name }}
 jobs:
   generate_tag_name:
     name: "Generate tag name"
