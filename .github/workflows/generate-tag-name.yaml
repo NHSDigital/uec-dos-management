@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 2
     outputs:
-      tag: ${{ steps.generate-tag-name.outputs.tag_name }}
+      tag_name: ${{ steps.generate-tag-name.outputs.tag_name }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-774_Ready_for_test_flows
