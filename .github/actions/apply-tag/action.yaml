@@ -5,6 +5,10 @@ inputs:
     tag:
         description: "The tag to push"
         required: true
+    tag_overwrite:
+        description: "Yes No flag to configure overwriting (or moving) existing tags"
+        required: false
+        default: "no"
 runs:
   using: "composite"
   steps:
@@ -12,4 +16,5 @@ runs:
       shell: bash
       run: |
         export TAG=${{ inputs.tag }}
+        export TAG_OVERWRITE=${{ inputs.tag_overwrite }}
         . uec-dos-management/scripts/workflow/push-tag.sh

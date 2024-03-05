@@ -30,3 +30,4 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/apply-tag@task/DR-5962_Refactor_test_deploy
         with:
           tag: ${{ steps.generate-tag.outputs.tag }}
+          tag_overwrite: "no"
