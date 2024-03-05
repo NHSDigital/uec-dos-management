@@ -1,0 +1,23 @@
+name: Test Deploy to test via tag
+
+on:
+  push:
+    branches:
+      - main
+      - 'task/*'
+
+jobs:
+  metadata:
+    name: "Get Metadata"
+    uses: ./.github/workflows/metadata.yaml
+  generate-test-ready-tag:
+    name: "Generate test tag"
+    # if: ${{ github.event.label.name == 'Test Ready' }} && startswith(github.head_ref, 'task/')
+    needs:
+      [
+        metadata,
+      ]
+    uses: NHSDigital/uec-dos-management/.github/actions/generate-tag@task/DR-5962_Refactor_test_deploy
+    with:
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      tag_type: test

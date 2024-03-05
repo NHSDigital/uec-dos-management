@@ -1,0 +1,28 @@
+name: "Generate tag action"
+description: "Generates a tag."
+
+inputs:
+    workspace:
+        description: "The workspace that we are generating the tag for"
+        required: true
+        default: ''
+    tag_type:
+        description: "The type of tag; i.e. test, stage, prod"
+        required: true
+
+outputs:
+    tag:
+        description: "The generated tag"
+        value: ${{ steps.derive-tag.outputs.tag }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Derive tag
+      id: derive-tag
+      run: |
+        export WORKSPACE=${{ inputs.workspace }}
+        export TAG_TYPE=${{ inputs.tag_type }}
+        . uec-dos-management/scripts/workflow/tag-code.sh
+        echo "Tag": ${TAG}"
+        echo "tag=${TAG}" >> $GITHUB_OUTPUT
