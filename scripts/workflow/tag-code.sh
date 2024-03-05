@@ -26,7 +26,7 @@ if [ $EXPORTS_SET = 1 ] ; then
 fi
 
 COMMIT_HASH_SHORT="$(git rev-parse --short HEAD)"
-TAG="$TERRAFORM_WORKSPACE_NAME-$COMMIT_HASH_SHORT-$TAG_TYPE"
+TAG="$WORKSPACE-$COMMIT_HASH_SHORT-$TAG_TYPE"
 
 echo "Generated tag: $TAG"
 
