@@ -1,0 +1,22 @@
+name: Generate tag workflow
+
+on:
+  workflow_call:
+    inputs:
+      workspace:
+          description: "The name of the workspace to use to generate the tag"
+          required: true
+          type: string
+      tag_type:
+          description: "The tag type to use to generate the tag; i.e. test, prod, stage"
+          required: true
+          type: string
+
+jobs:
+  generate-tag:
+    name: "Generate tag"
+    uses: NHSDigital/uec-dos-management/.github/actions/generate-tag@task/DR-5962_Refactor_test_deploy
+    with:
+      workspace: ${{ inputs.workspace }}
+      tag_type: ${{ inputs.tag_type }}
+

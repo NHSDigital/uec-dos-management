@@ -17,7 +17,7 @@ jobs:
       [
         metadata,
       ]
-    uses: NHSDigital/uec-dos-management/.github/actions/generate-tag@task/DR-5962_Refactor_test_deploy
+    uses: ./.github/workflows/generate-tag.yaml
     with:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: test
