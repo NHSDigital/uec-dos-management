@@ -4,19 +4,19 @@ on:
   workflow_call:
     inputs:
       tag_to_push:
-          description: "The tag to push to the code repository"
-          required: true
-          type: string
+        description: "The tag to push to the code repository"
+        required: true
+        type: string
       tag_overwrite:
-          description: "Option to specify whether or not to overwrite (move) the tag if it already exists in the repository"
-          required: false
-          default: "no"
-          type: string
+        description: "Option to specify whether or not to overwrite (move) the tag if it already exists in the repository"
+        required: false
+        default: "no"
+        type: string
       repository_tag:
-          description: "The tagged position in the repository (existing tag) in which to apply (or add) the new tag"
-          required: false
-          default: ""
-          type: string
+        description: "The tagged position in the repository (existing tag) in which to apply (or add) the new tag"
+        required: false
+        default: ""
+        type: string
 jobs:
   tag_repository:
     name: "Tag repository"

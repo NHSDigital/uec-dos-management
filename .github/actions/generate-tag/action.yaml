@@ -2,22 +2,22 @@ name: "Generate tag action"
 description: "Generates a tag."
 
 inputs:
-    workspace:
-        description: "The workspace that we are generating the tag for"
-        required: true
-        default: ''
-    tag_type:
-        description: "The type of tag; i.e. test, stage, prod"
-        required: true
-    use_commit_hash:
-      description: "Option to configure the tag to use a commit hash"
-      required: false
-      default: "yes"
+  workspace:
+    description: "The workspace that we are generating the tag for"
+    required: true
+    default: ''
+  tag_type:
+    description: "The type of tag; i.e. test, stage, prod"
+    required: true
+  use_commit_hash:
+    description: "Option to configure the tag to use a commit hash"
+    required: false
+    default: "yes"
 
 outputs:
-    tag:
-        description: "The generated tag"
-        value: ${{ steps.derive-tag.outputs.tag }}
+  tag:
+    description: "The generated tag"
+    value: ${{ steps.derive-tag.outputs.tag }}
 
 runs:
   using: "composite"
