@@ -18,6 +18,5 @@ jobs:
         metadata,
       ]
     uses: ./.github/workflows/generate-tag.yaml
-    # with:
-    #   workspace: ${{ needs.metadata.outputs.workspace }}
-    #   tag_type: test
+    workspace: ${{ inputs.workspace }}
+      tag_type: ${{ inputs.tag_type }}
