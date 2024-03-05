@@ -17,4 +17,4 @@ runs:
       run: |
         export TERRAFORM_WORKSPACE_NAME=${{inputs.workspace}}
         export ENVIRONMENT=${{inputs.environment}}
-        /.github/scripts/workflow/cleardown-terraform-state.sh
+        ./uec-dos-management/scripts/workflow/cleardown-terraform-state.sh
