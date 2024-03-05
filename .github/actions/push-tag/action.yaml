@@ -2,7 +2,7 @@ name: "Push tag action"
 description: "Pushes tag to repository."
 
 inputs:
-    tag:
+    tag_to_push:
         description: "The tag to push"
         required: true
     tag_overwrite:
@@ -15,6 +15,6 @@ runs:
     - name: Push tag
       shell: bash
       run: |
-        export TAG=${{ inputs.tag }}
+        export TAG=${{ inputs.tag_to_push }}
         export TAG_OVERWRITE=${{ inputs.tag_overwrite }}
         . uec-dos-management/scripts/workflow/push-tag.sh

@@ -1,7 +1,8 @@
 name: Test Ready for Test Label
 # You have to use your imagination a bit here in that when the PR has a 'Test Ready' label saved to it, a workflow
 # will fire off that will:
-# Generate a tag and tag the code repo
+# Generate a tag
+# Tag the code repo
 # Deploy the infrastructure
 # Deploy the application
 # That's pretty much what this test pipeline does
@@ -15,23 +16,35 @@ jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
+  generate-tag:
+    name: "Generate Tag"
+    needs:
+      [
+        metadata,
+      ]
+    uses: ./.github/workflows/generate-tag.yaml
+    with:
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      tag_type: test
+      use_commit_hash: "yes"
   tag-repository:
     name: "Tag Repository"
     needs:
       [
         metadata,
+        generate-tag,
       ]
     uses: ./.github/workflows/tag-repository.yaml
     with:
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      tag_type: test
-      use_commit_hash: "yes"
+      tag_to_push: ${{ needs.generate-tag.outputs.tag }}
       tag_overwrite: "yes"
+      repository_tag: ""
   deploy-infrastructure:
     name: "Deploy Infrastructure"
     needs:
       [
         metadata,
+        generate-tag,
         tag-repository,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
@@ -48,6 +61,7 @@ jobs:
     needs:
       [
         metadata,
+        generate-tag,
         tag-repository,
         deploy-infrastructure
       ]

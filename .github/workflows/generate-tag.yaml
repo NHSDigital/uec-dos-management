@@ -1,0 +1,39 @@
+name: Generate tag workflow
+
+on:
+  workflow_call:
+    inputs:
+      workspace:
+          description: "The name of the workspace to use when generating the name of the tag"
+          required: true
+          type: string
+      tag_type:
+          description: "The tag type to use when generating the name of the tag; i.e. test, prod, stage"
+          required: true
+          type: string
+      use_commit_hash:
+          description: "Option to specify whether or not to include the commit hash in the tag name"
+          required: false
+          default: "yes"
+          type: string
+    outputs:
+      tag:
+          description: "The name of the generated tag"
+          value: ${{ jobs.generate_tag.outputs.tag }}
+jobs:
+  generate_tag:
+    name: "Generate tag"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    outputs:
+      tag: ${{ steps.generate-tag.outputs.tag }}
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-774_Ready_for_test_flows
+      - name: "Generate tag"
+        id: "generate-tag"
+        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag@task/DR-774_Ready_for_test_flows
+        with:
+          workspace: ${{ inputs.workspace }}
+          tag_type: ${{ inputs.tag_type }}
+          use_commit_hash: ${{ inputs.use_commit_hash }}

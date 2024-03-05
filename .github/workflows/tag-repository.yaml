@@ -3,12 +3,8 @@ name: Tag repository workflow
 on:
   workflow_call:
     inputs:
-      workspace:
-          description: "The name of the workspace to use when generating the name of the tag"
-          required: true
-          type: string
-      tag_type:
-          description: "The tag type to use when generating the name of the tag; i.e. test, prod, stage"
+      tag_to_push:
+          description: "The tag to push to the code repository"
           required: true
           type: string
       tag_overwrite:
@@ -16,34 +12,23 @@ on:
           required: false
           default: "no"
           type: string
-      use_commit_hash:
-          description: "Option to specify whether or not to include the commit hash in the tag name"
+      repository_tag:
+          description: "The tagged position in the repository (existing tag) in which to apply (or add) the new tag"
           required: false
-          default: "yes"
+          default: ""
           type: string
-    outputs:
-      tag:
-          description: "The name of the generated tag"
-          value: ${{ jobs.tag_repository.outputs.tag }}
 jobs:
   tag_repository:
     name: "Tag repository"
     runs-on: ubuntu-latest
     timeout-minutes: 2
-    outputs:
-      tag: ${{ steps.generate-tag.outputs.tag }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-774_Ready_for_test_flows
-      - name: "Generate tag"
-        id: "generate-tag"
-        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag@task/DR-774_Ready_for_test_flows
         with:
-          workspace: ${{ inputs.workspace }}
-          tag_type: ${{ inputs.tag_type }}
-          use_commit_hash: ${{ inputs.use_commit_hash }}
+          tag: ${{ inputs.repository_tag }}
       - name: "Push tag"
         uses: NHSDigital/uec-dos-management/.github/actions/push-tag@task/DR-774_Ready_for_test_flows
         with:
-          tag: ${{ steps.generate-tag.outputs.tag }}
+          tag_to_push: ${{ inputs.tag_to_push }}
           tag_overwrite: ${{ inputs.tag_overwrite }}
