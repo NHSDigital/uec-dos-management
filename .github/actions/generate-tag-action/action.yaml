@@ -20,6 +20,7 @@ runs:
   steps:
     - name: Derive tag
       id: derive-tag
+      shell: bash
       run: |
         export WORKSPACE=${{ inputs.workspace }}
         export TAG_TYPE=${{ inputs.tag_type }}
