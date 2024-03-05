@@ -24,11 +24,10 @@ on:
     outputs:
       tag:
           description: "The name of the generated tag"
-          value: ${{ jobs.tag-repository.outputs.tag }}
+          value: ${{ jobs.tag_repository.outputs.tag }}
 jobs:
   tag_repository:
     name: "Tag repository"
-    id: "tag-repository"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     outputs:
