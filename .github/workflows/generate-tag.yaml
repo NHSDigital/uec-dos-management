@@ -19,7 +19,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Generate tag"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.6
+        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag-action@task/DR-5962_Refactor_test_deploy
         with:
           workspace: ${{ inputs.workspace }}
           tag_type: ${{ inputs.tag_type }}
