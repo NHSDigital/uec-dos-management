@@ -1,4 +1,4 @@
-name: Generate tag workflow
+name: Generate tag name workflow
 
 on:
   workflow_call:
@@ -17,22 +17,22 @@ on:
         default: "yes"
         type: string
     outputs:
-      tag:
+      tag_name:
         description: "The name of the generated tag"
         value: ${{ jobs.generate_tag.outputs.tag }}
 jobs:
-  generate_tag:
-    name: "Generate tag"
+  generate_tag_name:
+    name: "Generate tag name"
     runs-on: ubuntu-latest
     timeout-minutes: 2
     outputs:
-      tag: ${{ steps.generate-tag.outputs.tag }}
+      tag: ${{ steps.generate-tag-name.outputs.tag_name }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-774_Ready_for_test_flows
-      - name: "Generate tag"
-        id: "generate-tag"
-        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag@task/DR-774_Ready_for_test_flows
+      - name: "Generate tag name"
+        id: "generate-tag-name"
+        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag-name@task/DR-774_Ready_for_test_flows
         with:
           workspace: ${{ inputs.workspace }}
           tag_type: ${{ inputs.tag_type }}

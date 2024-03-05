@@ -16,13 +16,13 @@ jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
-  generate-tag:
-    name: "Generate Tag"
+  generate-tag-name:
+    name: "Generate Tag Name"
     needs:
       [
         metadata,
       ]
-    uses: ./.github/workflows/generate-tag.yaml
+    uses: ./.github/workflows/generate-tag-name.yaml
     with:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: test
@@ -32,11 +32,11 @@ jobs:
     needs:
       [
         metadata,
-        generate-tag,
+        generate-tag-name,
       ]
     uses: ./.github/workflows/tag-repository.yaml
     with:
-      tag_to_push: ${{ needs.generate-tag.outputs.tag }}
+      tag_to_push: ${{ needs.generate-tag-name.outputs.tag_name }}
       tag_overwrite: "yes"
       repository_tag: ""
   deploy-infrastructure:

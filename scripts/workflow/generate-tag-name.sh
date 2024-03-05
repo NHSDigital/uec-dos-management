@@ -2,7 +2,7 @@
 
 # fail on first error
 set -e
-# This script generates a git tag
+# This script generates a git tag name
 # The format for the tag is $WORKSPACE-$COMMIT_HASH_SHORT-$TAG_TYPE or $WORKSPACE-$TAG_TYPE (see below)
 # Where
 # WORKSPACE is the workspace that we are generating the tag for. This really equates to the Jira task number
@@ -31,20 +31,20 @@ if [ $EXPORTS_SET = 1 ] ; then
   exit 1
 fi
 
-echo "Generate Tag Script invoked with the following parameters: "
+echo "Generate Tag Name Script invoked with the following parameters: "
 echo "WORKSPACE: $WORKSPACE"
 echo "TAG_TYPE: $TAG_TYPE"
 echo "USE_COMMIT_HASH: $USE_COMMIT_HASH"
 
 if [ "$USE_COMMIT_HASH" == "yes" ]; then
   COMMIT_HASH_SHORT="$(git rev-parse --short HEAD)"
-  TAG="$WORKSPACE-$COMMIT_HASH_SHORT-$TAG_TYPE"
+  TAG_NAME="$WORKSPACE-$COMMIT_HASH_SHORT-$TAG_TYPE"
 else
-  TAG="$WORKSPACE-$TAG_TYPE"
+  TAG_NAME="$WORKSPACE-$TAG_TYPE"
 fi
 
-echo "Generated tag: $TAG"
+echo "Generated tag: $TAG_NAME"
 
-export TAG
+export TAG_NAME
 
 
