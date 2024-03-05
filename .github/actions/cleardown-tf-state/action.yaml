@@ -15,7 +15,6 @@ runs:
       id: delete_tf_state
       shell: bash
       run: |
-#       export FORMAT=default
         export TERRAFORM_WORKSPACE_NAME=${{inputs.workspace}}
         export ENVIRONMENT=${{inputs.environment}}
         /.github/scripts/workflow/cleardown-terraform-state.sh
