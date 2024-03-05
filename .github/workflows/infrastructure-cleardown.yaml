@@ -3,93 +3,95 @@ name: Cleardown Infrastructure
 on:
   workflow_call:
     inputs:
-      github_environment:
+      environment:
         description: "Defines the Github environment in which to pull environment variables from"
         required: true
         type: string
-      branch_name:
-        description: "Name of the branch used to derive tf version and workspace"
+      workspace:
+        description: "Name of the workspace"
         required: true
-        default: 'not-set'
+        type: string
+      domain:
+          description: "Name of the domain"
+          required: true
+          type: string
+      stacks:
+        description: "Name of the stacks"
+        required: true
         type: string
 
 jobs:
-  minMax:
-    name: "Derive TF Version"
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
+#   minMax:
+#     name: "Derive TF Version"
+#     runs-on: ubuntu-latest
+#     timeout-minutes: 2
 
-    outputs:
-      reponame: ${{ steps.get_metadata.outputs.reponame }}
+#     outputs:
+#       reponame: ${{ steps.get_metadata.outputs.reponame }}
 
-    steps:
-      - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
-        with:
-          tag: ${{ inputs.tag }}
-      - name: "Get TF Version"
-        id: minMax
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@v0.3
+#     steps:
+#       - name: "Checkout code"
+#         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
+#         with:
+#           tag: ${{ inputs.tag }}
+#       - name: "Get TF Version"
+#         id: minMax
+#         uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@v0.3
 
-  derive-workspace:
-    name: "Derive Workspace"
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
+  # derive-workspace:
+  #   name: "Derive Workspace"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 2
 
-    outputs:
-      workspace: ${{ steps.derive_workspace.outputs.workspace }}
+  #   outputs:
+  #     workspace: ${{ steps.derive_workspace.outputs.workspace }}
 
-    steps:
-      - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
-        with:
-          tag: ${{ inputs.tag }}
-      - name: "Derive workspace"
-        id: derive_workspace
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@v0.3
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
+  #       with:
+  #         tag: ${{ inputs.tag }}
+  #     - name: "Derive workspace"
+  #       id: derive_workspace
+  #       uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@v0.3
 
-  echo-metadata:
-    name: "Get Metadata"
-    runs-on: ubuntu-latest
-    timeout-minutes: 2
+  # echo-metadata:
+  #   name: "Get Metadata"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 2
 
-    outputs:
-      reponame: ${{ steps.get_metadata.outputs.reponame }}
+  #   outputs:
+  #     reponame: ${{ steps.get_metadata.outputs.reponame }}
 
-    steps:
-      - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
-        with:
-          tag: ${{ inputs.tag }}
-      - name: "Get metadata"
-        id: get_metadata
-        uses: NHSDigital/uec-dos-management/.github/actions/metadata@v0.3
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
+  #       with:
+  #         tag: ${{ inputs.tag }}
+  #     - name: "Get metadata"
+  #       id: get_metadata
+  #       uses: NHSDigital/uec-dos-management/.github/actions/metadata@v0.3
 
   destroy-application-infrastructure:
-        needs:
-          [
-            minMax,
-            derive-workspace
-          ]
         uses: ./.github/workflows/deploy-infrastructure.yaml
         with:
-          github_environment: ${{ inputs.github_environment }}
-          stack: application
-          action: destroy
-          deployment_workspace: ${{needs.derive-workspace.outputs.workspace}}
-          tf_vers: ${{needs.derive-tf-versions.outputs.maxVersion}}
+          environment: ${{ inputs.environment }}
+          workspace: ${{ inputs.workspace }}
+          stacks: ${{ inputs.stacks }}
+          domain: ${{ inputs.domain }}
+          action: plan
         secrets: inherit
 
-    delete-ft-state:
-      name: "Delete terraform state file"
-      runs-on: ubuntu-latest
-      timeout-minutes: 2
+    # delete-ft-state:
+    #   name: "Delete terraform state file"
+    #   runs-on: ubuntu-latest
+    #   timeout-minutes: 2
 
-      steps:
-        - name: "Checkout code"
-          uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
-          with:
-            tag: ${{ inputs.tag }}
-        - name: "Delete terraform state file"
-          id: delete_tf_state
-          uses: NHSDigital/uec-dos-management/scripts/workflows/cleardown-terraform-state.sh
+    #   steps:
+    #     - name: "Checkout code"
+    #       uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
+    #       with:
+    #         tag: ${{ inputs.tag }}
+    #     - name: "Delete terraform state file"
+    #       id: delete_tf_state
+    #       uses: NHSDigital/uec-dos-management/scripts/workflows/cleardown-terraform-state.sh
