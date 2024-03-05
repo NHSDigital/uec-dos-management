@@ -14,7 +14,7 @@ on:
 
 jobs:
   generate-tag:
-    name: "Generate tag"
+    name: "Generate tags"
     uses: NHSDigital/uec-dos-management/.github/actions/generate-tag@task/DR-5962_Refactor_test_deploy
     with:
       workspace: ${{ inputs.workspace }}
