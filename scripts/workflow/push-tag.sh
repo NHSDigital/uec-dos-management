@@ -31,7 +31,8 @@ if [ -z "$(git tag -l "$TAG")" ]; then
 else
   echo "Tag exists"
   if [ "$TAG_OVERWRITE" == "yes" ]; then
-    git push --delete origin $TAG
+    git push --delete origin "$TAG"
+    git tag -d "$TAG"
   else
     echo "Exiting with error as we cannot overwrite an existing tag"
     exit 1
@@ -41,4 +42,4 @@ fi
 echo "About to push tag: $TAG"
 
 git tag "$TAG"
-git push --tags
+git push origin "$TAG"
