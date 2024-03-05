@@ -21,7 +21,7 @@ on:
         type: string
       tag:
         description: "Name of the tag"
-        required: true
+        required: false
         type: string
 
 jobs:
