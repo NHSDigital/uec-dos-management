@@ -25,6 +25,7 @@ if [ $EXPORTS_SET = 1 ] ; then
 fi
 
 echo "Checking to see if tag already exists: $TAG"
+git fetch --tags
 if [ -z "$(git tag -l "$TAG")" ]; then
   echo "Tag does not exist"
 else
