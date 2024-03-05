@@ -2,10 +2,10 @@
 
 # fail on first error
 set -e
-# This script pushes a git tag
+# This script pushes a tag to the repository or moves an existing tag.
 
-# WORKSPACE is the workspace that we are generating the tag for. This really equates to the Jira task number
-# TAG The tag to push
+# TAG The name of the tag to push to the repository
+# TAG_OVERWRITE Option as to whether we are allowed to move the tag if it exists in the repository already
 
 EXPORTS_SET=0
 
@@ -23,6 +23,10 @@ if [ $EXPORTS_SET = 1 ] ; then
   echo One or more parameters not set
   exit 1
 fi
+
+echo "Push Tag Script invoked with the following parameters: "
+echo "TAG: $TAG"
+echo "TAG_OVERWRITE: $TAG_OVERWRITE"
 
 echo "Checking to see if tag already exists: $TAG"
 git fetch --tags

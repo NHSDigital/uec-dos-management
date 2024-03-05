@@ -12,7 +12,6 @@ jobs:
     uses: ./.github/workflows/metadata.yaml
   tag-repository:
     name: "Tag Repository"
-    # if: ${{ github.event.label.name == 'Test Ready' }} && startswith(github.head_ref, 'task/')
     needs:
       [
         metadata,
@@ -21,5 +20,36 @@ jobs:
     with:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: test
-      use_commit_hash: "no"
+      use_commit_hash: "yes"
       tag_overwrite: "yes"
+  deploy-infrastructure:
+    name: "Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+        tag-repository,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['test-stack-1']"
+      tag: ${{ needs.tag-repository.outputs.tag }}
+      action: apply
+    secrets: inherit
+  build-and-deploy-application:
+    name: Build and deploy application
+    needs:
+      [
+        metadata,
+        tag-repository,
+        deploy-infrastructure
+      ]
+    uses: ./.github/workflows/build-and-deploy-application.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      services: "['healthcare-services-data-manager']"
+      tag: ${{ needs.tag-repository.outputs.tag }}
+    secrets: inherit

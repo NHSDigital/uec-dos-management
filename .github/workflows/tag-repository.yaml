@@ -21,11 +21,18 @@ on:
           required: false
           default: "yes"
           type: string
+    outputs:
+      tag:
+          description: "The name of the generated tag"
+          value: ${{ jobs.tag-repository.outputs.tag }}
 jobs:
   tag_repository:
     name: "Tag repository"
+    id: "tag-repository"
     runs-on: ubuntu-latest
     timeout-minutes: 2
+    outputs:
+      tag: ${{ steps.generate-tag.outputs.tag }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5962_Refactor_test_deploy

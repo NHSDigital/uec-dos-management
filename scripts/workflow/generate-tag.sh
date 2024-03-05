@@ -31,6 +31,11 @@ if [ $EXPORTS_SET = 1 ] ; then
   exit 1
 fi
 
+echo "Generate Tag Script invoked with the following parameters: "
+echo "WORKSPACE: $WORKSPACE"
+echo "TAG_TYPE: $TAG_TYPE"
+echo "USE_COMMIT_HASH: $USE_COMMIT_HASH"
+
 if [ "$USE_COMMIT_HASH" == "yes" ]; then
   COMMIT_HASH_SHORT="$(git rev-parse --short HEAD)"
   TAG="$WORKSPACE-$COMMIT_HASH_SHORT-$TAG_TYPE"
