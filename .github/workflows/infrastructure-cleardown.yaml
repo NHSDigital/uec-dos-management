@@ -47,7 +47,7 @@ jobs:
     needs: [destroy-application-infrastructure]
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.3
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-596_Pipeline_infra_cleardown
         with:
           tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
