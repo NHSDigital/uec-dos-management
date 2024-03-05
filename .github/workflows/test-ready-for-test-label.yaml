@@ -44,7 +44,7 @@ jobs:
     needs:
       [
         metadata,
-        generate-tag,
+        generate-tag-name,
         tag-repository,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
@@ -61,7 +61,7 @@ jobs:
     needs:
       [
         metadata,
-        generate-tag,
+        generate-tag-name,
         tag-repository,
         deploy-infrastructure
       ]
