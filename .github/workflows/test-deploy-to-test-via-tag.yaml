@@ -10,8 +10,8 @@ jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
-  generate-test-ready-tag:
-    name: "Generate test tag"
+  tag-repository:
+    name: "Tag Repository"
     # if: ${{ github.event.label.name == 'Test Ready' }} && startswith(github.head_ref, 'task/')
     needs:
       [
@@ -21,3 +21,5 @@ jobs:
     with:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: test
+      use_commit_hash: "no"
+      tag_overwrite: "yes"
