@@ -25,16 +25,16 @@ if [ $EXPORTS_SET = 1 ] ; then
 fi
 
 echo "Checking to see if tag already exists: $TAG"
-if [ $(git tag -l "$TAG") ]; then
-    echo "Tag exists"
-    if [ "$TAG_OVERWRITE" == "yes" ]; then
-      git push --delete origin $TAG
-    else
-      echo "Exiting with error as we cannot overwrite an existing tag"
-      exit 1
-    fi
+if [ -z "$(git tag -l "$TAG")" ]; then
+  echo "Tag does not exist"
 else
-    echo "Tag does not exist"
+  echo "Tag exists"
+  if [ "$TAG_OVERWRITE" == "yes" ]; then
+    git push --delete origin $TAG
+  else
+    echo "Exiting with error as we cannot overwrite an existing tag"
+    exit 1
+  fi
 fi
 
 echo "About to push tag: $TAG"
