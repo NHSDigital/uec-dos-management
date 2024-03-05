@@ -1,0 +1,15 @@
+name: "Apply tag action"
+description: "Pushes tag to repository."
+
+inputs:
+    tag:
+        description: "The tag to push"
+        required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Push tag
+      shell: bash
+      run: |
+        export TAG=${{ inputs.tag }}
+        . uec-dos-management/scripts/workflow/push-tag.sh

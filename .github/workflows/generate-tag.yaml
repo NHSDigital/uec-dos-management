@@ -21,7 +21,12 @@ jobs:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-5962_Refactor_test_deploy
       - name: "Generate tag"
-        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag-action@task/DR-5962_Refactor_test_deploy
+        id: "generate-tag"
+        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag@task/DR-5962_Refactor_test_deploy
         with:
           workspace: ${{ inputs.workspace }}
           tag_type: ${{ inputs.tag_type }}
+      - name: "Apply tag"
+        uses: NHSDigital/uec-dos-management/.github/actions/apply-tag@task/DR-5962_Refactor_test_deploy
+        with:
+          tag: ${{ steps.generate-tag.outputs.tag }}
