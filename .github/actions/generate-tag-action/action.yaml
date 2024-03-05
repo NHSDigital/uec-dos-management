@@ -25,5 +25,5 @@ runs:
         export WORKSPACE=${{ inputs.workspace }}
         export TAG_TYPE=${{ inputs.tag_type }}
         . uec-dos-management/scripts/workflow/tag-code.sh
-        echo "Tag": ${TAG}"
+        echo "Tag: ${TAG}"
         echo "tag=${TAG}" >> $GITHUB_OUTPUT
