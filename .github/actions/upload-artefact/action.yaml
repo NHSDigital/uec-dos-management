@@ -19,8 +19,7 @@ runs:
     - name: Upload artefact
       uses: actions/upload-artifact@v4
       with:
-        with:
-          name: ${{ inputs.name }}
-          path: ${{ inputs.path }}
-          retention-days: ${{ inputs.allure_report_retention }}
+        name: ${{ inputs.name }}
+        path: ${{ inputs.path }}
+        retention-days: ${{ inputs.allure_report_retention }}
 
