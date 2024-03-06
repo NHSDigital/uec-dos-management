@@ -4,7 +4,7 @@ description: "Install Allure command-line tool"
 runs:
   using: "composite"
   steps:
-    - name: Run static analysis
+    - name: Get allure package
       id: run-allure
       shell: bash
       run: |
