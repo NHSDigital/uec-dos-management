@@ -49,7 +49,7 @@ jobs:
       - name: Install Allure command-line tool
         id: install-allure
         continue-on-error: true
-        uses: NHSDigital/uec-dos-management/.github/actions/install-allures@task/DR-771_Int_test_flow
+        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@task/DR-771_Int_test_flow
       # - name: Run integration test script
       #   id: integration-test-run
       #   run: |
@@ -57,7 +57,7 @@ jobs:
       #     /bin/bash ./uec-dos-management/scripts/workflow/integration-tests.sh
       - name: Upload allure report
         id: upload_allure_report
-        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefacts@task/DR-771_Int_test_flow
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@task/DR-771_Int_test_flow
         with:
           name: allure-report
           path: tests/integration/allure-reports/index.html
