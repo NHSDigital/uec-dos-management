@@ -16,6 +16,11 @@ on:
             required: false
             default: ""
             type: string
+      tag:
+            description: "The tag to build and deploy from"
+            required: false
+            default: ""
+            type: string
 
 jobs:
   build-application:
@@ -31,21 +36,23 @@ jobs:
         service: ${{ fromJSON(inputs.services) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.6
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.7
+        with:
+          tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.6
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.7
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Build service"
-        uses: NHSDigital/uec-dos-management/.github/actions/build-service@v0.6
+        uses: NHSDigital/uec-dos-management/.github/actions/build-service@v0.7
         with:
           service: ${{ matrix.service }}
 
       - name: "Deploy service"
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.6
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.7
         with:
           service: ${{ matrix.service }}
           workspace: ${{ inputs.workspace }}

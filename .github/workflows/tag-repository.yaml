@@ -1,0 +1,34 @@
+name: Tag repository workflow
+
+on:
+  workflow_call:
+    inputs:
+      tag_to_push:
+        description: "The tag to push to the code repository"
+        required: true
+        type: string
+      tag_overwrite:
+        description: "Option to specify whether or not to overwrite (move) the tag if it already exists in the repository"
+        required: false
+        default: "no"
+        type: string
+      repository_tag:
+        description: "The tagged position in the repository (existing tag) in which to apply (or add) the new tag"
+        required: false
+        default: ""
+        type: string
+jobs:
+  tag_repository:
+    name: "Tag repository"
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.7
+        with:
+          tag: ${{ inputs.repository_tag }}
+      - name: "Push tag"
+        uses: NHSDigital/uec-dos-management/.github/actions/push-tag@v0.7
+        with:
+          tag_to_push: ${{ inputs.tag_to_push }}
+          tag_overwrite: ${{ inputs.tag_overwrite }}
