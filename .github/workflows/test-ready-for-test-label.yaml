@@ -72,3 +72,22 @@ jobs:
       services: "['healthcare-services-data-manager']"
       tag: ${{ needs.tag-repository.outputs.tag }}
     secrets: inherit
+  cleardown-infrastructure:
+    name: "Cleardown Infrastructure"
+    needs:
+      [
+        metadata,
+        generate-tag-name,
+        tag-repository,
+        deploy-infrastructure,
+        build-and-deploy-application,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['test-ready-for-test-stack']"
+      tag: ${{ needs.tag-repository.outputs.tag }}
+      action: destroy
+    secrets: inherit
