@@ -13,15 +13,7 @@ inputs:
   management-tag:
     description: "Version of the uec-dos-management repo to checkout"
     required: false
-<<<<<<< HEAD
-<<<<<<< HEAD
-    default: v0.7
-=======
-    default: task/DR-596_Pipeline_infra_cleardown
->>>>>>> 1b33fea (DR-596 Infra cleardown test)
-=======
     default: task/DR-2596_Pipeline_infra_cleardown
->>>>>>> 17c11f9 (DR-2596 Infra cleardown test)
   fetch-depth:
     description: "Number of commits to fetch. 0 indicates all history for all branches and tags; default is 1"
     required: false
