@@ -32,9 +32,9 @@ fi
 echo "Installing requirements"
 pip install -r "$APPLICATION_TEST_DIR"/requirements.txt
 
-echo "Running integration tests"
+echo "Running integration tests under $APPLICATION_TEST_DIR for workspace $WORKSPACE"
 cd "$APPLICATION_TEST_DIR" || exit
-behave --tags=pipeline_tests -D workspace="$WORKSPACE" --format=allure -o allure-results;
+behave --tags=pipeline_tests -D workspace=$WORKSPACE --format=allure -o allure-results;
 
 echo "Generating allure report"
 allure generate --single-file -c -o  allure-reports;
