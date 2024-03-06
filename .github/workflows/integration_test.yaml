@@ -60,3 +60,24 @@ jobs:
           name: allure-report
           path: tests/integration/allure-reports/index.html
           retention-days: ${{ inputs.allure_report_retention }}
+          # name: allure-report
+          # path: tests/integration/allure-reports/index.html
+          # retention-days: ${{ inputs.allure_report_retention }}
+
+
+      # - name: Install Allure command-line tool
+      #   id: install-allure
+      #   continue-on-error: true
+      #   uses: NHSDigital/uec-dos-management/.github/actions/install-allure@task/DR-771_Int_test_flow
+      # - name: Run integration test
+      #   id: run-int-test
+      #   uses: NHSDigital/uec-dos-management/.github/actions/integration-test@task/DR-771_Int_test_flow
+      #   with:
+      #     workspace:  ${{ inputs.workspace }}
+      # - name: Upload allure report
+      #   id: upload_allure_report
+      #   uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@task/DR-771_Int_test_flow
+      #   with:
+      #     name: allure-report
+      #     path: tests/integration/allure-reports/index.html
+      #     retention-days: ${{ inputs.allure_report_retention }}
