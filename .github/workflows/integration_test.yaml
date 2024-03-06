@@ -12,11 +12,6 @@ on:
         description: "The name of the workspace to deploy the application into"
         required: true
         type: string
-      services:
-        description: "A list of the services to build and deploy"
-        required: false
-        default: ""
-        type: string
       tag:
         description: "The tag to build and deploy from"
         required: false
@@ -41,6 +36,8 @@ jobs:
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.7
+        with:
+          tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
         uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.7
         with:
@@ -50,11 +47,11 @@ jobs:
         id: install-allure
         continue-on-error: true
         uses: NHSDigital/uec-dos-management/.github/actions/install-allure@task/DR-771_Int_test_flow
-      # - name: Run integration test script
-      #   id: integration-test-run
-      #   run: |
-      #     export DEPLOYMENT_WORKSPACE=${{ inputs.deployment_workspace }}
-      #     /bin/bash ./uec-dos-management/scripts/workflow/integration-tests.sh
+      - name: Run integration test
+        id: run-int-test
+        uses: NHSDigital/uec-dos-management/.github/actions/integration-test@task/DR-771_Int_test_flow
+        with:
+          workspace:  ${{ inputs.workspace }}
       - name: Upload allure report
         id: upload_allure_report
         uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@task/DR-771_Int_test_flow
