@@ -24,11 +24,11 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.7
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-774_Bug_fixes_refactor
         with:
           tag: ${{ inputs.repository_tag }}
       - name: "Push tag"
-        uses: NHSDigital/uec-dos-management/.github/actions/push-tag@v0.7
+        uses: NHSDigital/uec-dos-management/.github/actions/push-tag@task/DR-774_Bug_fixes_refactor
         with:
           tag_to_push: ${{ inputs.tag_to_push }}
           tag_overwrite: ${{ inputs.tag_overwrite }}
