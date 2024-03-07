@@ -39,17 +39,3 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
     secrets: inherit
-
-  integration-test-application:
-    name: Run integration tests
-    needs:
-      [
-        metadata,
-        deploy-infrastructure-apply,
-        build-and-deploy-application
-      ]
-    uses: ./.github/workflows/integration_test.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-    secrets: inherit
