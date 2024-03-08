@@ -97,12 +97,12 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/install-allure@task/DR-771_Int_test_flow
       - name: Run integration test
         id: run-int-test
-        uses: NHSDigital/uec-dos-management/.github/actions/integration-test@task/DR-771_Int_test_flow
+        uses: NHSDigital/uec-dos-management/.github/actions/integration-test@v0.8
         with:
           workspace:  ${{ inputs.workspace }}
       - name: Upload allure report
         id: upload_allure_report
-        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@task/DR-771_Int_test_flow
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.8
         with:
           name: allure-report
           path: tests/integration/allure-reports/index.html
