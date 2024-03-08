@@ -130,10 +130,12 @@ if [ ! -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE" ] ; then
   TEMP_STACK_TF_VARS_FILE=1
 fi
 
+# Select or create terraform workspace
+terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
+
 # init terraform
 terraform-initialise
-#
-terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
+
 # plan
 if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
   terraform plan \
