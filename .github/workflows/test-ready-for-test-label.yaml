@@ -1,93 +1,93 @@
-name: Test Ready for Test Label
-# You have to use your imagination a bit here in that when the PR has a 'Test Ready' label saved to it, a workflow
-# will fire off that will:
-# Generate a tag
-# Tag the code repo
-# Deploy the infrastructure
-# Deploy the application
-# That's pretty much what this test pipeline does
-on:
-  push:
-    branches:
-      - main
-      - 'task/*'
+# name: Test Ready for Test Label
+# # You have to use your imagination a bit here in that when the PR has a 'Test Ready' label saved to it, a workflow
+# # will fire off that will:
+# # Generate a tag
+# # Tag the code repo
+# # Deploy the infrastructure
+# # Deploy the application
+# # That's pretty much what this test pipeline does
+# on:
+#   push:
+#     branches:
+#       - main
+#       - 'task/*'
 
-jobs:
-  metadata:
-    name: "Get Metadata"
-    uses: ./.github/workflows/metadata.yaml
-  generate-tag-name:
-    name: "Generate Tag Name"
-    needs:
-      [
-        metadata,
-      ]
-    uses: ./.github/workflows/generate-tag-name.yaml
-    with:
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      tag_type: test
-      use_commit_hash: "yes"
-  tag-repository:
-    name: "Tag Repository"
-    needs:
-      [
-        metadata,
-        generate-tag-name,
-      ]
-    uses: ./.github/workflows/tag-repository.yaml
-    with:
-      tag_to_push: ${{ needs.generate-tag-name.outputs.tag_name }}
-      tag_overwrite: "yes"
-      repository_tag: ""
-  deploy-infrastructure:
-    name: "Deploy Infrastructure"
-    needs:
-      [
-        metadata,
-        generate-tag-name,
-        tag-repository,
-      ]
-    uses: ./.github/workflows/deploy-infrastructure.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: "uec-dos-management"
-      stacks: "['test-ready-for-test-stack']"
-      tag: ${{ needs.tag-repository.outputs.tag }}
-      action: apply
-    secrets: inherit
-  build-and-deploy-application:
-    name: Build and deploy application
-    needs:
-      [
-        metadata,
-        generate-tag-name,
-        tag-repository,
-        deploy-infrastructure
-      ]
-    uses: ./.github/workflows/build-and-deploy-application.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      services: "['healthcare-services-data-manager']"
-      tag: ${{ needs.tag-repository.outputs.tag }}
-    secrets: inherit
-  cleardown-infrastructure:
-    name: "Cleardown Infrastructure"
-    needs:
-      [
-        metadata,
-        generate-tag-name,
-        tag-repository,
-        deploy-infrastructure,
-        build-and-deploy-application,
-      ]
-    uses: ./.github/workflows/deploy-infrastructure.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: "uec-dos-management"
-      stacks: "['test-ready-for-test-stack']"
-      tag: ${{ needs.tag-repository.outputs.tag }}
-      action: destroy
-    secrets: inherit
+# jobs:
+#   metadata:
+#     name: "Get Metadata"
+#     uses: ./.github/workflows/metadata.yaml
+#   generate-tag-name:
+#     name: "Generate Tag Name"
+#     needs:
+#       [
+#         metadata,
+#       ]
+#     uses: ./.github/workflows/generate-tag-name.yaml
+#     with:
+#       workspace: ${{ needs.metadata.outputs.workspace }}
+#       tag_type: test
+#       use_commit_hash: "yes"
+#   tag-repository:
+#     name: "Tag Repository"
+#     needs:
+#       [
+#         metadata,
+#         generate-tag-name,
+#       ]
+#     uses: ./.github/workflows/tag-repository.yaml
+#     with:
+#       tag_to_push: ${{ needs.generate-tag-name.outputs.tag_name }}
+#       tag_overwrite: "yes"
+#       repository_tag: ""
+#   deploy-infrastructure:
+#     name: "Deploy Infrastructure"
+#     needs:
+#       [
+#         metadata,
+#         generate-tag-name,
+#         tag-repository,
+#       ]
+#     uses: ./.github/workflows/deploy-infrastructure.yaml
+#     with:
+#       environment: mgmt
+#       workspace: ${{ needs.metadata.outputs.workspace }}
+#       domain: "uec-dos-management"
+#       stacks: "['test-ready-for-test-stack']"
+#       tag: ${{ needs.tag-repository.outputs.tag }}
+#       action: apply
+#     secrets: inherit
+#   build-and-deploy-application:
+#     name: Build and deploy application
+#     needs:
+#       [
+#         metadata,
+#         generate-tag-name,
+#         tag-repository,
+#         deploy-infrastructure
+#       ]
+#     uses: ./.github/workflows/build-and-deploy-application.yaml
+#     with:
+#       environment: mgmt
+#       workspace: ${{ needs.metadata.outputs.workspace }}
+#       services: "['healthcare-services-data-manager']"
+#       tag: ${{ needs.tag-repository.outputs.tag }}
+#     secrets: inherit
+#   cleardown-infrastructure:
+#     name: "Cleardown Infrastructure"
+#     needs:
+#       [
+#         metadata,
+#         generate-tag-name,
+#         tag-repository,
+#         deploy-infrastructure,
+#         build-and-deploy-application,
+#       ]
+#     uses: ./.github/workflows/deploy-infrastructure.yaml
+#     with:
+#       environment: mgmt
+#       workspace: ${{ needs.metadata.outputs.workspace }}
+#       domain: "uec-dos-management"
+#       stacks: "['test-ready-for-test-stack']"
+#       tag: ${{ needs.tag-repository.outputs.tag }}
+#       action: destroy
+#     secrets: inherit
