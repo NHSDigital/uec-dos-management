@@ -17,13 +17,12 @@ else
   # to derive the workspace
   if [ "$TRIGGER_ACTION" == "push" ] || [ "$TRIGGER_ACTION" == "workflow_dispatch" ] ; then
     BRANCH_NAME="${BRANCH_NAME:-$(git rev-parse --abbrev-ref HEAD)}"
-    BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/refs\/heads\/task/task/g')
   # If trigger action is pull_request we will need to derive the workspace from the triggering head reference
   elif [ "$TRIGGER_ACTION" == "pull_request" ] ; then
     BRANCH_NAME="$TRIGGER_HEAD_REFERENCE"
-    BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/refs\/heads\/task/task/g')
   fi
 
+  BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/refs\/heads\/task/task/g')
   if [ "$BRANCH_NAME" == "main" ] ; then
     WORKSPACE="default"
     echo "Workspace from main: $WORKSPACE"
@@ -39,5 +38,3 @@ fi
 # We will need some further logic here to derive the workspace upon branch deletion
 # TBC
 export WORKSPACE
-
-
