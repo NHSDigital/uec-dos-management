@@ -31,7 +31,6 @@ jobs:
       needs:
         [
           metadata,
-          destroy-application-infrastructure,
         ]
       uses: ./.github/workflows/infrastructure-cleardown.yaml
       with:
