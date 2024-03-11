@@ -60,7 +60,7 @@ jobs:
         metadata,
         quality-checks,
         unit-tests,
-        deploy-infrastructure-apply,
+        deploy-application-infrastructure,
       ]
     uses: ./.github/workflows/build-and-deploy-application.yaml
     with:
@@ -74,7 +74,7 @@ jobs:
       metadata,
       quality-checks,
       unit-tests,
-      deploy-infrastructure-apply,
+      deploy-application-infrastructure,
       build-and-deploy-application,
     ]
     if: always()
