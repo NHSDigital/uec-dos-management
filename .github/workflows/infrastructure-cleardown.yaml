@@ -47,7 +47,7 @@ jobs:
     needs: [destroy-application-infrastructure]
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository #@task/DR-2596_Pipeline_infra_cleardown
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-2596_Pipeline_infra_cleardown
         with:
           tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
@@ -57,7 +57,7 @@ jobs:
             aws_region: ${{ vars.AWS_REGION }}
       - name: "Delete terraform state file"
         id: delete_tf_state
-        uses: NHSDigital/uec-dos-management/.github/actions/cleardown-tf-state #@task/DR-2596_Pipeline_infra_cleardown
+        uses: NHSDigital/uec-dos-management/.github/actions/cleardown-tf-state@task/DR-2596_Pipeline_infra_cleardown
         with:
           workspace: ${{ inputs.workspace }}
           environment: ${{ inputs.environment }}
