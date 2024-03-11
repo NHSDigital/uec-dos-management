@@ -10,7 +10,7 @@ jobs:
         if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
         uses: ./.github/workflows/action-infrastructure-cleardown.yaml
         with:
-          github_environment: dev
+          github_environment: mgmt
           branch_name: ${{ github.event.ref }}
         secrets: inherit
       summarise:
