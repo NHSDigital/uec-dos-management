@@ -67,7 +67,7 @@ jobs:
     secrets: inherit
 
   slack-notifications:
-    Name: "Slack Notification"
+    name: "Slack Notification"
     needs: [
       metadata,
       build-and-deploy-application,
