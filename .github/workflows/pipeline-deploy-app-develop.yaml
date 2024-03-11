@@ -53,33 +53,33 @@ jobs:
       action: apply
     secrets: inherit
 
-    build-and-deploy-application:
-      name: Build and deploy application
-      needs:
-        [
-          metadata,
-          quality-checks,
-          unit-tests,
-          deploy-infrastructure-apply,
-        ]
-      uses: ./.github/workflows/build-and-deploy-application.yaml
-      with:
-        environment: mgmt
-        workspace: ${{ needs.metadata.outputs.workspace }}
-        services: "['healthcare-services-data-manager']"
-      secrets: inherit
-
-    slack-notifications:
-      needs: [
+  build-and-deploy-application:
+    name: Build and deploy application
+    needs:
+      [
         metadata,
         quality-checks,
         unit-tests,
         deploy-infrastructure-apply,
-        build-and-deploy-application,
       ]
-      if: always()
-      uses: ./.github/workflows/slack-notifications.yaml
-      with:
-        env: mgmt
-      secrets: inherit
+    uses: ./.github/workflows/build-and-deploy-application.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      services: "['healthcare-services-data-manager']"
+    secrets: inherit
+
+  slack-notifications:
+    needs: [
+      metadata,
+      quality-checks,
+      unit-tests,
+      deploy-infrastructure-apply,
+      build-and-deploy-application,
+    ]
+    if: always()
+    uses: ./.github/workflows/slack-notifications.yaml
+    with:
+      env: mgmt
+    secrets: inherit
 
