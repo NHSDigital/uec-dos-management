@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - 'task/*'
 
 jobs:
   sparse-checkout-diff-repo:
