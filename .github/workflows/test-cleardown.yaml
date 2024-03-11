@@ -3,12 +3,12 @@ name: Test Cleardown Workflow
 on:
   delete:
     branches:
-        - 'task/*'
+      - 'task/*'
 
 jobs:
     destroy:
         if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
-        uses: ./.github/workflows/action-infrastructure-cleardown.yaml
+        uses: ./.github/workflows/infrastructure-cleardown.yaml
         with:
           github_environment: mgmt
           branch_name: ${{ github.event.ref }}
@@ -20,7 +20,7 @@ jobs:
         - name: Summary
           run: |
                 echo "${{ github.actor }} deleted a task branch..."
-                echo "triggering cleardown of infra in dev account relating to ${{ github.ref_type }}: ${{ github.event_ref }}"
+                echo "triggering cleardown of infra in mgmt account relating to ${{ github.ref_type }}: ${{ github.event_ref }}"
 
 # on:
 #   push:
