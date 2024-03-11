@@ -8,11 +8,11 @@ on:
 
 jobs:
   metadata:
-    name: "Get Metadata"
+    name: "Metadata"
     uses: ./.github/workflows/metadata.yaml
 
   quality-checks:
-    name: Run quality checks
+    name: "Quality Check"
     needs:
       [
         metadata,
@@ -25,7 +25,7 @@ jobs:
     secrets: inherit
 
   unit-tests:
-    name: Run unit test
+    name: "Unit Test"
     needs:
       [
         quality-checks,
@@ -37,11 +37,10 @@ jobs:
     secrets: inherit
 
   deploy-application-infrastructure:
-    name: "Plan Deploy Infrastructure"
+    name: "Deploy Application Infrastructure"
     needs:
       [
         metadata,
-        quality-checks,
         unit-tests,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
@@ -54,12 +53,10 @@ jobs:
     secrets: inherit
 
   build-and-deploy-application:
-    name: Build and deploy application
+    name: "Build and Deploy Application"
     needs:
       [
         metadata,
-        quality-checks,
-        unit-tests,
         deploy-application-infrastructure,
       ]
     uses: ./.github/workflows/build-and-deploy-application.yaml
@@ -70,11 +67,9 @@ jobs:
     secrets: inherit
 
   slack-notifications:
+    Name: "Slack Notification"
     needs: [
       metadata,
-      quality-checks,
-      unit-tests,
-      deploy-application-infrastructure,
       build-and-deploy-application,
     ]
     if: always()
