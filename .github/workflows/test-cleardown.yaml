@@ -8,7 +8,7 @@ on:
 jobs:
     destroy:
         if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
-        uses: ./.github/workflows/infrastructure-cleardown.yaml
+        uses: ./.github/workflows/infrastructure-cleardown.yaml@task/DR-2596_Pipeline_infra_cleardown
         with:
           github_environment: mgmt
           branch_name: ${{ github.event.ref }}
