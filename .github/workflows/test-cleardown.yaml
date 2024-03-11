@@ -3,7 +3,7 @@ name: Test Cleardown Workflow
 on:
   delete:
     branches:
-      - 'task/*'
+        - 'task/*'
 
 jobs:
     destroy:
