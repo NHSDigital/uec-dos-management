@@ -1,0 +1,17 @@
+name: "Integration tests action"
+description: "Run integration tests"
+
+inputs:
+  workspace:
+    description: "The name of the terraform workspace into which the application under test was deployed"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run integration test script
+      id: run-integration-test-script
+      shell: bash
+      run: |
+        export WORKSPACE=${{ inputs.workspace }}
+        /bin/bash ./uec-dos-management/scripts/workflow/integration-tests.sh

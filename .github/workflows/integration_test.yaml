@@ -1,0 +1,62 @@
+name: Integration test workflow
+
+on:
+  workflow_call:
+
+    inputs:
+      environment:
+        description: The relevant github environment (for secrets and variables)
+        required: true
+        type: string
+      workspace:
+        description: "The name of the workspace to deploy the application into"
+        required: true
+        type: string
+      tag:
+        description: "The tag to build and deploy from"
+        required: false
+        default: ""
+        type: string
+      allure_report_retention:
+        description: "The number of days to retain allure reports (in github)"
+        required: false
+        default: 10
+        type: number
+
+jobs:
+  integration-tests:
+    name: "Run integration tests"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.8
+        with:
+          tag: ${{ inputs.tag }}
+          management-tag: v0.8
+      - name: Configure AWS Credentials
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.8
+        with:
+          aws_account_id: ${{ secrets.ACCOUNT_ID }}
+          aws_region: ${{ vars.AWS_REGION }}
+      - name: Install Allure command-line tool
+        id: install-allure
+        continue-on-error: true
+        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@v0.8
+      - name: Run integration test
+        id: run-int-test
+        uses: NHSDigital/uec-dos-management/.github/actions/integration-test@v0.8
+        with:
+          workspace:  ${{ inputs.workspace }}
+      - name: Upload allure report
+        id: upload_allure_report
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.8
+        with:
+          name: allure-report
+          path: tests/integration/allure-reports/index.html
+          retention-days: ${{ inputs.allure_report_retention }}
