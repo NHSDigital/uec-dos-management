@@ -35,12 +35,12 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.7
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.8
         with:
           tag: ${{ inputs.tag }}
           management-tag: v0.8
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.7
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.8
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
