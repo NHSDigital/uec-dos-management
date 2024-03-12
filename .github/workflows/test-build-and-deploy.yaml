@@ -39,4 +39,3 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
     secrets: inherit
-
