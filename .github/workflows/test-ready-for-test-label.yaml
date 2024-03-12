@@ -11,6 +11,8 @@ on:
     branches:
       - main
       - 'task/*'
+  pull_request:
+    types: [ labeled ]
 
 jobs:
   metadata:
@@ -53,7 +55,7 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: "uec-dos-management"
       stacks: "['test-ready-for-test-stack']"
-      tag: ${{ needs.tag-repository.outputs.tag }}
+      tag: ${{ needs.generate-tag-name.outputs.tag_name }}
       action: apply
     secrets: inherit
   build-and-deploy-application:
@@ -70,7 +72,7 @@ jobs:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
-      tag: ${{ needs.tag-repository.outputs.tag }}
+      tag: ${{ needs.generate-tag-name.outputs.tag_name }}
     secrets: inherit
   cleardown-infrastructure:
     name: "Cleardown Infrastructure"
@@ -88,6 +90,6 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: "uec-dos-management"
       stacks: "['test-ready-for-test-stack']"
-      tag: ${{ needs.tag-repository.outputs.tag }}
+      tag: ${{ needs.generate-tag-name.outputs.tag_name }}
       action: destroy
     secrets: inherit
