@@ -2,15 +2,7 @@
 
 # fail on first error
 set -e
-# functions
-# source ./scripts/project-common.sh
-# source ./scripts/workflow/bootstrapper.sh
-# source ./scripts/functions/git-functions.sh
-
-# export_terraform_workspace_name
-# # check exports have been done
 EXPORTS_SET=0
-
 
 if [ -z "$TERRAFORM_WORKSPACE_NAME" ] ; then
   echo Set TERRAFORM_WORKSPACE_NAME
@@ -78,12 +70,5 @@ else
     echo "Terraform State file not found for deletion or deletion failed for the following workspace --> $TERRAFORM_WORKSPACE_NAME"
 fi
 
-# Check if Terraform State Lock item exists before deletion,delete terraform state lock for current terraform workspace & echo results
-
-# if [ "$BRANCH_NAME" != 'main' ] && [[ $BRANCH_NAME =~ $GIT_BRANCH_PATTERN ]]  ; then
-#         IFS=',' read -r -a stack_array <<< "$STACKS"
-#         IFS='_' read -r -a ref <<< "${name_array[1]}"
-#         TERRAFORM_WORKSPACE_NAME=$(echo "${ref[0]}" | tr "[:upper:]" "[:lower:]")
-#       fi
 
 

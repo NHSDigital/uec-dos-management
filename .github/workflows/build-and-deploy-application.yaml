@@ -36,23 +36,23 @@ jobs:
         service: ${{ fromJSON(inputs.services) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.9
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.10
         with:
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.9
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.10
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Build service"
-        uses: NHSDigital/uec-dos-management/.github/actions/build-service@v0.9
+        uses: NHSDigital/uec-dos-management/.github/actions/build-service@v0.10
         with:
           service: ${{ matrix.service }}
 
       - name: "Deploy service"
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.9
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.10
         with:
           service: ${{ matrix.service }}
           workspace: ${{ inputs.workspace }}
