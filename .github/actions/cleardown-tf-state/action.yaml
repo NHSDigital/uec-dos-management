@@ -7,6 +7,9 @@ inputs:
   environment:
         description: "The name of the environment to action the infrastructure into."
         required: true
+  stacks:
+        description: "A comma separated list of stacks to clear."
+        required: true
 
 runs:
   using: composite
@@ -17,4 +20,5 @@ runs:
       run: |
         export TERRAFORM_WORKSPACE_NAME=${{inputs.workspace}}
         export ENVIRONMENT=${{inputs.environment}}
+        export STACKS=${{inputs.stacks}}
         ./uec-dos-management/scripts/workflow/cleardown-terraform-state.sh

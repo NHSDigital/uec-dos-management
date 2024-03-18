@@ -3,16 +3,27 @@
 # fail on first error
 set -e
 # functions
-source ./scripts/project-common.sh
-source ./scripts/workflow/bootstrapper.sh
-source ./scripts/functions/git-functions.sh
+# source ./scripts/project-common.sh
+# source ./scripts/workflow/bootstrapper.sh
+# source ./scripts/functions/git-functions.sh
 
-export_terraform_workspace_name
-# check exports have been done
+# export_terraform_workspace_name
+# # check exports have been done
 EXPORTS_SET=0
+
 
 if [ -z "$TERRAFORM_WORKSPACE_NAME" ] ; then
   echo Set TERRAFORM_WORKSPACE_NAME
+  EXPORTS_SET=1
+fi
+
+if [ -z "$ENVIRONMENT" ] ; then
+  echo Set ENVIRONMENT
+  EXPORTS_SET=1
+fi
+
+if [ -z "$STACKS" ] ; then
+  echo Set STACKS
   EXPORTS_SET=1
 fi
 
@@ -21,9 +32,16 @@ if [ $EXPORTS_SET = 1 ] ; then
   exit 1
 fi
 
+export TF_VAR_repo_name="${REPOSITORY:-"$(basename -s .git "$(git config --get remote.origin.url)")"}"
+# needed for terraform management stack
+export TERRAFORM_BUCKET_NAME="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state"  # globally unique name
+export TERRAFORM_LOCK_TABLE="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state-lock"
+
 echo "Current terraform workspace is --> $TERRAFORM_WORKSPACE_NAME"
 echo "Terraform state S3 bucket name is --> $TERRAFORM_BUCKET_NAME"
 echo "Terraform state lock DynamoDB table is --> $TERRAFORM_LOCK_TABLE"
+STACKS="$(echo $STACKS | sed s/\,/\ /g)"
+echo "Stacks to be cleared down --> $STACKS"
 
 
 # Delete terraform state for current terraform workspace & echo results following deletion
@@ -32,28 +50,40 @@ deletion_output=$(aws s3 rm s3://$TERRAFORM_BUCKET_NAME/env:/ --recursive --excl
 
 if [ -n "$deletion_output" ]; then
     echo "Sucessfully deleted Terraform State file for the following workspace --> $TERRAFORM_WORKSPACE_NAME"
+
+    # STACKS='stack1 stack2 stack3'
+    for stack in $STACKS; do
+        echo "$stack"  # remember quotes here
+        existing_item=$(aws dynamodb get-item \
+            --table-name "$TERRAFORM_LOCK_TABLE" \
+            --key '{"LockID": {"S": "'${TERRAFORM_BUCKET_NAME}'/env:/'${TERRAFORM_WORKSPACE_NAME}'/'${stack}'/terraform.state-md5"}}' \
+            2>&1)
+
+        aws dynamodb delete-item \
+            --table-name "$TERRAFORM_LOCK_TABLE" \
+            --key '{"LockID": {"S": "'${TERRAFORM_BUCKET_NAME}'/env:/'${TERRAFORM_WORKSPACE_NAME}'/'${stack}'/terraform.state-md5"}}'
+
+        after_deletion=$(aws dynamodb get-item \
+            --table-name "$TERRAFORM_LOCK_TABLE" \
+            --key '{"LockID": {"S": "'${TERRAFORM_BUCKET_NAME}'/env:/'${TERRAFORM_WORKSPACE_NAME}'/'${stack}'/terraform.state-md5"}}' \
+            2>&1)
+        if [[ -n "$existing_item" && -z "$after_deletion" ]]; then
+            echo "Sucessfully deleted Terraform State Lock file for the following stack --> $stack"
+        else
+            echo "Terraform state Lock file not found for deletion or deletion failed for the following stack --> $stack"
+            exit 1
+        fi
+    done
 else
     echo "Terraform State file not found for deletion or deletion failed for the following workspace --> $TERRAFORM_WORKSPACE_NAME"
 fi
 
 # Check if Terraform State Lock item exists before deletion,delete terraform state lock for current terraform workspace & echo results
 
-existing_item=$(aws dynamodb get-item \
-    --table-name "$TERRAFORM_LOCK_TABLE" \
-    --key '{"LockID": {"S": "'${TERRAFORM_BUCKET_NAME}'/env:/'${TERRAFORM_WORKSPACE_NAME}'/application/terraform.state-md5"}}' \
-    2>&1)
+# if [ "$BRANCH_NAME" != 'main' ] && [[ $BRANCH_NAME =~ $GIT_BRANCH_PATTERN ]]  ; then
+#         IFS=',' read -r -a stack_array <<< "$STACKS"
+#         IFS='_' read -r -a ref <<< "${name_array[1]}"
+#         TERRAFORM_WORKSPACE_NAME=$(echo "${ref[0]}" | tr "[:upper:]" "[:lower:]")
+#       fi
 
-aws dynamodb delete-item \
-    --table-name "$TERRAFORM_LOCK_TABLE" \
-    --key '{"LockID": {"S": "'${TERRAFORM_BUCKET_NAME}'/env:/'${TERRAFORM_WORKSPACE_NAME}'/application/terraform.state-md5"}}'
 
-after_deletion=$(aws dynamodb get-item \
-    --table-name "$TERRAFORM_LOCK_TABLE" \
-    --key '{"LockID": {"S": "'${TERRAFORM_BUCKET_NAME}'/env:/'${TERRAFORM_WORKSPACE_NAME}'/application/terraform.state-md5"}}' \
-    2>&1)
-
-if [[ -n "$existing_item" && -z "$after_deletion" ]]; then
-    echo "Sucessfully deleted Terraform State Lock file for the following workspace --> $TERRAFORM_WORKSPACE_NAME"
-else
-    echo "Terraform state Lock file not found for deletion or deletion failed for the following workspace --> $TERRAFORM_WORKSPACE_NAME"
-fi

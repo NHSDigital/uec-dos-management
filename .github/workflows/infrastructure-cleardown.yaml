@@ -61,3 +61,4 @@ jobs:
         with:
           workspace: ${{ inputs.workspace }}
           environment: ${{ inputs.environment }}
+          stacks: ${{ inputs.stacks }}
