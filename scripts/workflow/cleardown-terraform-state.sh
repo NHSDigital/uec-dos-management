@@ -40,7 +40,7 @@ export TERRAFORM_LOCK_TABLE="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state
 echo "Current terraform workspace is --> $TERRAFORM_WORKSPACE_NAME"
 echo "Terraform state S3 bucket name is --> $TERRAFORM_BUCKET_NAME"
 echo "Terraform state lock DynamoDB table is --> $TERRAFORM_LOCK_TABLE"
-STACKS="$(echo $STACKS | sed s/\,/\ /g)"
+STACKS="$(echo $STACKS | sed s/\,/\ /g | sed s/\\\[/\ /g | sed s/\\\]/\ /g)"
 echo "Stacks to be cleared down --> $STACKS"
 
 
