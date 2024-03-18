@@ -4,7 +4,7 @@
 set -e
 # functions
 source ./scripts/project-common.sh
-source ./scripts/functions/terraform-functions.sh
+source ./scripts/workflow/bootstrapper.sh
 source ./scripts/functions/git-functions.sh
 
 export_terraform_workspace_name
