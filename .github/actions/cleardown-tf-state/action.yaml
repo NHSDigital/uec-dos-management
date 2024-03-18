@@ -18,7 +18,7 @@ runs:
       id: delete_tf_state
       shell: bash
       run: |
-        export TERRAFORM_WORKSPACE_NAME=${{inputs.workspace}}
+        export WORKSPACE=${{inputs.workspace}}
         export ENVIRONMENT=${{inputs.environment}}
         export STACKS=${{inputs.stacks}}
         ./uec-dos-management/scripts/workflow/cleardown-terraform-state.sh
