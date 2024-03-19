@@ -1,0 +1,43 @@
+name: Test Cleardown Workflow
+
+on:
+  delete:
+    branches:
+      - main
+      - 'task/*'
+
+jobs:
+  metadata:
+    if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    name: "Get Metadata"
+    uses: ./.github/workflows/metadata.yaml
+
+  # deploy-infrastructure-apply:
+  #   name: "Apply Deploy Infrastructure"
+  #   needs:
+  #     [
+  #       metadata,
+  #     ]
+  #   uses: ./.github/workflows/deploy-infrastructure.yaml
+  #   with:
+  #     environment: mgmt
+  #     workspace: ${{ needs.metadata.outputs.workspace }}
+  #     domain: "uec-dos-management"
+  #     stacks: "['test-stack-3']"
+  #     action: apply
+  #   secrets: inherit
+
+  # cleardown:
+  #     name: "Cleardown Infrastructure"
+  #     needs:
+  #       [
+  #         metadata,
+  #         deploy-infrastructure-apply,
+  #       ]
+  #     uses: ./.github/workflows/infrastructure-cleardown.yaml
+  #     with:
+  #       environment: mgmt
+  #       workspace: ${{ needs.metadata.outputs.workspace }}
+  #       domain: "uec-dos-management"
+  #       stacks: "['test-stack-3']"
+  #     secrets: inherit
