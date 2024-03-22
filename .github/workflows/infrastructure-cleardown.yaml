@@ -30,7 +30,7 @@ jobs:
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
-          stacks: ${{ fromJson(inputs.stacks) }}
+          stacks: ${{ inputs.stacks }}
           domain: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
           action: destroy
