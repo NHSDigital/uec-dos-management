@@ -4,6 +4,7 @@
 set -e
 EXPORTS_SET=0
 
+# check necessary environment variables are set
 if [ -z "$WORKSPACE" ] ; then
   echo Set WORKSPACE
   EXPORTS_SET=1
@@ -24,6 +25,7 @@ if [ $EXPORTS_SET = 1 ] ; then
   exit 1
 fi
 
+# set additional environment variable
 export TF_VAR_repo_name="${REPOSITORY:-"$(basename -s .git "$(git config --get remote.origin.url)")"}"
 # needed for terraform management stack
 export TERRAFORM_BUCKET_NAME="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state"  # globally unique name
@@ -32,11 +34,19 @@ export TERRAFORM_LOCK_TABLE="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state
 echo "Current terraform workspace is --> $WORKSPACE"
 echo "Terraform state S3 bucket name is --> $TERRAFORM_BUCKET_NAME"
 echo "Terraform state lock DynamoDB table is --> $TERRAFORM_LOCK_TABLE"
-STACK="$(echo $STACK | sed s/\,/\ /g | sed s/\\\[/\ /g | sed s/\\\]/\ /g)"
-echo "Stacks to be cleared down --> $STACK"
+
+#process the STACK variable
+#STACK="$(echo $STACK | sed s/\,/\ /g | sed s/\\\[/\ /g | sed s/\\\]/\ /g)"
+#echo "Stacks to be cleared down --> $STACK"
+
+######################################
 
 # for stack in $stack; do
-#     echo "Stack to remove terraform state references: $stack"
+# echo "Stack to remove terraform state references: $stack"
+
+# Delete Terraform state and lock entries for each stack
+while IFS=',' read -r stack || [[ -n "$stack" ]]; do
+  echo "Stack to remove terraform state references: $stack"
 
     # Delete terraform state for current terraform workspace & echo results following deletion
     deletion_output=$(aws s3 rm s3://$TERRAFORM_BUCKET_NAME/env:/$WORKSPACE/$stack/terraform.state 2>&1)
@@ -67,4 +77,4 @@ echo "Stacks to be cleared down --> $STACK"
     echo "Terraform State file not found for deletion or deletion failed for the following workspace --> $WORKSPACE"
   fi
 
-#done
+done <<< "$STACK"
