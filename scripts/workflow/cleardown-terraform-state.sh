@@ -14,8 +14,8 @@ if [ -z "$ENVIRONMENT" ] ; then
   EXPORTS_SET=1
 fi
 
-if [ -z "$STACK" ] ; then
-  echo Set STACK
+if [ -z "$stack" ] ; then
+  echo Set stack
   EXPORTS_SET=1
 fi
 
@@ -32,10 +32,10 @@ export TERRAFORM_LOCK_TABLE="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state
 echo "Current terraform workspace is --> $WORKSPACE"
 echo "Terraform state S3 bucket name is --> $TERRAFORM_BUCKET_NAME"
 echo "Terraform state lock DynamoDB table is --> $TERRAFORM_LOCK_TABLE"
-STACK="$(echo $STACK | sed s/\,/\ /g | sed s/\\\[/\ /g | sed s/\\\]/\ /g)"
-echo "Stacks to be cleared down --> $STACK"
+stack="$(echo $stack | sed s/\,/\ /g | sed s/\\\[/\ /g | sed s/\\\]/\ /g)"
+echo "Stacks to be cleared down --> $stack"
 
-# for stack in $STACK; do
+# for stack in $stack; do
 #     echo "Stack to remove terraform state references: $stack"
 
     # Delete terraform state for current terraform workspace & echo results following deletion
