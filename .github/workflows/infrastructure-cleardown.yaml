@@ -44,6 +44,9 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    strategy:
+      matrix:
+        stack: ${{ fromJSON(inputs.stacks) }}
     needs: [destroy-application-infrastructure]
     steps:
       - name: "Checkout code"
@@ -61,4 +64,4 @@ jobs:
         with:
           workspace: ${{ inputs.workspace }}
           environment: ${{ inputs.environment }}
-          stacks: ${{ inputs.stacks }}
+          stack: ${{ matrix.stack }}
