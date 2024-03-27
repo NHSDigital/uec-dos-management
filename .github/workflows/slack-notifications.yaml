@@ -36,7 +36,7 @@ jobs:
       run: |
         echo run id ${{ github.run_id }}
     - name: Send custom JSON data to Slack workflow on failure
-      uses: slackapi/slack-github-action@v1.24.0
+      uses: slackapi/slack-github-action@v1.25.0
       if: ${{ env.WORKFLOW_CONCLUSION == 'failure' }}
       with:
         payload: |
