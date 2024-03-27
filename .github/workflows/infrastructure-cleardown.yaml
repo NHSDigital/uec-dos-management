@@ -26,7 +26,7 @@ on:
 
 jobs:
   destroy-application-infrastructure:
-        uses: ./.github/workflows/deploy-infrastructure.yaml
+        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.11
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
