@@ -137,6 +137,14 @@ jobs:
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: NHSDigital/uec-dos-management/.github/actions/install-node@task/DR-780_React_flows_and_scripts
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ${{ inputs.code_directory }}
+
       - name: "Check Javascipt formating"
         uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@v0.11
 
