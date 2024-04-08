@@ -66,12 +66,14 @@ jobs:
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
+
   deploy-infrastructure-destroy:
     name: "Destroy Deploy Infrastructure"
     needs:
       [
         metadata,
         deploy-infrastructure-apply,
+        deploy-react-application,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
