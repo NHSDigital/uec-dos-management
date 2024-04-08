@@ -141,9 +141,8 @@ jobs:
       - name: Set up Node.js
         uses: NHSDigital/uec-dos-management/.github/actions/install-node@task/DR-780_React_flows_and_scripts
 
-      - name: Install dependencies
-        run: npm ci
-        working-directory: ${{ inputs.code_directory }}
+      - name: Install npm dependencies
+        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@task/DR-780_React_flows_and_scripts
 
       - name: "Check Javascipt formating"
         uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@v0.11
