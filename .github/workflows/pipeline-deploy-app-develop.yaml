@@ -56,6 +56,16 @@ jobs:
       action: apply
     secrets: inherit
 
+  deploy-react-application:
+    name: "Build and deploy react application code"
+    needs: [
+      metadata,
+      deploy-infrastructure-apply,
+    ]
+    uses: ./github/workflows/build-and-deploy-react-app.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
   deploy-infrastructure-destroy:
     name: "Destroy Deploy Infrastructure"
     needs:
