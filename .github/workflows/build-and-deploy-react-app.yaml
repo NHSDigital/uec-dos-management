@@ -61,12 +61,30 @@ jobs:
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
+
+      - name: Derive spa bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@task/DR-780_React_flows_and_scripts
+
+      - name: Deploy React App
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-react-app@task/DR-780_React_flows_and_scripts
+        with:
+          spa_bucket_name: ${{ needs.derive-spa-bucket.outputs.spa_bucket_name }}
+
+      # - name: Get CloudFront Distribution ID
+      #   run: |
+      #     echo "DISTRIBUTION_ID=$(/bin/bash ./scripts/get-front-end-cloudfront-distribution.sh)" >> $GITHUB_ENV
+
+      # - name: Invalidate CloudFront Cache
+      #   shell: bash
+      #   run: |
+      #     /bin/bash ./scripts/invalidate-cloudfront-cache.sh
+
 # TODO
       # - name: Handle Deployment Workspace and Bucket Name
       #   run: |
       #     REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}')
-      #     ENVIRONMENT=${{ inputs.github_environment }}
-      #     WORKSPACE=${{ inputs.deployment_workspace }}
+      #     ENVIRONMENT=${{ inputs.environment }}
+      #     WORKSPACE=${{ inputs.workspace }}
 
       #     echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_ENV
       #     echo "WORKSPACE=${WORKSPACE}" >> $GITHUB_ENV
