@@ -66,6 +66,7 @@ jobs:
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
+    secrets: inherit
 
   deploy-infrastructure-destroy:
     name: "Destroy Deploy Infrastructure"
