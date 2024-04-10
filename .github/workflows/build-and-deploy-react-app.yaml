@@ -36,6 +36,10 @@ jobs:
       contents: read
     timeout-minutes: 5
     steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.11
+        with:
+          tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
         uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.11
         with:
