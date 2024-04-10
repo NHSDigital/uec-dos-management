@@ -36,7 +36,7 @@ jobs:
     secrets: inherit
 
   build-and-deploy-react-app:
-    name: "Prepare react application"
+    name: "Prepare, build and deploy react application"
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     permissions:
@@ -67,7 +67,7 @@ jobs:
       #   run: |
       #     /bin/bash ./scripts/npm-unit-tests.sh
 
-      - name: Build React app
+      - name: Build React application
         run: npm run build
         working-directory: ${{ inputs.code_directory }}
 
@@ -84,15 +84,23 @@ jobs:
       #     environment: ${{ inputs.environment }}
       #     workspace: ${{ inputs.workspace }}
 
-      - name: Echo spa bucket name
+      # - name: Echo spa bucket name
+      #   shell: bash
+      #   run: |
+      #     echo ${{ needs.react-metadata.outputs.spa_bucket_name }}
+      #     echo "done"
+
+      - name: Deploy react application
         shell: bash
         run: |
-          echo ${{ needs.react-metadata.outputs.spa_bucket_name }}
-          echo "done"
-      - name: Deploy React App
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-react-app@task/DR-780_React_flows_and_scripts
-        with:
-          spa_bucket_name: ${{ needs.react-metadata.outputs.spa_bucket_name }}
+          echo "Deploying to ${{ needs.react-metadata.outputs.spa_bucket_name }}"
+          aws s3 sync build/ s3://${{ needs.react-metadata.outputs.spa_bucket_name }}/
+          working-directory: ${{ inputs.code_directory }}
+
+      # - name: Deploy React App
+      #   uses: NHSDigital/uec-dos-management/.github/actions/deploy-react-app@task/DR-780_React_flows_and_scripts
+      #   with:
+      #     spa_bucket_name: ${{ needs.react-metadata.outputs.spa_bucket_name }}
 
       # - name: Get CloudFront Distribution ID
       #   run: |

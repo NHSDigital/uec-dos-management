@@ -16,5 +16,4 @@ runs:
       id: deploy_react_to_s3
       shell: bash
       run: |
-        aws s3 sync build/ s3://${{ inputs.spa_bucket_name }}/
-        working-directory: ${{ inputs.code_directory }}
+        echo not used
