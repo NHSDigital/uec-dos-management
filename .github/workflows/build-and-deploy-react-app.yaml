@@ -95,7 +95,7 @@ jobs:
         run: |
           echo "Deploying to ${{ needs.react-metadata.outputs.spa_bucket_name }}"
           aws s3 sync build/ s3://${{ needs.react-metadata.outputs.spa_bucket_name }}/
-          working-directory: ${{ inputs.code_directory }}
+        working-directory: ${{ inputs.code_directory }}
 
       # - name: Deploy React App
       #   uses: NHSDigital/uec-dos-management/.github/actions/deploy-react-app@task/DR-780_React_flows_and_scripts
