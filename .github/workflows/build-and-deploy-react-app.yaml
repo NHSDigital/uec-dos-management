@@ -28,7 +28,7 @@ on:
 
 jobs:
   react-metadata:
-    uses: ./.github/workflows/react-metadata.yaml@task/DR-780_React_flows_and_scripts
+    uses: ./.github/workflows/react-metadata.yaml
     with:
       repo_name: ${{ inputs.repo_name }}
       environment: ${{ inputs.environment }}
