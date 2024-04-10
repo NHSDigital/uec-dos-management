@@ -59,4 +59,6 @@ jobs:
       - name: Get CloudFront Distribution ID
         id: get_cloudfront_dist_id
         run: |
+          export ENVIRONMENT=${{ inputs.environment }}
+          export WORKSPACE=${{ inputs.workspace }}
           echo "distribution_id=$(/bin/bash ./uec-dos-management/scripts/workflow/get-front-end-cloudfront-distribution.sh)" >> $GITHUB_ENV
