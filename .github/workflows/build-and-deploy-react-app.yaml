@@ -33,6 +33,7 @@ jobs:
       repo_name: ${{ inputs.repo_name }}
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
+    secrets: inherit
 
   build-and-deploy-react-app:
     name: "Prepare react application"
