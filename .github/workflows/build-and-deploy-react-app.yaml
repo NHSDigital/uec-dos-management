@@ -27,14 +27,39 @@ on:
         type: string
 
 jobs:
+  derive-spa-bucket-name:
+    name: "Derive name of s3 bucket to host SPA"
+    runs-on: ubunt-latest
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+    timeout-minutes: 5
+    steps:
+      - name: Configure AWS Credentials
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.11
+        with:
+          aws_account_id: ${{ secrets.ACCOUNT_ID }}
+          aws_region: ${{ vars.AWS_REGION }}
+
+      - name: Derive spa bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@task/DR-780_React_flows_and_scripts
+        with:
+          repo_name: ${{ inputs.repo_name }}
+          environment: ${{ inputs.environment }}
+          workspace: ${{ inputs.workspace }}
+
   build-and-deploy-react-app:
-    name: "Build and deploy react application"
+    name: "Prepare react application"
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write
       contents: read
     timeout-minutes: 5
+    needs: [
+          derive-spa-bucket-name,
+        ]
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.11
@@ -66,17 +91,17 @@ jobs:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
-      - name: Derive spa bucket
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@task/DR-780_React_flows_and_scripts
-        with:
-          repo_name: ${{ inputs.repo_name }}
-          environment: ${{ inputs.environment }}
-          workspace: ${{ inputs.workspace }}
+      # - name: Derive spa bucket
+      #   uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@task/DR-780_React_flows_and_scripts
+      #   with:
+      #     repo_name: ${{ inputs.repo_name }}
+      #     environment: ${{ inputs.environment }}
+      #     workspace: ${{ inputs.workspace }}
 
       - name: Deploy React App
         uses: NHSDigital/uec-dos-management/.github/actions/deploy-react-app@task/DR-780_React_flows_and_scripts
         with:
-          spa_bucket_name: ${{ needs.derive-spa-bucket.outputs.spa_bucket_name }}
+          spa_bucket_name: ${{ needs.derive-spa-bucket-name.outputs.spa_bucket_name }}
 
       # - name: Get CloudFront Distribution ID
       #   run: |

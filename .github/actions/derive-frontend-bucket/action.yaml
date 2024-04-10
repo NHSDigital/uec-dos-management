@@ -27,5 +27,5 @@ runs:
         if [[ "${{ inputs.workspace }}" != "default" ]]; then
           SPA_BUCKET_NAME="${SPA_BUCKET_NAME}-${{ inputs.workspace }}"
         fi
-
+        echo "SPA_BUCKET_NAME = ${SPA_BUCKET_NAME}""
         echo "spa_bucket_name=${SPA_BUCKET_NAME}" >> $GITHUB_OUTPUT
