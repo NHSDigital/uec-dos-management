@@ -1,4 +1,4 @@
-name: Metadata workflow
+name: React metadata workflow
 
 on:
   workflow_call:
@@ -33,6 +33,9 @@ jobs:
       id-token: write
       contents: read
     timeout-minutes: 5
+    outputs:
+      spa_bucket_name: ${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}
+
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.11
@@ -45,6 +48,7 @@ jobs:
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: Derive spa bucket
+        id: derive_spa_bucket
         uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@task/DR-780_React_flows_and_scripts
         with:
           repo_name: ${{ inputs.repo_name }}
