@@ -20,7 +20,7 @@ on:
         required: false
         type: string
     outputs:
-      workspace:
+      spa_bucket_name:
         description: "The name of the s3 bucket holding spa code"
         value: "${{ jobs.derive-spa-bucket-name.outputs.spa_bucket_name }}"
 
