@@ -27,13 +27,14 @@ on:
         type: string
 
 jobs:
-  react-metadata:
-    uses: ./.github/workflows/react-metadata.yaml
-    with:
-      repo_name: ${{ inputs.repo_name }}
-      environment: ${{ inputs.environment }}
-      workspace: ${{ inputs.workspace }}
-    secrets: inherit
+  # works but overkill ?
+  # react-metadata:
+  #   uses: ./.github/workflows/react-metadata.yaml
+  #   with:
+  #     repo_name: ${{ inputs.repo_name }}
+  #     environment: ${{ inputs.environment }}
+  #     workspace: ${{ inputs.workspace }}
+  #   secrets: inherit
 
   build-and-deploy-react-app:
     name: "Prepare, build and deploy react application"
@@ -43,9 +44,9 @@ jobs:
       id-token: write
       contents: read
     timeout-minutes: 5
-    needs: [
-          react-metadata,
-        ]
+    # needs: [
+    #       react-metadata,
+    #     ]
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.11
@@ -77,12 +78,13 @@ jobs:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
-      # - name: Derive spa bucket
-      #   uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@task/DR-780_React_flows_and_scripts
-      #   with:
-      #     repo_name: ${{ inputs.repo_name }}
-      #     environment: ${{ inputs.environment }}
-      #     workspace: ${{ inputs.workspace }}
+      - name: Derive spa bucket
+        id: derive_spa_bucket_name
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@task/DR-780_React_flows_and_scripts
+        with:
+          repo_name: ${{ inputs.repo_name }}
+          environment: ${{ inputs.environment }}
+          workspace: ${{ inputs.workspace }}
 
       # - name: Echo spa bucket name
       #   shell: bash
@@ -93,8 +95,8 @@ jobs:
       - name: Deploy react application
         shell: bash
         run: |
-          echo "Deploying to ${{ needs.react-metadata.outputs.spa_bucket_name }}"
-          aws s3 sync build/ s3://${{ needs.react-metadata.outputs.spa_bucket_name }}/
+          echo "Deploying to ${{ needs.derive_spa_bucket_name.outputs.spa_bucket_name }}"
+          aws s3 sync build/ s3://${{ needs.derive_spa_bucket_name.outputs.spa_bucket_name }}/
         working-directory: ${{ inputs.code_directory }}
 
       # - name: Deploy React App
