@@ -107,10 +107,12 @@ jobs:
       #   run: |
       #     echo "DISTRIBUTION_ID=$(/bin/bash ./scripts/get-front-end-cloudfront-distribution.sh)" >> $GITHUB_ENV
 
-      # - name: Invalidate CloudFront Cache
-      #   shell: bash
-      #   run: |
-      #     /bin/bash ./scripts/invalidate-cloudfront-cache.sh
+      - name: Invalidate CloudFront Cache
+        shell: bash
+        run: |
+          echo ${{ needs.react-metadata.outputs.cloudfront_dist_id }}
+
+        # /bin/bash ./scripts/invalidate-cloudfront-cache.sh
 
 # TODO
       # - name: Handle Deployment Workspace and Bucket Name
