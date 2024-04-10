@@ -1,6 +1,6 @@
 module "front_end_bucket" {
   source        = "../../modules/s3"
-  bucket_name   = "nhse-uec-dos-management-mgmt-front-end-${local.workspace_suffix}"
+  bucket_name   = "nhse-uec-dos-management-mgmt-front-end"
   website_map   = var.website_map
   force_destroy = var.force_destroy
 }
