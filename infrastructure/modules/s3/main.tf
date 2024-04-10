@@ -7,7 +7,7 @@ module "s3" {
   policy         = var.policy
   lifecycle_rule = var.lifecycle_rule_inputs
 
-  force_destroy           = false
+  force_destroy  = var.force_destroy
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
@@ -28,4 +28,5 @@ module "s3" {
   versioning = {
     enabled = true
   }
+  website = var.website_map
 }
