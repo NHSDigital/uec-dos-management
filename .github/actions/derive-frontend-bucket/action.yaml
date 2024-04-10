@@ -23,9 +23,9 @@ runs:
       id: "derive-spa-bucket"
       shell: bash
       run: |
-        SPA_BUCKET_NAME="nhse-${{ input.repo_name }}-${{ input.environment }}-front-end"
-        if [[ "${{ input.workspace }}" != "default" ]]; then
-          SPA_BUCKET_NAME="${SPA_BUCKET_NAME}-${{ input.workspace }}"
+        SPA_BUCKET_NAME="nhse-${{ inputs.repo_name }}-${{ inputs.environment }}-front-end"
+        if [[ "${{ inputs.workspace }}" != "default" ]]; then
+          SPA_BUCKET_NAME="${SPA_BUCKET_NAME}-${{ inputs.workspace }}"
         fi
 
         echo "spa_bucket_name=${SPA_BUCKET_NAME}" >> $GITHUB_OUTPUT
