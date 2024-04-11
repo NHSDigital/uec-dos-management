@@ -69,6 +69,17 @@ jobs:
       repo_name: ${{ needs.metadata.outputs.reponame }}
     secrets: inherit
 
+  test-react-application:
+    name: "Run ui tests against react app"
+    needs: [
+      deploy-react-application
+    ]
+    uses: ./.github/workflows/ui-test.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+    secrets: inherit
+
   # TODO restore after test
   # deploy-infrastructure-destroy:
   #   name: "Destroy Deploy Infrastructure"
@@ -106,6 +117,7 @@ jobs:
       deploy-infrastructure-plan,
       deploy-infrastructure-apply,
       deploy-react-application,
+      test-react-application,
       # TODO restore
       # deploy-infrastructure-destroy,
       unit-tests,
