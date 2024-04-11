@@ -92,38 +92,3 @@ jobs:
           echo ${{ needs.react-infra-data.outputs.cloudfront_dist_id }}
           export DISTRIBUTION_ID=${{ needs.react-infra-data.outputs.cloudfront_dist_id }}
           /bin/bash ./uec-dos-management/scripts/workflow/invalidate-cloudfront-cache.sh
-
-# TODO
-      # - name: Handle Deployment Workspace and Bucket Name
-      #   run: |
-      #     REPO_NAME=$(echo "${{ github.repository }}" | awk -F/ '{print $2}')
-      #     ENVIRONMENT=${{ inputs.environment }}
-      #     WORKSPACE=${{ inputs.workspace }}
-
-      #     echo "ENVIRONMENT=${ENVIRONMENT}" >> $GITHUB_ENV
-      #     echo "WORKSPACE=${WORKSPACE}" >> $GITHUB_ENV
-
-      #     if [[ "${WORKSPACE}" == "default" ]]; then
-      #       BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end"
-      #     else
-      #       BUCKET_NAME="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}"
-      #     fi
-      #     echo "BUCKET_NAME=${BUCKET_NAME}" >> $GITHUB_ENV
-      #   shell: bash
-
-      # - name: Use Bucket Name
-      #   run: |
-      #     echo "Bucket: ${BUCKET_NAME}"
-
-      # - name: Deploy React App
-      #   run: |
-      #     aws s3 sync build/ s3://${{ env.BUCKET_NAME }}/
-      #   working-directory: src/frontend
-
-      # - name: Get CloudFront Distribution ID
-      #   run: |
-      #     echo "DISTRIBUTION_ID=$(/bin/bash ./scripts/get-front-end-cloudfront-distribution.sh)" >> $GITHUB_ENV
-
-      # - name: Invalidate CloudFront Cache
-      #   run: |
-      #     /bin/bash ./scripts/invalidate-cloudfront-cache.sh

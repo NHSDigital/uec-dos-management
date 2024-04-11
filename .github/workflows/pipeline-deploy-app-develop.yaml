@@ -69,22 +69,23 @@ jobs:
       repo_name: ${{ needs.metadata.outputs.reponame }}
     secrets: inherit
 
-  deploy-infrastructure-destroy:
-    name: "Destroy Deploy Infrastructure"
-    needs:
-      [
-        metadata,
-        deploy-infrastructure-apply,
-        deploy-react-application,
-      ]
-    uses: ./.github/workflows/deploy-infrastructure.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: "uec-dos-management"
-      stacks: "['test-stack-1']"
-      action: destroy
-    secrets: inherit
+  # TODO restore after test
+  # deploy-infrastructure-destroy:
+  #   name: "Destroy Deploy Infrastructure"
+  #   needs:
+  #     [
+  #       metadata,
+  #       deploy-infrastructure-apply,
+  #       deploy-react-application,
+  #     ]
+  #   uses: ./.github/workflows/deploy-infrastructure.yaml
+  #   with:
+  #     environment: mgmt
+  #     workspace: ${{ needs.metadata.outputs.workspace }}
+  #     domain: "uec-dos-management"
+  #     stacks: "['test-stack-1']"
+  #     action: destroy
+  #   secrets: inherit
 
   unit-tests:
     name: Run unit test
