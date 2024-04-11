@@ -105,7 +105,9 @@ jobs:
       quality-checks,
       deploy-infrastructure-plan,
       deploy-infrastructure-apply,
-      deploy-infrastructure-destroy,
+      deploy-react-application,
+      # TODO restore
+      # deploy-infrastructure-destroy,
       unit-tests,
     ]
     if: always()
