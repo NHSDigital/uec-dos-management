@@ -72,6 +72,7 @@ jobs:
   test-react-application:
     name: "Run ui tests against react app"
     needs: [
+      metadata,
       deploy-react-application
     ]
     uses: ./.github/workflows/ui-test.yaml
