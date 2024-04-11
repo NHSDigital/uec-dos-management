@@ -23,6 +23,9 @@ on:
       spa_bucket_name:
         description: "The name of the s3 bucket holding spa code"
         value: "${{ jobs.derive-spa-bucket-name.outputs.spa_bucket_name }}"
+      cloudfront_dist_id:
+        description: "The id of the current cloudfront distribution"
+        value: "${{ jobs.derive-spa-bucket-name.outputs.cloudfront_dist_id }}"
 
 jobs:
   derive-spa-bucket-name:
