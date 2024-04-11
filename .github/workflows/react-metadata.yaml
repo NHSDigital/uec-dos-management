@@ -65,4 +65,6 @@ jobs:
           export ENVIRONMENT=${{ inputs.environment }}
           export WORKSPACE=${{ inputs.workspace }}
           export REPO_NAME=${{ inputs.repo_name }}
-          echo "distribution_id=$(/bin/bash ./uec-dos-management/scripts/workflow/get-front-end-cloudfront-distribution.sh)" >> $GITHUB_ENV
+          distribution_id=$(/bin/bash ./uec-dos-management/scripts/workflow/get-front-end-cloudfront-distribution.sh)
+          echo "distribution_id=${distribution_id}"
+          echo "distribution_id=${distribution_id}" >> $GITHUB_ENV
