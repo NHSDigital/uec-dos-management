@@ -13,15 +13,20 @@ if [ -z "$WORKSPACE" ]; then
   exit 1;
 fi
 
+if [ -z "$REPO_NAME" ]; then
+  echo "Set the REPO_NAME environment variable" >&2
+  exit 1;
+fi
+
 if [ -z "$AWS_REGION" ]; then
   echo "Set the AWS_REGION environment variable" >&2
   exit 1;
 fi
 
 if [ "$WORKSPACE" = "default" ]; then
-  FRONT_END_DOMAIN="nhse-uec-cm-${ENVIRONMENT}-front-end.s3.${AWS_REGION}.amazonaws.com"
+  FRONT_END_DOMAIN="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end.s3.${AWS_REGION}.amazonaws.com"
 else
-  FRONT_END_DOMAIN="nhse-uec-cm-${ENVIRONMENT}-front-end-${WORKSPACE}.s3.${AWS_REGION}.amazonaws.com"
+  FRONT_END_DOMAIN="nhse-${REPO_NAME}-${ENVIRONMENT}-front-end-${WORKSPACE}.s3.${AWS_REGION}.amazonaws.com"
 fi
 
 QUERY_COMMAND="DistributionList.Items[?Origins.Items[0].DomainName=='$FRONT_END_DOMAIN'].{Id: Id}[0].Id"
