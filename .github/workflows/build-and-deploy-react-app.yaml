@@ -27,8 +27,9 @@ on:
         type: string
 
 jobs:
-  react-metadata:
-    uses: ./.github/workflows/react-metadata.yaml
+  react-infra-data:
+    name: Get react infrastructure data
+    uses: ./.github/workflows/react-infra-data.yaml
     with:
       repo_name: ${{ inputs.repo_name }}
       environment: ${{ inputs.environment }}
@@ -44,7 +45,7 @@ jobs:
       contents: read
     timeout-minutes: 5
     needs: [
-          react-metadata,
+          react-infra-data,
         ]
     steps:
       - name: "Checkout code"
@@ -63,10 +64,10 @@ jobs:
       - name: Run Linter
         run: npm run lint
         working-directory: ${{ inputs.code_directory }}
-# TODO
-      # - name: Run Unit Tests
-      #   run: |
-      #     /bin/bash ./scripts/npm-unit-tests.sh
+
+      - name: Run Unit Tests
+        run: |
+          /bin/bash ./uec-dos-management/scripts/workflow/npm-unit-tests.sh
 
       - name: Build React application
         run: npm run build
@@ -81,15 +82,15 @@ jobs:
       - name: Deploy react application
         shell: bash
         run: |
-          echo "Deploying to ${{ needs.react-metadata.outputs.spa_bucket_name }}"
-          aws s3 sync build/ s3://${{ needs.react-metadata.outputs.spa_bucket_name }}/
+          echo "Deploying to ${{ needs.react-infra-data.outputs.spa_bucket_name }}"
+          aws s3 sync build/ s3://${{ needs.react-infra-data.outputs.spa_bucket_name }}/
         working-directory: ${{ inputs.code_directory }}
 
       - name: Invalidate CloudFront Cache
         shell: bash
         run: |
-          echo ${{ needs.react-metadata.outputs.cloudfront_dist_id }}
-          export DISTRIBUTION_ID=${{ needs.react-metadata.outputs.cloudfront_dist_id }}
+          echo ${{ needs.react-infra-data.outputs.cloudfront_dist_id }}
+          export DISTRIBUTION_ID=${{ needs.react-infra-data.outputs.cloudfront_dist_id }}
           /bin/bash ./uec-dos-management/scripts/workflow/invalidate-cloudfront-cache.sh
 
 # TODO

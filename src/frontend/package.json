@@ -1,5 +1,5 @@
 {
-  "name": "uec_capacity_management",
+  "name": "uec_dos_management",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
