@@ -77,20 +77,6 @@ jobs:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
-      # - name: Derive spa bucket
-      #   id: derive_spa_bucket_name
-      #   uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@task/DR-780_React_flows_and_scripts
-      #   with:
-      #     repo_name: ${{ inputs.repo_name }}
-      #     environment: ${{ inputs.environment }}
-      #     workspace: ${{ inputs.workspace }}
-
-      # - name: Echo spa bucket name
-      #   shell: bash
-      #   run: |
-      #     echo ${{ needs.react-metadata.outputs.spa_bucket_name }}
-      #     echo "done"
-
       - name: Deploy react application
         shell: bash
         run: |
@@ -98,21 +84,12 @@ jobs:
           aws s3 sync build/ s3://${{ needs.react-metadata.outputs.spa_bucket_name }}/
         working-directory: ${{ inputs.code_directory }}
 
-      # - name: Deploy React App
-      #   uses: NHSDigital/uec-dos-management/.github/actions/deploy-react-app@task/DR-780_React_flows_and_scripts
-      #   with:
-      #     spa_bucket_name: ${{ needs.react-metadata.outputs.spa_bucket_name }}
-
-      # - name: Get CloudFront Distribution ID
-      #   run: |
-      #     echo "DISTRIBUTION_ID=$(/bin/bash ./scripts/get-front-end-cloudfront-distribution.sh)" >> $GITHUB_ENV
-
       - name: Invalidate CloudFront Cache
         shell: bash
         run: |
           echo ${{ needs.react-metadata.outputs.cloudfront_dist_id }}
-
-        # /bin/bash ./scripts/invalidate-cloudfront-cache.sh
+          export DISTRIBUTION_ID=${{ needs.react-metadata.outputs.cloudfront_dist_id }}
+          /bin/bash ./uec-dos-management/scripts/workflow/invalidate-cloudfront-cache.sh
 
 # TODO
       # - name: Handle Deployment Workspace and Bucket Name
