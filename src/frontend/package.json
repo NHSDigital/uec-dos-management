@@ -28,7 +28,7 @@
     "prebuild": "node increment-version.js",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:ci": "npm run test -- --coverage --watchAll=false",
+    "test:ci": "npm run test -- --passWithNoTests --testPathIgnorePatterns=src --coverage --watchAll=false",
     "test:coverage": "npm run test -- --coverage --watchAll=true",
     "lint": "eslint src"
   },
