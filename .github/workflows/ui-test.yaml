@@ -69,8 +69,13 @@ jobs:
           name: allure-report
           path: tests/integration/allure-reports/index.html
           retention-days: ${{ inputs.allure_report_retention }}
-# TODO
-      # - name: Upload axe report
-      #   id: upload-axe-report
+
+      - name: Upload accessibiity results
+        id: accessibiity-artifact-upload-step
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.11
+        with:
+          name: axe-report
+          path: tests/ui/accessibility-reports/artifacts/*.html
+          retention-days: ${{ inputs.allure_report_retention }}
 
 
