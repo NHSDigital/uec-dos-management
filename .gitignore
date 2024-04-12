@@ -56,4 +56,14 @@ sbom-spdx*.json
 *ods_location_comparator.zip
 *deployment.zip
 
+# Tests
+tests/*/reports/*
+tests/*/test-results/*
+tests/*/playwright-report/*
+tests/*/node_modules/
+tests/*/playwright/.cache/
+**/allure-reports/*
+**/allure-results/*
+**/accessibility-reports/*
+
 /node_modules/
