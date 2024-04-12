@@ -1,4 +1,4 @@
-name: "Install npm dependencies"
+name: "Install npm dependencies action"
 description: "Installs npm dependencies"
 
 inputs:
