@@ -27,14 +27,6 @@ on:
         type: string
 
 jobs:
-  # react-infra-data:
-  #   name: Get react infrastructure data
-  #   uses: ./.github/workflows/react-infra-data.yaml
-  #   with:
-  #     domain: ${{ inputs.domain }}
-  #     environment: ${{ inputs.environment }}
-  #     workspace: ${{ inputs.workspace }}
-  #   secrets: inherit
 
   build-and-deploy-react-app:
     name: "Prepare, build and deploy react application"

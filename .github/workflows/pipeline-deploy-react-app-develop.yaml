@@ -11,35 +11,6 @@ jobs:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
-  # quality-checks:
-  #   name: Run quality checks
-  #   needs:
-  #     [
-  #       metadata,
-  #     ]
-  #   uses: ./.github/workflows/quality-checks.yaml
-  #   with:
-  #     environment: mgmt
-  #     workspace: ${{ needs.metadata.outputs.workspace }}
-  #     stacks: '["github-runner", "terraform_management"]'
-  #   secrets: inherit
-
-  # deploy-infrastructure-plan:
-  #   name: "Plan Deploy Infrastructure"
-  #   needs:
-  #     [
-  #       metadata,
-  #       quality-checks,
-  #     ]
-  #   uses: ./.github/workflows/deploy-infrastructure.yaml
-  #   with:
-  #     environment: mgmt
-  #     workspace: ${{ needs.metadata.outputs.workspace }}
-  #     domain: "uec-dos-management"
-  #     stacks: "['test-stack-1', 'test-stack-2']"
-  #     action: plan
-  #   secrets: inherit
-
   deploy-infrastructure-apply:
     name: "Apply Deploy Infrastructure"
     needs:
@@ -98,28 +69,13 @@ jobs:
       action: destroy
     secrets: inherit
 
-  # unit-tests:
-  #   name: Run unit test
-  #   needs:
-  #     [
-  #       quality-checks,
-  #       metadata,
-  #     ]
-  #   uses: ./.github/workflows/unit-test.yaml
-  #   with:
-  #     env: dev
-  #   secrets: inherit
-
   slack-notifications:
     needs: [
       metadata,
-      # quality-checks,
-      # deploy-infrastructure-plan,
       deploy-infrastructure-apply,
       deploy-react-application,
       test-react-application,
       deploy-infrastructure-destroy,
-      # unit-tests,
     ]
     if: always()
     uses: ./.github/workflows/slack-notifications.yaml
