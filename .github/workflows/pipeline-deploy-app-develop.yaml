@@ -17,7 +17,7 @@ jobs:
       [
         metadata,
       ]
-    uses: ./.github/workflows/quality_checks.yaml
+    uses: ./.github/workflows/quality-checks.yaml
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
@@ -106,7 +106,7 @@ jobs:
         quality-checks,
         metadata,
       ]
-    uses: ./.github/workflows/unit_test.yaml
+    uses: ./.github/workflows/unit-test.yaml
     with:
       env: dev
     secrets: inherit
