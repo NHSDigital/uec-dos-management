@@ -56,30 +56,30 @@ jobs:
       action: apply
     secrets: inherit
 
-  deploy-react-application:
-    name: "Build and deploy react application code"
-    needs: [
-      metadata,
-      deploy-infrastructure-apply,
-    ]
-    uses: ./.github/workflows/build-and-deploy-react-app.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: ${{ needs.metadata.outputs.reponame }}
-    secrets: inherit
+  # deploy-react-application:
+  #   name: "Build and deploy react application code"
+  #   needs: [
+  #     metadata,
+  #     deploy-infrastructure-apply,
+  #   ]
+  #   uses: ./.github/workflows/build-and-deploy-react-app.yaml
+  #   with:
+  #     environment: mgmt
+  #     workspace: ${{ needs.metadata.outputs.workspace }}
+  #     domain: ${{ needs.metadata.outputs.reponame }}
+  #   secrets: inherit
 
-  test-react-application:
-    name: "Run ui tests against react app"
-    needs: [
-      metadata,
-      deploy-react-application
-    ]
-    uses: ./.github/workflows/ui-test.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-    secrets: inherit
+  # test-react-application:
+  #   name: "Run ui tests against react app"
+  #   needs: [
+  #     metadata,
+  #     deploy-react-application
+  #   ]
+  #   uses: ./.github/workflows/ui-test.yaml
+  #   with:
+  #     environment: mgmt
+  #     workspace: ${{ needs.metadata.outputs.workspace }}
+  #   secrets: inherit
 
   deploy-infrastructure-destroy:
     name: "Destroy Deploy Infrastructure"
@@ -87,8 +87,8 @@ jobs:
       [
         metadata,
         deploy-infrastructure-apply,
-        deploy-react-application,
-        test-react-application,
+        # deploy-react-application,
+        # test-react-application,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
@@ -117,8 +117,8 @@ jobs:
       quality-checks,
       deploy-infrastructure-plan,
       deploy-infrastructure-apply,
-      deploy-react-application,
-      test-react-application,
+      # deploy-react-application,
+      # test-react-application,
       deploy-infrastructure-destroy,
       unit-tests,
     ]
