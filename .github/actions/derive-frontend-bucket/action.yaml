@@ -8,9 +8,10 @@ inputs:
     workspace:
         description: "The name of the workspace to action the infrastructure into."
         required: true
-    repo_name:
-        description: "The name of the repository"
-        required: true
+    domain:
+        description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
+        required: false
+        default: ""
 outputs:
     spa_bucket_name:
         description: "The derived name of s3 bucket to hold SPA"
@@ -23,7 +24,7 @@ runs:
       id: "derive-spa-bucket"
       shell: bash
       run: |
-        SPA_BUCKET_NAME="nhse-${{ inputs.repo_name }}-${{ inputs.environment }}-front-end"
+        SPA_BUCKET_NAME="nhse-${{ inputs.domain }}-${{ inputs.environment }}-front-end"
         if [[ "${{ inputs.workspace }}" != "default" ]]; then
           SPA_BUCKET_NAME="${SPA_BUCKET_NAME}-${{ inputs.workspace }}"
         fi
