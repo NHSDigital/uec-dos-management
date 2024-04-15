@@ -66,7 +66,7 @@ jobs:
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
-      repo_name: ${{ needs.metadata.outputs.reponame }}
+      domain: ${{ needs.metadata.outputs.reponame }}
     secrets: inherit
 
   test-react-application:
