@@ -1,4 +1,4 @@
-name: Pipeline Deployment Application Development Environment
+name: Pipeline Deployment React Application Development Environment
 
 on:
   push:
