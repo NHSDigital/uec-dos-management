@@ -35,28 +35,27 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.11
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.12
         with:
           tag: ${{ inputs.tag }}
-          management-tag: task/DR-780_React_flows_and_scripts
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.11
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.12
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: Set up Node.js
-        uses: NHSDigital/uec-dos-management/.github/actions/install-node@task/DR-780_React_flows_and_scripts
+        uses: NHSDigital/uec-dos-management/.github/actions/install-node@v0.12
 
       - name: Install Allure command-line tool
         id: install-allure
         continue-on-error: true
-        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@v0.11
+        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@v0.12
 
       - name: Run ui tests
         id: run-ui-test-pack
-        uses: NHSDigital/uec-dos-management/.github/actions/ui-test@task/DR-780_React_flows_and_scripts
+        uses: NHSDigital/uec-dos-management/.github/actions/ui-test@v0.12
         with:
           aws_region: ${{ vars.AWS_REGION }}
           environment: ${{ inputs.environment }}
@@ -64,7 +63,7 @@ jobs:
 
       - name: Upload allure report
         id: upload_allure_report
-        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.11
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.12
         with:
           name: allure-report
           path: tests/integration/allure-reports/index.html
@@ -72,7 +71,7 @@ jobs:
 
       - name: Upload accessibiity results
         id: accessibiity-artifact-upload-step
-        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.11
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.12
         with:
           name: axe-report
           path: tests/ui/accessibility-reports/artifacts/*.html

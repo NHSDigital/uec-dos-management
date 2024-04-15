@@ -49,13 +49,12 @@ jobs:
         ]
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.11
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.12
         with:
           tag: ${{ inputs.tag }}
-          management-tag: task/DR-780_React_flows_and_scripts
 
       - name: Set up Node.js
-        uses: NHSDigital/uec-dos-management/.github/actions/install-node@task/DR-780_React_flows_and_scripts
+        uses: NHSDigital/uec-dos-management/.github/actions/install-node@v0.12
 
       - name: Install dependencies
         run: npm ci
@@ -74,7 +73,7 @@ jobs:
         working-directory: ${{ inputs.code_directory }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.11
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.12
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
