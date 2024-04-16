@@ -38,8 +38,18 @@ npx playwright install --with-deps
 echo "Running ui tests"
 WORKSPACE=$WORKSPACE ENV=$ENVIRONMENT REGION=$AWS_REGION npm run test_pipeline
 
-echo "Set up allure environment properties file"
-echo "Branch = $WORKSPACE" > allure-results/environment.properties
+TEST_RESULTS=$?
 
-echo "Generating report..."
+echo "set up allure environment properties file"
+echo "Branch = $TERRAFORM_WORKSPACE_NAME" > allure-results/environment.properties
+
+echo "next generating report"
 allure generate --single-file -c -o  allure-reports;
+
+if [ $TEST_RESULTS -ne 0 ] ; then
+  echo "UI Tests have failed"
+  exit $TEST_RESULTS
+else
+  echo "UI Unit Tests have passed"
+  exit 0
+fi
