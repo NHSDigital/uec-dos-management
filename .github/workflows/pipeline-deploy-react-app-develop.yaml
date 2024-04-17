@@ -1,0 +1,85 @@
+name: Pipeline Deployment React Application Development Environment
+
+on:
+  push:
+    branches:
+      - main
+      - 'task/*'
+
+jobs:
+  metadata:
+    name: "Get Metadata"
+    uses: ./.github/workflows/metadata.yaml
+
+  deploy-infrastructure-apply:
+    name: "Apply Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['ui-test-stack']"
+      action: apply
+    secrets: inherit
+
+  deploy-react-application:
+    name: "Build and deploy react application code"
+    needs: [
+      metadata,
+      deploy-infrastructure-apply,
+    ]
+    uses: ./.github/workflows/build-and-deploy-react-app.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: ${{ needs.metadata.outputs.reponame }}
+    secrets: inherit
+
+  test-react-application:
+    name: "Run ui tests against react app"
+    needs: [
+      metadata,
+      deploy-react-application
+    ]
+    uses: ./.github/workflows/ui-test.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+    secrets: inherit
+
+  deploy-infrastructure-destroy:
+    name: "Destroy Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-apply,
+        deploy-react-application,
+        test-react-application,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['ui-test-stack']"
+      action: destroy
+    secrets: inherit
+
+  slack-notifications:
+    needs: [
+      metadata,
+      deploy-infrastructure-apply,
+      deploy-react-application,
+      test-react-application,
+      deploy-infrastructure-destroy,
+    ]
+    if: always()
+    uses: ./.github/workflows/slack-notifications.yaml
+    with:
+      env: mgmt
+    secrets: inherit
+

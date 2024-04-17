@@ -1,0 +1,3 @@
+{
+  "Exclude": ["src/frontend/public/libraries"]
+}

@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "@axe-core/playwright": "^4.8.5",
+    "@cucumber/pretty-formatter": "^1.0.0",
+    "axe-html-reporter": "^2.2.3",
+    "cross-env": "^7.0.3",
+    "dotenv": "^16.4.1",
+    "fs-extra": "^11.1.1",
+    "playwright": "^1.42.1",
+    "ts-node": "^10.9.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.42.1",
+    "allure-commandline": "^2.27.0",
+    "allure-js-commons": "^2.12.0",
+    "allure-playwright": "^2.14.1"
+  },
+  "scripts": {
+    "pretest": "npx ts-node src/utilities/init.ts",
+    "test": "npx playwright test",
+    "test:debug": "npx cross-env test_env=dev npx playwright test --debug",
+    "test:test_env": "npx cross-env test_env=dev playwright test",
+    "test:tagged": "npx cross-env test_env=dev playwright test --grep @Test ",
+    "test_pipeline": "npx playwright test --pass-with-no-tests",
+    "allure": "allure generate --single-file -c -o  allure-reports",
+    "filecount": "npx ts-node ./utilities/fileCount.ts",
+    "axe_report": "cat ./accessibility-reports/artifacts/*.html >> ./accessibility-reports/artifacts/FinalAccessibilityReport.html"
+  }
+}
