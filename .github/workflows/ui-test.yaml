@@ -62,6 +62,7 @@ jobs:
           workspace: ${{ inputs.workspace }}
 
       - name: Upload allure report
+        if: always()
         id: upload_allure_report
         uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.13
         with:
@@ -70,6 +71,7 @@ jobs:
           retention-days: ${{ inputs.allure_report_retention }}
 
       - name: Upload accessibiity results
+        if: always()
         id: accessibiity-artifact-upload-step
         uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.13
         with:
