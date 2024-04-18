@@ -69,8 +69,9 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/install-node@v0.14
 
       - name: Install dependencies
-        run: npm ci
-        working-directory: ${{ inputs.code_directory }}
+        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@v0.14
+        with:
+          code_directory: ${{ inputs.code_directory }}
 
       - name: Run Linter
         run: npm run lint
@@ -78,6 +79,7 @@ jobs:
 
       - name: Run Unit Tests
         run: |
+          export FRONT_END_DIR=${{ inputs.code_directory }}
           /bin/bash ./uec-dos-management/scripts/workflow/npm-unit-tests.sh
 
       - name: Build React application

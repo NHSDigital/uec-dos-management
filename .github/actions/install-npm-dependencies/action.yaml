@@ -13,4 +13,5 @@ runs:
       id: install_node_dependencies
       shell: bash
       run: |
+        export FRONT_END_DIR=${{ inputs.code_directory }}
         /bin/bash ./uec-dos-management/scripts/workflow/install-npm-dependencies.sh
