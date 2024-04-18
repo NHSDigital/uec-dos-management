@@ -1,5 +1,5 @@
 #!/bin/bash
-FRONTEND_DIRECTORY=src/frontend
+FRONTEND_DIRECTORY=src/backend
 # Navigate to the frontend directory if it exists
 if [ -d "$FRONTEND_DIRECTORY" ]; then
   cd "$FRONTEND_DIRECTORY"  || exit
