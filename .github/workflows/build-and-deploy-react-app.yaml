@@ -28,7 +28,7 @@ on:
       workflow_timeout:
         description: "Timeout duration in minutes"
         required: false
-        default: 5
+        default: 1
         type: number
 
 jobs:
