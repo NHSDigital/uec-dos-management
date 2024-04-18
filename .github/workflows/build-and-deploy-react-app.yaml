@@ -41,6 +41,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.14
