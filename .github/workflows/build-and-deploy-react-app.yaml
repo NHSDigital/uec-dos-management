@@ -19,7 +19,7 @@ on:
         description: "The root directory for react code"
         required: false
         type: string
-        default: "src/frontend"
+        default: "src/backend"
       tag:
         description: "The tag to build and deploy from"
         required: false
