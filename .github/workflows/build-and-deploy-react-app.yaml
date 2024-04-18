@@ -25,6 +25,11 @@ on:
         required: false
         default: ""
         type: string
+      workflow_timeout:
+        description: "Timeout duration in minutes"
+        required: true
+        default: 5
+        type: number
 
 jobs:
 
@@ -35,7 +40,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    timeout-minutes: 5
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.13
