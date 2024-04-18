@@ -27,7 +27,7 @@ on:
         type: string
       workflow_timeout:
         description: "Timeout duration in minutes"
-        required: true
+        required: false
         default: 5
         type: number
 
