@@ -31,11 +31,11 @@ jobs:
   build-application:
     name: "Build Application"
     runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write
       contents: read
-      timeout-minutes: ${{ inputs.workflow_timeout }}
     strategy:
       matrix:
         service: ${{ fromJSON(inputs.services) }}
