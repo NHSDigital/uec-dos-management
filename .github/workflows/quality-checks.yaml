@@ -29,7 +29,7 @@ on:
           description: 'Directory that holds package json for react app '
           required: false
           type: string
-          default: 'src/backend'
+          default: 'src/frontend'
 jobs:
   validate-terraform:
     name: "Validate Terraform"

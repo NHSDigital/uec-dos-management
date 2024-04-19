@@ -1,6 +1,6 @@
 #!/bin/bash
-export FRONT_END_DIR="${FRONT_END_DIR:-"src/backend"}"
-export SPA_BUCKET_NAME="${SPA_BUCKET_NAME:-"src/backend"}"
+export FRONT_END_DIR="${FRONT_END_DIR:-"src/frontend"}"
+export SPA_BUCKET_NAME="${SPA_BUCKET_NAME:-"src/frontend"}"
 # Navigate to the frontend directory if it exists
 if [ -d "$FRONT_END_DIR" ]; then
   cd "$FRONT_END_DIR"  || exit
