@@ -2,7 +2,7 @@
 
 # This script runs npm unit tests for the front end
 
-export FRONT_END_DIR="${FRONT_END_DIR:-"src/backend"}"
+export FRONT_END_DIR="${FRONT_END_DIR:-"src/frontend"}"
 
 
 if [ -d "$FRONT_END_DIR" ]; then

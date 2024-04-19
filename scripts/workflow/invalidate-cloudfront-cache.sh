@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # This script invalidates the CloudFront cache
-export FRONT_END_DIR="${FRONT_END_DIR:-"src/backend"}"
+export FRONT_END_DIR="${FRONT_END_DIR:-"src/frontend"}"
 # Check frontend directory  exists
 if [ -d "$FRONT_END_DIR" ]; then
   if [ -z "$DISTRIBUTION_ID" ]; then
