@@ -22,12 +22,19 @@ on:
         required: false
         default: 10
         type: number
+      workflow_timeout:
+        description: "Timeout duration in minutes"
+        required: false
+        default: 1
+        type: number
 
 jobs:
   run-ui-tests:
     name: "Run ui tests"
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    #timeout-minutes: 5
+    timeout-minutes: ${{ inputs.workflow_timeout }}
+
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write
