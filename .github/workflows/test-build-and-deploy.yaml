@@ -38,5 +38,5 @@ jobs:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
-      workflow_timeout: 1
+      workflow_timeout: 0
     secrets: inherit
