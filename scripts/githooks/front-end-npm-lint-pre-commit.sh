@@ -1,7 +1,7 @@
 #!/bin/bash
 # FRONTEND_DIRECTORY=src/backend
-# FRONT_END_DIR='src/frontend'
-export FRONT_END_DIR="${FRONT_END_DIR:-"src/frontend"}"
+# FRONT_END_DIR='src/backend'
+export FRONT_END_DIR="${FRONT_END_DIR:-"src/backend"}"
 # Navigate to the frontend directory if it exists
 if [ -d "$FRONT_END_DIR" ]; then
   cd "$FRONT_END_DIR"  || exit

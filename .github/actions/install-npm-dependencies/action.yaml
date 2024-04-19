@@ -5,7 +5,7 @@ inputs:
   code_directory:
     description: 'Directory that holds package json '
     required: false
-    default: 'src/frontend'
+    default: 'src/backend'
 runs:
   using: "composite"
   steps:

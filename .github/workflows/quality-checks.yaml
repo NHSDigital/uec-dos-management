@@ -24,7 +24,7 @@ on:
           description: 'Directory that holds package json for react app '
           required: false
           type: string
-          default: 'src/frontend'
+          default: 'src/backend'
 jobs:
   validate-terraform:
     name: "Validate Terraform"
