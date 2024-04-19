@@ -74,8 +74,9 @@ jobs:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Run Linter
-        run: npm run lint
-        working-directory: ${{ inputs.code_directory }}
+        uses: NHSDigital/uec-dos-management/.github/actions/run-npm-lint@v0.14
+        with:
+          code_directory: ${{ inputs.code_directory }}
 
       - name: Run Unit Tests
         run: |
