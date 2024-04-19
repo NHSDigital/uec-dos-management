@@ -45,6 +45,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    strategy:
       matrix:
         stack: ${{ fromJSON(inputs.stacks) }}
     steps:
