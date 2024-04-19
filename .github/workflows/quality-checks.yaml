@@ -30,6 +30,11 @@ on:
           required: false
           type: string
           default: 'src/frontend'
+        workflow_timeout:
+          description: "Timeout duration in minutes"
+          required: false
+          default: 5
+          type: number
 jobs:
   validate-terraform:
     name: "Validate Terraform"

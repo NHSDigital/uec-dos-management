@@ -36,6 +36,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+      timeout-minutes: ${{ inputs.workflow_timeout }}
     strategy:
       matrix:
         service: ${{ fromJSON(inputs.services) }}
