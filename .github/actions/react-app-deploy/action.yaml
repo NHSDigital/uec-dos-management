@@ -1,0 +1,20 @@
+name: "Deploy react app to s3 bucket"
+description: "Deploys react code to hosting s3 bucket"
+
+inputs:
+  code_directory:
+    description: 'Directory that holds package json for react code '
+    required: true
+  spa_bucket_name:
+    description: 'S3 bucket to host application'
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Deploys react app to host s3 bucket
+      id: npm_deploy_app
+      shell: bash
+      run: |
+        export FRONT_END_DIR=${{ inputs.code_directory }}
+        export SPA_BUCKET_NAME=${{ inputs.spa_bucket_name }}
+        /bin/bash ./uec-dos-management/scripts/workflow/react-deploy.sh

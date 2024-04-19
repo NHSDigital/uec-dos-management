@@ -74,29 +74,33 @@ jobs:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Run Linter
-        uses: NHSDigital/uec-dos-management/.github/actions/run-npm-lint@v0.14
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-lint@v0.14
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Run Unit Tests
-        run: |
-          export FRONT_END_DIR=${{ inputs.code_directory }}
-          /bin/bash ./uec-dos-management/scripts/workflow/npm-unit-tests.sh
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-unit-tests@v0.14
+        with:
+          code_directory: ${{ inputs.code_directory }}
 
       - name: Build React application
-        run: npm run build
-        working-directory: ${{ inputs.code_directory }}
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@v0.14
+        with:
+          code_directory: ${{ inputs.code_directory }}
 
       - name: Deploy react application
-        shell: bash
-        run: |
-          echo "Deploying to ${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}"
-          aws s3 sync build/ s3://${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}/
-        working-directory: ${{ inputs.code_directory }}
+        uses: NHSDigital/uec-dos-management/.github/actions/react-app-deploy@v0.14
+        with:
+          code_directory: ${{ inputs.code_directory }}
+          spa_bucket_name: ${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}
 
       - name: Invalidate CloudFront Cache
-        shell: bash
-        run: |
-          echo ${{ steps.derive_cloudfront_dist_id.outputs.cloudfront_dist_id }}
-          export DISTRIBUTION_ID=${{ steps.derive_cloudfront_dist_id.outputs.cloudfront_dist_id }}
-          /bin/bash ./uec-dos-management/scripts/workflow/invalidate-cloudfront-cache.sh
+        uses: NHSDigital/uec-dos-management/.github/actions/react_clear_cloudfront_cache@v0.14
+        with:
+          code_directory: ${{ inputs.code_directory }}
+          distribution_id: ${{ steps.derive_cloudfront_dist_id.outputs.cloudfront_dist_id }}
+        # shell: bash
+        # run: |
+        #   echo ${{ steps.derive_cloudfront_dist_id.outputs.cloudfront_dist_id }}
+        #   export DISTRIBUTION_ID=${{ steps.derive_cloudfront_dist_id.outputs.cloudfront_dist_id }}
+        #   /bin/bash ./uec-dos-management/scripts/workflow/invalidate-cloudfront-cache.sh

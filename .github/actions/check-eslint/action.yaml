@@ -4,8 +4,7 @@ description: "Checks correct formatting of javascript and typescript code in the
 inputs:
   code_directory:
     description: 'Directory that holds package json '
-    required: false
-    default: 'src/backend'
+    required: true
 runs:
   using: "composite"
   steps:

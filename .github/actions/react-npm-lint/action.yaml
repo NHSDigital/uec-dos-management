@@ -4,8 +4,7 @@ description: "Runs npm linting on react code in the repository"
 inputs:
   code_directory:
     description: 'Directory that holds package json for react code '
-    required: false
-    default: 'src/backend'
+    required: true
 runs:
   using: "composite"
   steps:
