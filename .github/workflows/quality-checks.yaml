@@ -20,6 +20,11 @@ on:
           description: The terraform stacks to be validated
           required: true
           type: string
+        code_directory:
+          description: 'Directory that holds package json for react app '
+          required: false
+          type: string
+          default: 'src/frontend'
 jobs:
   validate-terraform:
     name: "Validate Terraform"
@@ -143,7 +148,11 @@ jobs:
 
       - name: Install npm dependencies
         uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@v0.14
+        with:
+          code_directory: ${{ inputs.code_directory }}
 
       - name: "Check Javascipt formating"
         uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@v0.14
+        with:
+          code_directory: ${{ inputs.code_directory }}
 
