@@ -23,6 +23,11 @@ on:
         description: "Name of the tag"
         required: false
         type: string
+      workflow_timeout:
+        description: "Timeout duration in minutes"
+        required: false
+        default: 5
+        type: number
 
 jobs:
   destroy-application-infrastructure:
@@ -39,7 +44,7 @@ jobs:
   delete-ft-state:
     name: "Delete terraform state file"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write
