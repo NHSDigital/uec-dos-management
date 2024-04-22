@@ -24,7 +24,7 @@ jobs:
       domain: "uec-dos-management"
       stacks: "['lambda-stack']"
       action: apply
-      timeout-minutes: 1
+      workflow_timeout: 1
     secrets: inherit
 
   build-and-deploy-application:
