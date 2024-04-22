@@ -35,6 +35,7 @@ jobs:
       ]
     uses: ./.github/workflows/build-and-deploy-application.yaml
     with:
+      workflow_timeout: 10
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
