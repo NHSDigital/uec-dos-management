@@ -45,7 +45,7 @@ jobs:
         stack: ${{ fromJSON(inputs.stacks) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.14
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-999_Test_version_script
         with:
           repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
@@ -57,7 +57,7 @@ jobs:
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Deploy infrastructure stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@v0.14
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-999_Test_version_script
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
