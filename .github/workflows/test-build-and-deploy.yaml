@@ -24,6 +24,7 @@ jobs:
       domain: "uec-dos-management"
       stacks: "['lambda-stack']"
       action: apply
+      timeout-minutes: 1
     secrets: inherit
 
   build-and-deploy-application:
@@ -35,7 +36,6 @@ jobs:
       ]
     uses: ./.github/workflows/build-and-deploy-application.yaml
     with:
-      workflow_timeout: 10
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
