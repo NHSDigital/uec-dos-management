@@ -21,6 +21,11 @@ on:
             required: false
             default: ""
             type: string
+      workflow_timeout:
+        description: "Timeout duration in minutes"
+        required: false
+        default: 5
+        type: number
 
 jobs:
   build-application:
@@ -30,7 +35,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    timeout-minutes: 5
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     strategy:
       matrix:
         service: ${{ fromJSON(inputs.services) }}
