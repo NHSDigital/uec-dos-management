@@ -45,10 +45,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-<<<<<<< HEAD
     strategy:
-=======
->>>>>>> 732dd87 (DR-833 Workflow timeout parameterisation)
       matrix:
         stack: ${{ fromJSON(inputs.stacks) }}
     steps:
