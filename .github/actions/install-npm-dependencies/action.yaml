@@ -4,13 +4,13 @@ description: "Installs npm dependencies"
 inputs:
   code_directory:
     description: 'Directory that holds package json '
-    required: false
-    default: 'src/frontend'
+    required: true
 runs:
   using: "composite"
   steps:
     - name: Install node dependencies
       id: install_node_dependencies
       shell: bash
-      run: npm ci
-      working-directory: ${{ inputs.code_directory }}
+      run: |
+        export FRONT_END_DIR=${{ inputs.code_directory }}
+        /bin/bash ./uec-dos-management/scripts/workflow/install-npm-dependencies.sh

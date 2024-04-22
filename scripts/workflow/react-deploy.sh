@@ -1,12 +1,11 @@
 #!/bin/bash
-
 export FRONT_END_DIR="${FRONT_END_DIR:-"src/frontend"}"
+export SPA_BUCKET_NAME="${SPA_BUCKET_NAME:-"src/frontend"}"
 # Navigate to the frontend directory if it exists
 if [ -d "$FRONT_END_DIR" ]; then
   cd "$FRONT_END_DIR"  || exit
-  # Run the linter #
-  npm run lint
+  echo "Deploying to $SPA_BUCKET_NAME"
+  aws s3 sync build/ s3://$SPA_BUCKET_NAME/
 else
-  echo No code to lint
+  echo No frontend source code to deploy
 fi
-
