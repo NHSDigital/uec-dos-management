@@ -30,6 +30,11 @@ on:
           description: "The git tag identifying the timeline in the repository to deploy from"
           required: false
           type: string
+      workflow_timeout:
+        description: "Timeout duration in minutes"
+        required: false
+        default: 5
+        type: number
 
 jobs:
   deploy-infrastructure:
@@ -39,7 +44,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    timeout-minutes: 5
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     strategy:
       matrix:
         stack: ${{ fromJSON(inputs.stacks) }}

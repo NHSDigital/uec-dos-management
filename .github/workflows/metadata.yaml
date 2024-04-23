@@ -7,6 +7,11 @@ on:
           description: "The git tag to checkout, this defaults to the head of the triggering branch"
           required: false
           type: string
+        workflow_timeout:
+          description: "Timeout duration in minutes"
+          required: false
+          default: 5
+          type: number
     outputs:
       reponame:
         description: "The name of the code repo"
@@ -19,7 +24,7 @@ jobs:
   code-line-count:
     name: "Code Line Count"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.14
@@ -31,7 +36,7 @@ jobs:
   echo-metadata:
     name: "Get Metadata"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
 
     outputs:
       reponame: ${{ steps.get_metadata.outputs.reponame }}
@@ -48,7 +53,7 @@ jobs:
   derive-workspace:
     name: "Derive Workspace"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
 
     outputs:
       workspace: ${{ steps.derive_workspace.outputs.workspace }}

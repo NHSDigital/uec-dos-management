@@ -25,11 +25,16 @@ on:
           required: false
           type: string
           default: 'src/frontend'
+        workflow_timeout:
+          description: "Timeout duration in minutes"
+          required: false
+          default: 5
+          type: number
 jobs:
   validate-terraform:
     name: "Validate Terraform"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write
@@ -58,7 +63,7 @@ jobs:
   check-terraform-format:
     name: "Check Terraform Format"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.14
@@ -70,7 +75,7 @@ jobs:
   check-file-format:
     name: "Check File Format"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.14
@@ -83,7 +88,7 @@ jobs:
   check-markdown-format:
     name: "Check Markdown Format"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.14
@@ -96,7 +101,7 @@ jobs:
   check-python-black-format:
     name: "Check Python Format"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.14
@@ -109,7 +114,7 @@ jobs:
   check-python-flake-rules:
     name: "Check Python Syntax"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.14
@@ -122,7 +127,7 @@ jobs:
   scan-secrets:
     name: "Scan secrets"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.14
@@ -135,7 +140,7 @@ jobs:
   check-eslint:
     name: "Check ESLint"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.14

@@ -16,6 +16,11 @@ on:
         required: false
         default: "yes"
         type: string
+      workflow_timeout:
+        description: "Timeout duration in minutes"
+        required: false
+        default: 5
+        type: number
     outputs:
       tag_name:
         description: "The name of the generated tag"
@@ -24,7 +29,7 @@ jobs:
   generate_tag_name:
     name: "Generate tag name"
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     outputs:
       tag_name: ${{ steps.generate-tag-name.outputs.tag_name }}
     steps:
