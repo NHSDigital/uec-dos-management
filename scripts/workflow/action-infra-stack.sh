@@ -18,7 +18,7 @@ export ACTION="${ACTION:-""}"
 export STACK="${STACK:-""}"
 export ENVIRONMENT="${ENVIRONMENT:-""}"
 export USE_REMOTE_STATE_STORE="${USE_REMOTE_STATE_STORE:-true}"
-export ACCOUNT_PROJECT="${ACCOUNT_PROJECT:-"dos"}"
+export PROJECT="${PROJECT:-"dos"}"
 export TF_VAR_repo_name="${REPOSITORY:-"$(basename -s .git "$(git config --get remote.origin.url)")"}"
 
 # needed for terraform management stack
@@ -58,12 +58,12 @@ else
   fi
 fi
 
-if [ -z "$ACCOUNT_PROJECT" ] ; then
-  echo Set ACCOUNT_PROJECT to dos or cm
+if [ -z "$PROJECT" ] ; then
+  echo Set PROJECT to dos or cm
   EXPORTS_SET=1
 else
-  if [[ ! "$ACCOUNT_PROJECT" =~ ^(dos|cm) ]]; then
-      echo ACCOUNT_PROJECT should be dos or cm
+  if [[ ! "$PROJECT" =~ ^(dos|cm) ]]; then
+      echo PROJECT should be dos or cm
       EXPORTS_SET=1
   fi
 fi
@@ -102,10 +102,10 @@ function terraform-initialise {
 
 COMMON_TF_VARS_FILE="common.tfvars"
 STACK_TF_VARS_FILE="$STACK.tfvars"
-PROJECT_TF_VARS_FILE="$ACCOUNT_PROJECT-project.tfvars"
+PROJECT_TF_VARS_FILE="$PROJECT-project.tfvars"
 ENV_TF_VARS_FILE="$ENVIRONMENT.tfvars"
 
-echo "Preparing to run terraform $ACTION for stack $STACK to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $ACCOUNT_PROJECT"
+echo "Preparing to run terraform $ACTION for stack $STACK to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
 ROOT_DIR=$PWD
 # the directory that holds the stack to terraform
 STACK_DIR=$PWD/$TERRAFORM_DIR/$STACK
@@ -171,5 +171,5 @@ if [ $TEMP_STACK_TF_VARS_FILE = 1 ] ; then
   rm -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
 fi
 
-echo "Completed terraform $ACTION for stack $STACK to terraform workspace $WORKSPACE for account type $ENVIRONMENT  and project $ACCOUNT_PROJECT"
+echo "Completed terraform $ACTION for stack $STACK to terraform workspace $WORKSPACE for account type $ENVIRONMENT  and project $PROJECT"
 

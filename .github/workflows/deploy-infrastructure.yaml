@@ -11,6 +11,11 @@ on:
           description: "The name of the workspace to deploy the infrastructure into"
           required: true
           type: string
+      project:
+        description: "The project - eg dos or cm."
+        required: false
+        default: "dos"
+        type: string
       domain:
           description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
           required: false
@@ -50,21 +55,22 @@ jobs:
         stack: ${{ fromJSON(inputs.stacks) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.15
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.16
         with:
           repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.15
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.16
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Deploy infrastructure stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@v0.15
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@v0.16
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
           stack: ${{ matrix.stack }}
           action: ${{ inputs.action }}
+          project: ${{ inputs.project }}
