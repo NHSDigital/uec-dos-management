@@ -6,6 +6,7 @@ set -e
 #
 APPLICATION_DIR=application
 APPLICATION_UTIL_DIR=application-utils
+DATA_MIGRATION_DIR=data_migration
 
 # cleardown cache from previous run needs
 rm -f .coverage
@@ -19,6 +20,14 @@ for path in "$APPLICATION_DIR"/*/ ; do
                 rm -rf $APPLICATION_DIR/"$dir"/common
             fi
         done
+done
+
+# Clear down temp test files for data_migration directory
+for path in "$DATA_MIGRATION_DIR"/*/ ; do
+    if [ -d "$path/test/" ]; then
+        echo "Clearing down temp test files for $path"
+        rm -rf "$path/common"
+    fi
 done
 
 # if command line argument provided use that to target specific sub directory ; otherwise loops thru all subdirectories
@@ -68,6 +77,26 @@ if [ -z "$1" ] ; then
   done
 fi
 
+# Run tests for data_migration directory
+for path in "$DATA_MIGRATION_DIR"/*/ ; do
+    dirs=$(echo "$path" | tr "\/" '\n')
+    for dir in $dirs
+        do
+            if ! [ "$dir" == $DATA_MIGRATION_DIR ] ; then
+                if [ -d $DATA_MIGRATION_DIR/"$dir/test" ]; then
+                    echo "Preparing tests for $dir"
+                    # copy util code but not the test code
+                    rsync -av --exclude='test/' $APPLICATION_UTIL_DIR/* $DATA_MIGRATION_DIR/"$dir"
+                    echo "Running tests for $dir"
+                    pip install -r $DATA_MIGRATION_DIR/"$dir"/test/requirements.txt
+                    coverage run -a --source=$DATA_MIGRATION_DIR/"$dir"  -m pytest $DATA_MIGRATION_DIR/"$dir"
+                else
+                    echo "No tests written for $dir"
+                fi
+            fi
+        done
+done
+
 #  use requirements defined for tests/unit
 coverage report
 coverage html
@@ -82,6 +111,19 @@ for path in "$APPLICATION_DIR"/*/ ; do
             if [ -d $APPLICATION_DIR/"$dir"/test/ ]; then
                 echo "Clearing down temp test files for $dir"
                 rm -rf $APPLICATION_DIR/"$dir"/common
+            fi
+        done
+done
+
+# now clear down copied test code after testing
+echo "Removing temporary files"
+for path in "$DATA_MIGRATION_DIR"/*/ ; do
+    dirs=$(echo "$path" | tr "\/" '\n')
+    for dir in $dirs
+        do
+            if [ -d $DATA_MIGRATION_DIR/"$dir"/test/ ]; then
+                echo "Clearing down temp test files for $dir"
+                rm -rf $DATA_MIGRATION_DIR/"$dir"/common
             fi
         done
 done
