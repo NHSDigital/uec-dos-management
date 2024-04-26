@@ -11,7 +11,7 @@ set -e
 export ACTION="${ACTION:-"plan"}"                 # default action is plan
 export AWS_REGION="${AWS_REGION:-""}"                             # The AWS region into which you intend to deploy the application (where the terraform bucket will be created) eg eu-west-2
 export ENVIRONMENT="${ENVIRONMENT:-""}"                    # Identify the environment (one of dev,test,security,preprod or prod) usually part of the account name
-export ACCOUNT_PROJECT="${ACCOUNT_PROJECT:-"dos"}"
+export PROJECT="${PROJECT:-"dos"}"
 export TF_VAR_repo_name="${REPOSITORY:-"$(basename -s .git "$(git config --get remote.origin.url)")"}"
 export TF_VAR_terraform_state_bucket_name="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state"  # globally unique name
 export TF_VAR_terraform_lock_table_name="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-state-lock"
@@ -35,12 +35,12 @@ if [ -z "$AWS_REGION" ] ; then
   EXPORTS_SET=1
 fi
 
-if [ -z "$ACCOUNT_PROJECT" ] ; then
-  echo Set ACCOUNT_PROJECT to identify if account is for dos or cm
+if [ -z "$PROJECT" ] ; then
+  echo Set PROJECT to identify if account is for dos or cm
   EXPORTS_SET=1
 else
-  if [[ ! "$ACCOUNT_PROJECT" =~ ^(dos|cm) ]]; then
-      echo ACCOUNT_PROJECT should be dos or cm
+  if [[ ! "$PROJECT" =~ ^(dos|cm) ]]; then
+      echo PROJECT should be dos or cm
       EXPORTS_SET=1
   fi
 fi
@@ -106,14 +106,14 @@ function terraform-initialise {
 # These used by both stacks to be bootstrapped
 ROOT_DIR=$PWD
 COMMON_TF_VARS_FILE="common.tfvars"
-PROJECT_TF_VARS_FILE="$ACCOUNT_PROJECT-project.tfvars"
+PROJECT_TF_VARS_FILE="$PROJECT-project.tfvars"
 ENV_TF_VARS_FILE="$ENVIRONMENT.tfvars"
 
 
 if [[ "$USE_REMOTE_STATE_STORE" =~ ^(false|no|n|off|0|FALSE|NO|N|OFF) ]]; then
-  echo "Bootstrapping the $STACK stack (terraform $ACTION) to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $ACCOUNT_PROJECT"
+  echo "Bootstrapping the $STACK stack (terraform $ACTION) to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
 else
-  echo "Preparing to run terraform $ACTION for $STACK stack to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $ACCOUNT_PROJECT"
+  echo "Preparing to run terraform $ACTION for $STACK stack to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
 fi
 
 # specific to stack
@@ -218,9 +218,9 @@ STACK_TF_VARS_FILE="$STACK.tfvars"
 STACK_DIR=$PWD/$TERRAFORM_DIR/$STACK
 
 if [[ "$USE_REMOTE_STATE_STORE" =~ ^(false|no|n|off|0|FALSE|NO|N|OFF) ]]; then
-  echo "Bootstrapping the $STACK stack (terraform $ACTION) to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $ACCOUNT_PROJECT"
+  echo "Bootstrapping the $STACK stack (terraform $ACTION) to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
 else
-  echo "Preparing to run terraform $ACTION for $STACK stack to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $ACCOUNT_PROJECT"
+  echo "Preparing to run terraform $ACTION for $STACK stack to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
 fi
 
 # ------------- Step three create  thumbprint for github actions -----------
