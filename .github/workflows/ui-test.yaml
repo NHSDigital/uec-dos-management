@@ -67,7 +67,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.16
         with:
           name: allure-report
-          path: tests/integration/allure-reports/index.html
+          path: tests/ui/allure-reports/index.html
           retention-days: ${{ inputs.allure_report_retention }}
 
       - name: Upload accessibiity results
