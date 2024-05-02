@@ -3,6 +3,10 @@ name: Build and Deploy Application workflow
 on:
   workflow_call:
     inputs:
+      directory:
+            description: "The name of the directory to deploy into"
+            required: true
+            type: string
       environment:
             description: "The name of the environment to deploy into"
             required: true
