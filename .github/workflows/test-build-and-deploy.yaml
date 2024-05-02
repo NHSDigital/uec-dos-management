@@ -38,4 +38,5 @@ jobs:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
+      directory: "['application']"
     secrets: inherit
