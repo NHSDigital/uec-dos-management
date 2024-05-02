@@ -55,10 +55,11 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/build-service@v0.17
         with:
           service: ${{ matrix.service }}
+          directory: ${{ inputs.directory }}
 
       - name: "Deploy service"
         uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.17
         with:
           service: ${{ matrix.service }}
+          directory: ${{ inputs.directory }}
           workspace: ${{ inputs.workspace }}
-

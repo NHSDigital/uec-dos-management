@@ -17,7 +17,7 @@ fi
 
 echo "Deploying service into Lambda function: ${LAMBDA_FUNCTION}"
 
-cd ./application/"${SERVICE}"
+cd ./"${DIRECTORY}"/"${SERVICE}"
 
 LAMBDA_OUTPUT=$(aws lambda update-function-code --function-name="${LAMBDA_FUNCTION}" --zip-file=fileb://deployment.zip --publish)
 LATEST_VERSION=$(jq -r '.Version' --compact-output <<< "$LAMBDA_OUTPUT" )

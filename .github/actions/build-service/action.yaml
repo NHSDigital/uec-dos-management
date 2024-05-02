@@ -14,4 +14,5 @@ runs:
         shell: bash
         run: |
           export SERVICE=${{ inputs.service }}
+          export DIRECTORY=${{ inputs.directory }}
           /bin/bash ./uec-dos-management/scripts/workflow/build-service.sh

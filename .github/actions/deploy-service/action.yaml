@@ -20,6 +20,7 @@ runs:
         shell: bash
         run: |
           export SERVICE=${{ inputs.service }}
+          export DIRECTORY=${{ inputs.directory }}
           export TAG=${{ inputs.tag }}
           export WORKSPACE=${{ inputs.workspace }}
           /bin/bash ./uec-dos-management/scripts/workflow/deploy-service.sh

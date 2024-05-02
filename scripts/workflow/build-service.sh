@@ -8,11 +8,11 @@ echo "Building service: ${SERVICE}"
 
 echo "Copy utility code"
 # copy util code but not the test code
-rsync -av --exclude='test/' ./application-utils/* ./application/"${SERVICE}"
+rsync -av --exclude='test/' ./application-utils/* ./"${DIRECTORY}"/"${SERVICE}"
 
-cd ./application/"${SERVICE}"
+cd ./"${DIRECTORY}"/"${SERVICE}"
 
 zip -r deployment.zip . -x "test*"
 
 echo "Tidy up temporary files"
-rm -rf ../../application/"${SERVICE}"/common/
+rm -rf ../../"${DIRECTORY}"/"${SERVICE}"/common/
