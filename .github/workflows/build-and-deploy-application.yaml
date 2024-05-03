@@ -3,6 +3,10 @@ name: Build and Deploy Application workflow
 on:
   workflow_call:
     inputs:
+      directory:
+            description: "The name of the directory to deploy into"
+            required: true
+            type: string
       environment:
             description: "The name of the environment to deploy into"
             required: true
@@ -41,24 +45,25 @@ jobs:
         service: ${{ fromJSON(inputs.services) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.17
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.18
         with:
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.17
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.18
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Build service"
-        uses: NHSDigital/uec-dos-management/.github/actions/build-service@v0.17
+        uses: NHSDigital/uec-dos-management/.github/actions/build-service@v0.18
         with:
           service: ${{ matrix.service }}
+          directory: ${{ inputs.directory }}
 
       - name: "Deploy service"
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.17
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.18
         with:
           service: ${{ matrix.service }}
+          directory: ${{ inputs.directory }}
           workspace: ${{ inputs.workspace }}
-
