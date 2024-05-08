@@ -263,6 +263,14 @@ if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
 fi
+
+if [ -n "$ACTION" ] && [ "$ACTION" = 'apply' ] ; then
+  terraform apply -auto-approve \
+  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
+  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
+  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
+  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+fi
 # cleardown temp files
 rm -f "$STACK_DIR"/common-variables.tf
 rm -f "$STACK_DIR"/locals.tf
