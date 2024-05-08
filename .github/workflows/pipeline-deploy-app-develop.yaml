@@ -82,7 +82,7 @@ jobs:
       ]
     uses: ./.github/workflows/unit-test.yaml
     with:
-      env: dev
+      env: mgmt
     secrets: inherit
 
   slack-notifications:
