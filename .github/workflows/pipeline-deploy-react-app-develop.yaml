@@ -67,7 +67,6 @@ jobs:
       domain: "uec-dos-management"
       stacks: "['ui-test-stack']"
       action: destroy
-      workflow_timeout: 10
     secrets: inherit
 
   slack-notifications:
