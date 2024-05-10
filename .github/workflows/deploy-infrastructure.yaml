@@ -49,7 +49,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
-    timeout-minutes: 10
+    workflow_timeout: 10
     strategy:
       matrix:
         stack: ${{ fromJSON(inputs.stacks) }}
