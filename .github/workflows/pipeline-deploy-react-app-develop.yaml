@@ -19,7 +19,7 @@ jobs:
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
-      environment: mgmte
+      environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: "uec-dos-management"
       stacks: "['ui-test-stack']"
