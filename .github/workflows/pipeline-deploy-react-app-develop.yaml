@@ -24,6 +24,7 @@ jobs:
       domain: "uec-dos-management"
       stacks: "['ui-test-stack']"
       action: apply
+      workflow_timeout: 10
     secrets: inherit
 
   deploy-react-application:
