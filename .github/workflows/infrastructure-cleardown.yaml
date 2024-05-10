@@ -45,7 +45,6 @@ jobs:
           domain: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
           action: destroy
-          workflow_timeout: 10
         secrets: inherit
 
   delete-ft-state:
