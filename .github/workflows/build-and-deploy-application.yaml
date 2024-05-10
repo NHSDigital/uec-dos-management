@@ -62,7 +62,7 @@ jobs:
           directory: ${{ inputs.directory }}
 
       - name: "Deploy service"
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.16
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.18
         with:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
