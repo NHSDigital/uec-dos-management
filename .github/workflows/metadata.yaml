@@ -94,5 +94,5 @@ jobs:
 
     needs: generate-commit-hash
     steps:
-      - run: echo "commit hash [${{steps.commit_hash.outputs.git_hash}}]"
+      - run: echo "commit hash [${{steps.commit_hash.outputs.commithash}}]"
 
