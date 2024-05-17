@@ -68,19 +68,22 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@v0.19
 
   generate-commit-hash:
-    name: "Get Metadata"
+    name: "Generate Commit Hash"
     runs-on: ubuntu-latest
     timeout-minutes: ${{ inputs.workflow_timeout }}
 
     outputs:
       reponame: ${{ steps.get_metadata.outputs.reponame }}
-
+      commithash: ${{ steps.commit_hash.outputs.commithash }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.19
         with:
           tag: ${{ inputs.tag }}
-      - name: "Echo commit hash"
-        run: echo "git_hash=$(git rev-parse --short "$GITHUB_SHA")"
-
+      - name: "Output commit hash"
+        id: commit_hash
+        run: | 
+            git_hash=$(git rev-parse --short "$GITHUB_SHA")
+            echo "output [$git_hash]"
+            echo "git_hash=$git_hash" >> $GITHUB_OUTPUT
 
