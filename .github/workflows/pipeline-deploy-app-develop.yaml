@@ -105,7 +105,7 @@ jobs:
     runs-on: ubuntu-lat est
     timeout-minutes: ${{ inputs.workflow_timeout }}
 
-    steps: generate-commit-hash
+    steps:
       name: "get commit hash"
       run: |
       echo "commit hash [${{needs.generate-commit-hash.outputs.commit_hash}}]"
