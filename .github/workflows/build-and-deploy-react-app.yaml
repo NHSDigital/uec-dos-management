@@ -38,20 +38,20 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-880_Deploy_from_bucket
         with:
           tag: ${{ inputs.tag }}
           repository: ${{ inputs.domain }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-880_Deploy_from_bucket
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: Derive spa bucket
         id: derive_spa_bucket
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@task/DR-880_Deploy_from_bucket
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
@@ -59,43 +59,43 @@ jobs:
 
       - name: Derive cloudfront dist id
         id: derive_cloudfront_dist_id
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-cloudfront-dist-id@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-cloudfront-dist-id@task/DR-880_Deploy_from_bucket
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
           domain: ${{ inputs.domain }}
 
       - name: Set up Node.js
-        uses: NHSDigital/uec-dos-management/.github/actions/install-node@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/install-node@task/DR-880_Deploy_from_bucket
 
       - name: Install dependencies
-        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@task/DR-880_Deploy_from_bucket
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Run Linter
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-lint@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-lint@task/DR-880_Deploy_from_bucket
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Run Unit Tests
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-unit-tests@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-unit-tests@task/DR-880_Deploy_from_bucket
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Build React application
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@task/DR-880_Deploy_from_bucket
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Deploy react application
-        uses: NHSDigital/uec-dos-management/.github/actions/react-app-deploy@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/react-app-deploy@task/DR-880_Deploy_from_bucket
         with:
           code_directory: ${{ inputs.code_directory }}
           spa_bucket_name: ${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}
 
       - name: Invalidate CloudFront Cache
-        uses: NHSDigital/uec-dos-management/.github/actions/react_clear_cloudfront_cache@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/react_clear_cloudfront_cache@task/DR-880_Deploy_from_bucket
         with:
           code_directory: ${{ inputs.code_directory }}
           distribution_id: ${{ steps.derive_cloudfront_dist_id.outputs.cloudfront_dist_id }}
