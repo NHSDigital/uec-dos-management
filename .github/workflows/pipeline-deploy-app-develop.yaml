@@ -107,5 +107,6 @@ jobs:
 
     steps:
       name: "get commit hash"
+      uses: ./.github/workflows/metadata.yaml
       run: |
       echo "commit hash [${{needs.generate-commit-hash.outputs.commit_hash}}]"
