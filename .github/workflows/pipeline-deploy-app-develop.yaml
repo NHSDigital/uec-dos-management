@@ -107,5 +107,6 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
 
     needs: generate-commit-hash
+    uses: ./.github/workflows/metadata.yaml
     steps:
       - run: echo "commit hash [${{needs.generate-commit-hash.outputs.commit_hash}}]"
