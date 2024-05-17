@@ -82,8 +82,7 @@ jobs:
           tag: ${{ inputs.tag }}
       - name: "Output commit hash"
         id: commit_hash
-        run: | 
+        run: |
             git_hash=$(git rev-parse --short "$GITHUB_SHA")
-            echo "output [$git_hash]"
+            echo "commit hash: [$git_hash]"
             echo "git_hash=$git_hash" >> $GITHUB_OUTPUT
-
