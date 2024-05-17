@@ -102,11 +102,10 @@ jobs:
     secrets: inherit
 
   call-commit-hash:
-    name: "call Commit Hash"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-lat est
     timeout-minutes: ${{ inputs.workflow_timeout }}
 
     steps: generate-commit-hash
-    name: "get commit hash"
-      - run: echo "commit hash [${{needs.generate-commit-hash.outputs.commit_hash}}]"
-
+      name: "get commit hash"
+      run: |
+      echo "commit hash [${{needs.generate-commit-hash.outputs.commit_hash}}]"
