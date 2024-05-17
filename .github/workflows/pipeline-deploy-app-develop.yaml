@@ -100,13 +100,3 @@ jobs:
     with:
       env: mgmt
     secrets: inherit
-
-  call-commit-hash:
-    runs-on: ubuntu-lat est
-    timeout-minutes: ${{ inputs.workflow_timeout }}
-
-    steps:
-      name: "get commit hash"
-      uses: ./.github/workflows/metadata.yaml
-      run: |
-      echo "commit hash [${{needs.generate-commit-hash.outputs.commit_hash}}]"
