@@ -92,7 +92,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: ${{ inputs.workflow_timeout }}
 
-    needs: call-commit-hash
+    needs: generate-commit-hash
     steps:
       - run: echo "commit hash [${{steps.commit_hash.outputs.git_hash}}]"
 
