@@ -93,4 +93,4 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
 
     needs: call-commit-hash
-    steps: echo "commit hash: [${{steps.commit_hash.outputs.git_hash}}]"
+    steps: echo "commit hash [${{steps.commit_hash.outputs.git_hash}}]"
