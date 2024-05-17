@@ -19,6 +19,9 @@ on:
       workspace:
         description: "The name of the workspace that we interacting with"
         value: "${{ jobs.derive-workspace.outputs.workspace }}"
+      commit_hash:
+        description: "The unique commit hash"
+        value: ${{ job.get-commit-hash.outputs.commit_hash }}
 
 jobs:
   code-line-count:
@@ -67,13 +70,12 @@ jobs:
         id: derive_workspace
         uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@v0.19
 
-  generate-commit-hash:
+  get-commit-hash:
     name: "Generate Commit Hash"
     runs-on: ubuntu-latest
     timeout-minutes: ${{ inputs.workflow_timeout }}
 
     outputs:
-      reponame: ${{ steps.get_metadata.outputs.reponame }}
       commit_hash: ${{ steps.commit_hash.outputs.commit_hash }}
     steps:
       - name: "Checkout code"
@@ -87,11 +89,3 @@ jobs:
             echo "commit hash: [$commit_hash]"
             echo "commit_hash=$commit_hash" >> $GITHUB_OUTPUT
 
-  call-commit-hash:
-    name: "call Commit Hash"
-    runs-on: ubuntu-latest
-    timeout-minutes: ${{ inputs.workflow_timeout }}
-
-    needs: generate-commit-hash
-    steps:
-      - run: echo "commit hash [${{needs.generate-commit-hash.outputs.commit_hash}}]"

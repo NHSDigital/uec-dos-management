@@ -101,3 +101,11 @@ jobs:
       env: mgmt
     secrets: inherit
 
+  call-commit-hash:
+    name: "call Commit Hash"
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.workflow_timeout }}
+
+    needs: generate-commit-hash
+    steps:
+      - run: echo "commit hash [${{needs.generate-commit-hash.outputs.commit_hash}}]"
