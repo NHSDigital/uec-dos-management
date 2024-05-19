@@ -66,9 +66,12 @@ LAMBDA_OUTPUT=$(aws lambda update-function-code --function-name="${LAMBDA_FUNCTI
 LATEST_VERSION=$(jq -r '.Version' --compact-output <<< "$LAMBDA_OUTPUT" )
 PREVIOUS_VERSION=$(expr "${LATEST_VERSION}" - 1)
 
-echo "Artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}${DEPLOYMENT_FILE_NAME}"
+echo "Artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
 echo "Deployed to version ${LATEST_VERSION} of the lambda ${LAMBDA_FUNCTION} in the ${WORKSPACE} in the ${ENVIRONMENT} environment"
 echo "Replacing previous version: ${PREVIOUS_VERSION}"
 
-# TODO
-# add tag to show deployed to $ENVIRONMENT
+DEPLOYED_AT=$(date '+%Y-%m-%d %H:%M:%S')
+aws s3api put-object-tagging \
+    --bucket "${ARTEFACT_BUCKET_NAME}"  \
+    --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" \
+    --tagging "{\"TagSet\": [{ \"Key\": \"${ENVIRONMENT}\", \"Value\": \"${DEPLOYED_AT}\" }]}"
