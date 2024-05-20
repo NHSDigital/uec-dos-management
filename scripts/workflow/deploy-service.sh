@@ -46,10 +46,13 @@ if [ $EXPORTS_SET = 1 ] ; then
   echo One or more exports not set
   exit 1
 fi
-ARTEFACT_BUCKET_NAME="nhse-mgmt-${REPO_NAME}-artefacts"
-RELEASED_ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME}-released"
+export ARTEFACT_BUCKET_NAME="nhse-mgmt-${REPO_NAME}-artefacts"
+if [ "$ENVIRONMENT" == 'prod' ] ; then
+  export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME}-released"
+fi
+
 LAMBDA_FUNCTION="${SERVICE}"
-DEPLOYMENT_FILE_NAME="$SERVICE.zip"
+export DEPLOYMENT_FILE_NAME="$SERVICE-deployment.zip"
 
 if [ "${WORKSPACE}" != "default" ]; then
   LAMBDA_FUNCTION="${SERVICE}-${WORKSPACE}"
@@ -58,6 +61,7 @@ echo "Pulling deployment artefact ${DEPLOYMENT_FILE_NAME} for service ${SERVICE}
 echo "From ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}"
 echo "For deployment to the lambda ${LAMBDA_FUNCTION} in the ${WORKSPACE} workspace in the ${ENVIRONMENT} environment"
 
+PROJECT_ROOT_DIR=$(pwd)
 # TODO can i pass file directly as zip-file parameter and avoid landing it in directory
 cd ./"${APPLICATION_ROOT_DIR}"/"${SERVICE}"
 aws s3api get-object --bucket "${ARTEFACT_BUCKET_NAME}" --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" "${DEPLOYMENT_FILE_NAME}"
@@ -70,8 +74,4 @@ echo "Artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_
 echo "Deployed to version ${LATEST_VERSION} of the lambda ${LAMBDA_FUNCTION} in the ${WORKSPACE} in the ${ENVIRONMENT} environment"
 echo "Replacing previous version: ${PREVIOUS_VERSION}"
 
-DEPLOYED_AT=$(date '+%Y-%m-%d %H:%M:%S')
-aws s3api put-object-tagging \
-    --bucket "${ARTEFACT_BUCKET_NAME}"  \
-    --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" \
-    --tagging "{\"TagSet\": [{ \"Key\": \"${ENVIRONMENT}\", \"Value\": \"${DEPLOYED_AT}\" }]}"
+/bin/bash "$PROJECT_ROOT_DIR"/scripts/workflow/tag-deployment.sh
