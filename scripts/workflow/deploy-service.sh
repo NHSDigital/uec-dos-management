@@ -6,7 +6,7 @@ set -e
 export SERVICE="${SERVICE:-""}"
 export COMMIT_HASH="${COMMIT_HASH:-""}"
 export WORKSPACE="${WORKSPACE:-""}"
-export REPO_NAME="${REPO_NAME:-""}"
+export DOMAIN="${DOMAIN:-""}"
 export ENVIRONMENT="${ENVIRONMENT:-""}"
 export APPLICATION_ROOT_DIR="${APPLICATION_ROOT_DIR:-"application"}"
 # check exports have been done
@@ -27,8 +27,8 @@ if [ -z "$WORKSPACE" ] ; then
   EXPORTS_SET=1
 fi
 
-if [ -z "$REPO_NAME" ] ; then
-  echo Set REPOSITORY to the domain repository for the service to be deployed
+if [ -z "$DOMAIN" ] ; then
+  echo Set DOMAIN to the domain repository for the service to be deployed
   EXPORTS_SET=1
 fi
 
@@ -46,7 +46,7 @@ if [ $EXPORTS_SET = 1 ] ; then
   echo One or more exports not set
   exit 1
 fi
-export ARTEFACT_BUCKET_NAME="nhse-mgmt-${REPO_NAME}-artefacts"
+export ARTEFACT_BUCKET_NAME="nhse-mgmt-${DOMAIN}-artefacts"
 if [ "$ENVIRONMENT" == 'prod' ] ; then
   export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME}-released"
 fi

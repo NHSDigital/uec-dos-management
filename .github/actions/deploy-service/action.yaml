@@ -14,7 +14,7 @@ inputs:
     commit_hash:
         description: "The short version of the git commit hash"
         required: true
-    reponame:
+    domain:
         description: "Name of domain repo to identify artefact bucket"
         required: true
     environment:
@@ -36,6 +36,6 @@ runs:
           export TAG=${{ inputs.tag }}
           export WORKSPACE=${{ inputs.workspace }}
           export COMMIT_HASH=${{ inputs.commit_hash }}
-          export REPO_NAME=${{ inputs.repo_name }}
+          export DOMAIN=${{ inputs.domain }}
           export ENVIRONMENT=${{ inputs.environment }}
           /bin/bash ./uec-dos-management/scripts/workflow/deploy-service.sh

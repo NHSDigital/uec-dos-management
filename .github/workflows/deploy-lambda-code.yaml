@@ -34,8 +34,8 @@ on:
         description: "Git commit hash - to locate artefacts"
         required: true
         type: string
-      repo_name:
-        description: "Name of repository - to locate artefacts"
+      domain:
+        description: "Name of domain repository - to locate artefacts"
         required: true
         type: string
 
@@ -70,4 +70,4 @@ jobs:
           directory: ${{ inputs.directory }}
           workspace: ${{ inputs.workspace }}
           commit_hash: ${{ inputs.commit_hash }}
-          repo_name: ${{ inputs.repo_name }}
+          domain: ${{ inputs.domain }}
