@@ -68,6 +68,7 @@ jobs:
         with:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
+          environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
           commit_hash: ${{ inputs.commit_hash }}
           domain: ${{ inputs.domain }}
