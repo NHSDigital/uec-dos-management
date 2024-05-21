@@ -71,7 +71,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@v0.19
 
   get-commit-hash:
-    name: "Generate Commit Hash"
+    name: "Get Commit Hash"
     runs-on: ubuntu-latest
     timeout-minutes: ${{ inputs.workflow_timeout }}
 

@@ -1,4 +1,4 @@
-name: Build and Deploy Application workflow
+name: Build Application workflow
 
 on:
   workflow_call:
@@ -30,7 +30,10 @@ on:
         required: false
         default: 5
         type: number
-
+      commit_hash:
+            description: "The unique commit hash"
+            required: true
+            type: string
 jobs:
   build-application:
     name: "Build Application"
@@ -61,9 +64,18 @@ jobs:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
 
-      - name: "Deploy service"
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.19
+      - name: Derive artefact bucket
+        id: derive-artefact-bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-bucket@v0.19
+        with:
+          environment: ${{ inputs.environment }}
+          workspace: ${{ inputs.workspace }}
+          domain: ${{ inputs.domain }}
+
+      - name: "Upload service to S3 bucket"
+        uses: NHSDigital/uec-dos-management/.github/actions/push-artefact@v0.19
         with:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
           workspace: ${{ inputs.workspace }}
+          commit_hash: ${{ inputs.commit_hash }}

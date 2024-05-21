@@ -1,0 +1,30 @@
+name: "Upload service artefact"
+description: "Upload the built artefacts to s3 bucket"
+
+inputs:
+    service:
+        description: "The name of the service to build"
+        required: true
+    directory:
+        description: "The name of the directory to build in"
+        required: true
+    workspace:
+        description: "The name of the workspace to deploy the service into."
+        required: true
+    commit_hash:
+        description: "The unique commit hash"
+        required: true
+        type: string
+
+runs:
+  using: "composite"
+
+  steps:
+      - name: Build Service
+        shell: bash
+        run: |
+          export SERVICE=${{ inputs.service }}
+          export DIRECTORY=${{ inputs.directory }}
+          export WORKSPACE=${{ inputs.workspace }}
+          export COMMIT_HASH=${{ inputs.commit_hash }}
+          /bin/bash ./uec-dos-management/scripts/workflow/push-artefact.sh
