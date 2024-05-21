@@ -6,9 +6,11 @@ set -e
 export SERVICE="${SERVICE:-""}"
 export COMMIT_HASH="${COMMIT_HASH:-""}"
 export WORKSPACE="${WORKSPACE:-""}"
-export DOMAIN="${DOMAIN:-""}"
 export ENVIRONMENT="${ENVIRONMENT:-""}"
 export APPLICATION_ROOT_DIR="${APPLICATION_ROOT_DIR:-"application"}"
+export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME:-""}"
+
+# TODO pass in artefact bucket name from PIRAs action
 # check exports have been done
 EXPORTS_SET=0
 # Check key variables have been exported - see above
@@ -27,11 +29,6 @@ if [ -z "$WORKSPACE" ] ; then
   EXPORTS_SET=1
 fi
 
-if [ -z "$DOMAIN" ] ; then
-  echo Set DOMAIN to the domain repository for the service to be deployed
-  EXPORTS_SET=1
-fi
-
 if [ -z "$ENVIRONMENT" ] ; then
   echo Set ENVIRONMENT to required environment eg dev, test, staging etc
   EXPORTS_SET=1
@@ -42,11 +39,16 @@ if [ -z "$APPLICATION_ROOT_DIR" ] ; then
   EXPORTS_SET=1
 fi
 
+if [ -z "$ARTEFACT_BUCKET_NAME" ] ; then
+  echo Set ARTEFACT_BUCKET_NAME to name of s3 repo for domain artefacts
+  EXPORTS_SET=1
+fi
+
 if [ $EXPORTS_SET = 1 ] ; then
   echo One or more exports not set
   exit 1
 fi
-export ARTEFACT_BUCKET_NAME="nhse-mgmt-${DOMAIN}-artefacts"
+
 if [ "$ENVIRONMENT" == 'prod' ] ; then
   echo Copy artefacts to and deploy from released bucket
   aws s3 sync s3://"$ARTEFACT_BUCKET_NAME"  s3://"$ARTEFACT_BUCKET_NAME"-released --exclude "*" --include "$WORKSPACE/$COMMIT_HASH/*"
@@ -54,7 +56,7 @@ if [ "$ENVIRONMENT" == 'prod' ] ; then
 fi
 
 LAMBDA_FUNCTION="${SERVICE}"
-export DEPLOYMENT_FILE_NAME="$SERVICE-deployment.zip"
+export DEPLOYMENT_FILE_NAME="$SERVICE.zip"
 
 if [ "${WORKSPACE}" != "default" ]; then
   LAMBDA_FUNCTION="${SERVICE}-${WORKSPACE}"

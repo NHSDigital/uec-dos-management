@@ -34,8 +34,8 @@ on:
         description: "Git commit hash - to locate artefacts"
         required: true
         type: string
-      domain:
-        description: "Name of domain repository - to locate artefacts"
+      artefact_bucket_name:
+        description: "Name of s3 repo holding domain artefacts"
         required: true
         type: string
 
@@ -71,4 +71,4 @@ jobs:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
           commit_hash: ${{ inputs.commit_hash }}
-          domain: ${{ inputs.domain }}
+          artefact_bucket_name: ${{ inputs.artefact_bucket_name }}

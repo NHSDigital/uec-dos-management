@@ -60,5 +60,6 @@ jobs:
       directory: 'application'
       # TODO hardcoded hash
       commit_hash: 'abc123'
-      domain: 'uec-dos-management'
+      # TODO hardcoded
+      artefact_bucket_name: 'nhse-mgmt-uec-dos-management-artefacts'
     secrets: inherit

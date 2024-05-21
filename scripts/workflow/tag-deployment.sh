@@ -43,7 +43,7 @@ if [ $EXPORTS_SET = 1 ] ; then
   exit 1
 fi
 
-echo "Tagging time of deployment of artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME} to ${ENVIRONMENT} "
+echo "Tagging time of deployment to ${ENVIRONMENT} of artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
 
 DEPLOYED_AT=$(date '+%Y-%m-%d %H:%M:%S')
 aws s3api put-object-tagging \
