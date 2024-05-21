@@ -26,14 +26,14 @@ jobs:
       action: apply
     secrets: inherit
 
-  build-and-deploy-application:
-    name: Build and deploy application
+  build-application:
+    name: Build application
     needs:
       [
         metadata,
         deploy-infrastructure-apply
       ]
-    uses: ./.github/workflows/build-and-deploy-application.yaml
+    uses: ./.github/workflows/build-aapplication.yaml
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
