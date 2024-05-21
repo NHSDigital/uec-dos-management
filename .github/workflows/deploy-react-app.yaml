@@ -1,4 +1,4 @@
-name: Build And Deploy React App
+name: Deploy React App
 
 on:
   workflow_call:
@@ -27,6 +27,10 @@ on:
         type: string
       commit_hash:
         description: "Git commit hash - to locate artefacts"
+        required: true
+        type: string
+      artefact_bucket_name:
+        description: "Name of s3 bucket holding domain artefacts"
         required: true
         type: string
 
@@ -76,7 +80,7 @@ jobs:
           spa_bucket_name: ${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
-          domain: ${{ inputs.domain }}
+          artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
           commit_hash: ${{ inputs.commit_hash }}
 
       - name: Invalidate CloudFront Cache

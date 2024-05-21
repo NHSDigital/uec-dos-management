@@ -3,7 +3,7 @@ export FRONT_END_DIR="${FRONT_END_DIR:-"src/frontend"}"
 export SPA_BUCKET_NAME="${SPA_BUCKET_NAME:-""}"
 export COMMIT_HASH="${COMMIT_HASH:-""}"
 export WORKSPACE="${WORKSPACE:-""}"
-export DOMAIN="${DOMAIN:-""}"
+export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME:-""}"
 export ENVIRONMENT="${ENVIRONMENT:-""}"
 
 EXPORTS_SET=0
@@ -24,8 +24,8 @@ if [ -z "$WORKSPACE" ] ; then
   EXPORTS_SET=1
 fi
 
-if [ -z "$DOMAIN" ] ; then
-  echo Set DOMAIN to identify s3 bucket holding the deployable artefact
+if [ -z "$ARTEFACT_BUCKET_NAME" ] ; then
+  echo Set ARTEFACT_BUCKET_NAME to name of s3 bucket holding the deployable artefact
   EXPORTS_SET=1
 fi
 
@@ -41,7 +41,6 @@ fi
 
 export DEPLOYMENT_FILE_NAME="build.zip"
 
-export ARTEFACT_BUCKET_NAME="nhse-mgmt-${DOMAIN}-artefacts"
 if [ "$ENVIRONMENT" == 'prod' ] ; then
   # Copy to artefact released bucket and deploy from there
   aws s3 sync s3://ARTEFACT_BUCKET_NAME s3://${ARTEFACT_BUCKET_NAME}-released
