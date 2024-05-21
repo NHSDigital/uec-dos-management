@@ -83,4 +83,4 @@ jobs:
           directory: ${{ inputs.directory }}
           workspace: ${{ inputs.workspace }}
           commit_hash: ${{ inputs.commit_hash }}
-          artefact_bucket_name: ${{ needs.derive-artefact-bucket.outputs.artefact_bucket_name }}
+          artefact_bucket_name: ${{ steps.derive-artefact-bucket.outputs.artefact_bucket_name }}

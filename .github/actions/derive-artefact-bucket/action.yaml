@@ -25,7 +25,4 @@ runs:
       shell: bash
       run: |
         artefact_bucket_name="nhse-mgmt-${{ inputs.domain }}-artefacts"
-        if [[ "${{ inputs.workspace }}" != "default" ]]; then
-          artefact_bucket_name="${artefact_bucket_name}-${{ inputs.workspace }}"
-        fi
         echo "artefact_bucket_name=$artefact_bucket_name" >> $GITHUB_OUTPUT
