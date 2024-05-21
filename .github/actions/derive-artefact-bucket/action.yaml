@@ -24,7 +24,7 @@ runs:
       id: "derive-artefact-bucket"
       shell: bash
       run: |
-        artefact_bucket_name="nhse-mgmt-${{ inputs.domain }}-${{ inputs.environment }}-artefacts"
+        artefact_bucket_name="nhse-mgmt-${{ inputs.domain }}-artefacts"
         if [[ "${{ inputs.workspace }}" != "default" ]]; then
           artefact_bucket_name="${artefact_bucket_name}-${{ inputs.workspace }}"
         fi

@@ -4,24 +4,28 @@ on:
   workflow_call:
     inputs:
       directory:
-            description: "The name of the directory to deploy into"
+            description: "The name of the directory to build into"
             required: true
             type: string
       environment:
-            description: "The name of the environment to deploy into"
+            description: "The name of the environment to build into"
             required: true
             type: string
       workspace:
-            description: "The name of the workspace to deploy the application into"
+            description: "The name of the workspace to build the application into"
+            required: true
+            type: string
+      domain:
+            description: "The name of the code repository"
             required: true
             type: string
       services:
-            description: "A list of the services to build and deploy"
+            description: "A list of the services to build and build"
             required: false
             default: ""
             type: string
       tag:
-            description: "The tag to build and deploy from"
+            description: "The tag to build and build from"
             required: false
             default: ""
             type: string
@@ -79,3 +83,4 @@ jobs:
           directory: ${{ inputs.directory }}
           workspace: ${{ inputs.workspace }}
           commit_hash: ${{ inputs.commit_hash }}
+          artefact_bucket_name: ${{ needs.derive-artefact-bucket.outputs.artefact_bucket_name }}
