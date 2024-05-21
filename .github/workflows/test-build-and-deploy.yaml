@@ -40,4 +40,5 @@ jobs:
       services: "['healthcare-services-data-manager']"
       directory: 'application'
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      domain: "uec-dos-management"  //need to check if it should be hardcoded
     secrets: inherit
