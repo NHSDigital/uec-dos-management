@@ -33,7 +33,7 @@ jobs:
         metadata,
         deploy-infrastructure-apply
       ]
-    uses: ./.github/workflows/build-aapplication.yaml
+    uses: ./.github/workflows/build-application.yaml
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
