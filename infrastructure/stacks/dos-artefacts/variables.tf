@@ -46,3 +46,9 @@ variable "management_artefacts_bucket_name" {
   default     = "nhse-mgmt-uec-dos-management-artefacts"
 }
 
+variable "management_artefacts_released_bucket_name" {
+  description = "DOS management Artefacts Released Bucket"
+  default     = "nhse-mgmt-uec-dos-management-artefacts-released"
+}
+
+

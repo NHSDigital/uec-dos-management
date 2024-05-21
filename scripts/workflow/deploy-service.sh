@@ -48,8 +48,8 @@ if [ $EXPORTS_SET = 1 ] ; then
 fi
 export ARTEFACT_BUCKET_NAME="nhse-mgmt-${DOMAIN}-artefacts"
 if [ "$ENVIRONMENT" == 'prod' ] ; then
-  # copy artefacts to and deploy from released bucket
-  aws s3 sync s3://"$ARTEFACT_BUCKET_NAME"  s3://"$ARTEFACT_BUCKET_NAME"-released --dryrun --exclude "*" --include "$WORKSPACE/$COMMIT_HASH/*"
+  echo Copy artefacts to and deploy from released bucket
+  aws s3 sync s3://"$ARTEFACT_BUCKET_NAME"  s3://"$ARTEFACT_BUCKET_NAME"-released --exclude "*" --include "$WORKSPACE/$COMMIT_HASH/*"
   export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME}-released"
 fi
 
