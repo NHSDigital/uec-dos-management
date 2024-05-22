@@ -31,12 +31,13 @@ fi
 echo "Deploying to S3 bucket: $ARTEFACT_BUCKET_NAME"
 echo "Workspace: $WORKSPACE"
 echo "Commit Hash: $COMMIT_HASH"
+echo "Current working directory: $(pwd)"
 
 
 # Deploy artefacts to s3 bucket
 
   cd ./"${DIRECTORY}"/"${SERVICE}"
-  aws s3 cp ${DIRECTORY}/${SERVICE}/${SERVICE}.zip s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH
+  aws s3 cp ${SERVICE}.zip s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH/
 
   echo "Deployment completed"
 fi
