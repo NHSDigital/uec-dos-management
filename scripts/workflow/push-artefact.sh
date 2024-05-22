@@ -40,4 +40,3 @@ echo "Current working directory: $(pwd)"
   aws s3 cp ${SERVICE}.zip s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH/
 
   echo "Deployment completed"
-fi
