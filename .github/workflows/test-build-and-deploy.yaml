@@ -26,17 +26,19 @@ jobs:
       action: apply
     secrets: inherit
 
-  build-and-deploy-application:
-    name: Build and deploy application
+  build-application:
+    name: Build application
     needs:
       [
         metadata,
         deploy-infrastructure-apply
       ]
-    uses: ./.github/workflows/build-and-deploy-application.yaml
+    uses: ./.github/workflows/build-application.yaml
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
       directory: 'application'
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      domain: "uec-dos-management"
     secrets: inherit

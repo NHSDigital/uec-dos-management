@@ -54,8 +54,8 @@ jobs:
       tag: ${{ needs.generate-tag-name.outputs.tag_name }}
       action: apply
     secrets: inherit
-  build-and-deploy-application:
-    name: Build and deploy application
+  build-application:
+    name: Build application
     needs:
       [
         metadata,
@@ -63,7 +63,7 @@ jobs:
         tag-repository,
         deploy-infrastructure
       ]
-    uses: ./.github/workflows/build-and-deploy-application.yaml
+    uses: ./.github/workflows/build-application.yaml
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
@@ -78,7 +78,7 @@ jobs:
         generate-tag-name,
         tag-repository,
         deploy-infrastructure,
-        build-and-deploy-application,
+        build-application,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
