@@ -84,10 +84,3 @@ jobs:
           workspace: ${{ inputs.workspace }}
           commit_hash: ${{ inputs.commit_hash }}
           artefact_bucket_name: ${{ steps.derive-artefact-bucket.outputs.artefact_bucket_name }}
-
-     - name: "Deploy service"
-       uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@task/DR-880_Deploy_from_bucket
-       with:
-          service: ${{ matrix.service }}
-          directory: ${{ inputs.directory }}
-          workspace: ${{ inputs.workspace }}
