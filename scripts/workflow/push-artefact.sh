@@ -33,7 +33,7 @@ echo "Workspace: $WORKSPACE"
 echo "Commit Hash: $COMMIT_HASH"
 
 # Deploy artefacts to s3 bucket
-  aws s3 cp ./${DIRECTORY}/${SERVICE}/${SERVICE}.zip/ s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH
+  aws s3 cp ${DIRECTORY}/${SERVICE}/${SERVICE}.zip/ s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH
 
   echo "Deployment completed"
 fi
