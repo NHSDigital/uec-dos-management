@@ -79,7 +79,7 @@ jobs:
       commit_hash: ${{ steps.commit_hash.outputs.commit_hash }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-880_Deploy_from_bucket
         with:
           tag: ${{ inputs.tag }}
       - name: "Output commit hash"
