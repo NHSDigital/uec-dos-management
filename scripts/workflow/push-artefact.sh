@@ -29,12 +29,12 @@ if [ -z "$ARTEFACT_BUCKET_NAME" ] ; then
 fi
 
 if [ -z "$DIRECTORY" ] ; then
-  echo Set COMMIT_HASH to identify which artefacts to be deployed
+  echo Set DIRECTORY to identify which artefacts to be deployed
   EXPORTS_SET=1
 fi
 
 if [ -z "$SERVICE" ] ; then
-  echo Set COMMIT_HASH to identify which artefacts to be deployed
+  echo Set SERVICE to identify which artefacts to be deployed
   EXPORTS_SET=1
 fi
 
