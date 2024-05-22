@@ -28,15 +28,23 @@ if [ -z "$ARTEFACT_BUCKET_NAME" ] ; then
   EXPORTS_SET=1
 fi
 
-echo "Deploying to S3 bucket: $ARTEFACT_BUCKET_NAME"
+if [ -z "$DIRECTORY" ] ; then
+  echo Set COMMIT_HASH to identify which artefacts to be deployed
+  EXPORTS_SET=1
+fi
+
+if [ -z "$SERVICE" ] ; then
+  echo Set COMMIT_HASH to identify which artefacts to be deployed
+  EXPORTS_SET=1
+fi
+
+echo "Push to S3 bucket: $ARTEFACT_BUCKET_NAME"
 echo "Workspace: $WORKSPACE"
 echo "Commit Hash: $COMMIT_HASH"
-echo "Current working directory: $(pwd)"
 
-
-# Deploy artefacts to s3 bucket
+# Push artefacts to s3 bucket
 
   cd ./"${DIRECTORY}"/"${SERVICE}"
   aws s3 cp ${SERVICE}.zip s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH/
 
-  echo "Deployment completed"
+  echo "Push to S3 bucket completed"

@@ -1,4 +1,4 @@
-name: "Derive bucket name for Push artefact action"
+name: "Derive bucket name for domain artefact"
 description: "Derives the name of the bucket used to store artefacts for subsequent actions to run against"
 
 inputs:

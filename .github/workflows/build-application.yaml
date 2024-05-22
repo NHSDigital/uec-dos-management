@@ -20,12 +20,12 @@ on:
             required: true
             type: string
       services:
-            description: "A list of the services to build and build"
+            description: "A list of the services to build"
             required: false
             default: ""
             type: string
       tag:
-            description: "The tag to build and build from"
+            description: "The tag to build from"
             required: false
             default: ""
             type: string
