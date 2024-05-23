@@ -25,6 +25,7 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: test
       use_commit_hash: "yes"
+      pr_head_sha: ${{ github.event.pull_request.head.sha }}
   tag-repository:
     name: "Tag Repository"
     needs:

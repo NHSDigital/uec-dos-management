@@ -12,6 +12,9 @@ inputs:
     description: "Option to configure the tag generator to include the commit hash in the tag name"
     required: false
     default: "yes"
+  pr_head_sha:
+    description: "The commit hash at head of branch. Required if use commit hash is true"
+    required: true
 
 outputs:
   tag_name:
@@ -28,6 +31,7 @@ runs:
         export WORKSPACE=${{ inputs.workspace }}
         export TAG_TYPE=${{ inputs.tag_type }}
         export USE_COMMIT_HASH=${{ inputs.use_commit_hash }}
+        export PR_HEAD_SHA=${{ inputs.pr_head_sha }}
         . uec-dos-management/scripts/workflow/generate-tag-name.sh
         echo "Tag name: ${TAG_NAME}"
         echo "tag_name=${TAG_NAME}" >> $GITHUB_OUTPUT
