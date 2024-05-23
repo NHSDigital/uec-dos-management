@@ -14,18 +14,34 @@ jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
+
+  derive-commit-hash-for-pr:
+    name: "Get last commit on task branch"
+    runs-on: ubuntu-latest
+    outputs:
+      branch_commit_hash: ${{ steps.get_hash_for_pr.outputs.branch_commit_hash }}
+    steps:
+      - name: "Get branch commit hash for branch"
+        id: get_hash_for_pr
+        run: |
+          branch_commit_hash_full=${{ github.event.pull_request.head.sha }}
+          branch_commit_hash=$(git rev-parse --short $branch_commit_hash_full)
+          echo "branch commit hash: [$branch_commit_hash]"
+          echo "branch_commit_hash=$branch_commit_hash" >> $GITHUB_OUTPUT
+
   generate-tag-name:
     name: "Generate Tag Name"
     needs:
       [
         metadata,
+        derive-commit-hash-for-pr,
       ]
     uses: ./.github/workflows/generate-tag-name.yaml
     with:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: test
       use_commit_hash: "yes"
-      pr_head_sha: ${{ github.event.pull_request.head.sha }}
+      pr_head_sha: ${{ needs.derive-commit-hash-for-pr.branch_commit_hash }}
   tag-repository:
     name: "Tag Repository"
     needs:
@@ -63,6 +79,7 @@ jobs:
         metadata,
         deploy-infrastructure,
         generate-tag-name,
+        derive-commit-hash-for-pr
       ]
     uses: ./.github/workflows/deploy-lambda-code.yaml
     with:
@@ -71,7 +88,8 @@ jobs:
       services: "['healthcare-services-data-manager']"
       directory: 'application'
       tag: ${{ needs.generate-tag-name.outputs.tag_name }}
-      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      # commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      commit_hash: ${{ needs.derive-commit-hash-for-pr.branch_commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
 
