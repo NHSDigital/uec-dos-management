@@ -21,6 +21,8 @@ jobs:
     outputs:
       branch_commit_hash: ${{ steps.get_hash_for_pr.outputs.branch_commit_hash }}
     steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
       - name: "Get branch commit hash for branch"
         id: get_hash_for_pr
         run: |
