@@ -4,40 +4,44 @@ on:
   workflow_call:
     inputs:
       directory:
-            description: "The name of the directory to build into"
-            required: true
-            type: string
+        description: "The name of the directory to build into"
+        required: true
+        type: string
       environment:
-            description: "The name of the environment to build into"
-            required: true
-            type: string
+        description: "The name of the environment to build into"
+        required: true
+        type: string
       workspace:
-            description: "The name of the workspace to build the application into"
-            required: true
-            type: string
-      domain:
-            description: "The name of the code repository"
-            required: true
-            type: string
+        description: "The name of the workspace to build the application into"
+        required: true
+        type: string
+      # domain:
+      #   description: "The name of the code repository"
+      #   required: true
+      #   type: string
       services:
-            description: "A list of the services to build"
-            required: false
-            default: ""
-            type: string
+        description: "A list of the services to build"
+        required: false
+        default: ""
+        type: string
       tag:
-            description: "The tag to build from"
-            required: false
-            default: ""
-            type: string
+        description: "The tag to build from"
+        required: false
+        default: ""
+        type: string
       workflow_timeout:
         description: "Timeout duration in minutes"
         required: false
         default: 5
         type: number
       commit_hash:
-            description: "The unique commit hash"
-            required: true
-            type: string
+        description: "The unique commit hash"
+        required: true
+        type: string
+      artefact_bucket_name:
+        description: "The name of the s3 bucket holding domain artefacts"
+        required: true
+        type: string
 jobs:
   build-application:
     name: "Build Application"
@@ -68,14 +72,6 @@ jobs:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
 
-      - name: Derive artefact bucket
-        id: derive-artefact-bucket
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-bucket@task/DR-880_Deploy_from_bucket
-        with:
-          environment: ${{ inputs.environment }}
-          workspace: ${{ inputs.workspace }}
-          domain: ${{ inputs.domain }}
-
       - name: "Upload service to S3 bucket"
         uses: NHSDigital/uec-dos-management/.github/actions/push-artefact@task/DR-880_Deploy_from_bucket
         with:
@@ -83,4 +79,4 @@ jobs:
           directory: ${{ inputs.directory }}
           workspace: ${{ inputs.workspace }}
           commit_hash: ${{ inputs.commit_hash }}
-          artefact_bucket_name: ${{ steps.derive-artefact-bucket.outputs.artefact_bucket_name }}
+          artefact_bucket_name: ${{ inputs.artefact_bucket_name }}

@@ -32,7 +32,6 @@ jobs:
       [
         metadata,
         deploy-infrastructure-apply,
-        # TODO build-application
       ]
     uses: ./.github/workflows/build-application.yaml
     with:
@@ -41,6 +40,7 @@ jobs:
       services: "['healthcare-services-data-manager']"
       directory: 'application'
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
       domain: "uec-dos-management"
     secrets: inherit
 
@@ -50,7 +50,7 @@ jobs:
       [
         metadata,
         deploy-infrastructure-apply,
-        # TODO build-application
+        build-application
       ]
     uses: ./.github/workflows/deploy-lambda-code.yaml
     with:
@@ -58,8 +58,6 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
       directory: 'application'
-      # TODO hardcoded hash
-      commit_hash: 'abc123'
-      # TODO hardcoded
-      artefact_bucket_name: 'nhse-mgmt-uec-dos-management-artefacts'
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
