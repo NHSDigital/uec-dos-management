@@ -54,25 +54,6 @@ jobs:
       tag: ${{ needs.generate-tag-name.outputs.tag_name }}
       action: apply
     secrets: inherit
-  build-application:
-    name: Build application
-    needs:
-      [
-        metadata,
-        generate-tag-name,
-        tag-repository,
-        deploy-infrastructure
-      ]
-    uses: ./.github/workflows/build-application.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      services: "['healthcare-services-data-manager']"
-      tag: ${{ needs.generate-tag-name.outputs.tag_name }}
-      directory: 'application'
-      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
-      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
-    secrets: inherit
 
   deploy-application:
     name: Deploy lambda application code
@@ -80,7 +61,7 @@ jobs:
       [
         metadata,
         deploy-infrastructure,
-        build-application
+        generate-tag-name,
       ]
     uses: ./.github/workflows/deploy-lambda-code.yaml
     with:
@@ -88,6 +69,7 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
       directory: 'application'
+      tag: ${{ needs.generate-tag-name.outputs.tag_name }}
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
@@ -100,7 +82,7 @@ jobs:
         generate-tag-name,
         tag-repository,
         deploy-infrastructure,
-        build-application,
+        deploy-application,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:

@@ -3,10 +3,6 @@ name: Metadata workflow
 on:
   workflow_call:
     inputs:
-      # environment:
-      #   description: "The name of the environment to deploy the infrastructure into"
-      #   required: true
-      #   type: string
       tag:
         description: "The git tag to checkout, this defaults to the head of the triggering branch"
         required: false
@@ -37,11 +33,11 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-880_Deploy_from_bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
         with:
           tag: ${{ inputs.tag }}
       - name: "Code line count"
-        uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@task/DR-880_Deploy_from_bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@v0.20
 
   echo-metadata:
     name: "Get Metadata"
@@ -53,12 +49,12 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-880_Deploy_from_bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
         with:
           tag: ${{ inputs.tag }}
       - name: "Get metadata"
         id: get_metadata
-        uses: NHSDigital/uec-dos-management/.github/actions/metadata@task/DR-880_Deploy_from_bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/metadata@v0.20
 
   derive-workspace:
     name: "Derive Workspace"
@@ -70,12 +66,12 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-880_Deploy_from_bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
         with:
           tag: ${{ inputs.tag }}
       - name: "Derive workspace"
         id: derive_workspace
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@task/DR-880_Deploy_from_bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@v0.20
 
   get-commit-hash:
     name: "Get Commit Hash"
@@ -86,7 +82,7 @@ jobs:
       commit_hash: ${{ steps.commit_hash.outputs.commit_hash }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-880_Deploy_from_bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
         with:
           tag: ${{ inputs.tag }}
       - name: "Output commit hash"
@@ -107,12 +103,12 @@ jobs:
       ]
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-880_Deploy_from_bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
         with:
           tag: ${{ inputs.tag }}
       - name: "Identify domain repository bucket"
         id: identify_bucket
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-bucket@task/DR-880_Deploy_from_bucket
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-bucket@v0.20
         with:
           # environment: ${{ inputs.environment }}
           # workspace: ${{ needs.derive-workspace.outputs.workspace }}

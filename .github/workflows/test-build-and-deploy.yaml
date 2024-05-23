@@ -41,7 +41,6 @@ jobs:
       directory: 'application'
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
-      # domain: "uec-dos-management"
     secrets: inherit
 
   deploy-application:

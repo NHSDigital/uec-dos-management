@@ -2,12 +2,6 @@ name: "Derive bucket name for domain artefact"
 description: "Derives the name of the bucket used to store artefacts for subsequent actions to run against"
 
 inputs:
-    # environment:
-    #     description: "The name of the environment to action the infrastructure"
-    #     required: true
-    # workspace:
-    #     description: "The name of the workspace to action the infrastructure into."
-    #     required: true
     domain:
         description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
         required: false
