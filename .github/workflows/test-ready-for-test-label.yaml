@@ -43,7 +43,7 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: test
       use_commit_hash: "yes"
-      pr_head_sha: ${{ needs.derive-commit-hash-for-pr.branch_commit_hash }}
+      pr_head_sha: ${{ needs.derive-commit-hash-for-pr.outputs.branch_commit_hash }}
   tag-repository:
     name: "Tag Repository"
     needs:
@@ -91,7 +91,7 @@ jobs:
       directory: 'application'
       tag: ${{ needs.generate-tag-name.outputs.tag_name }}
       # commit_hash: ${{ needs.metadata.outputs.commit_hash }}
-      commit_hash: ${{ needs.derive-commit-hash-for-pr.branch_commit_hash }}
+      commit_hash: ${{ needs.derive-commit-hash-for-pr.outputs.branch_commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
 
