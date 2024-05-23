@@ -14,17 +14,36 @@ jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
+
+  derive-commit-hash-for-pr:
+    name: "Get last commit on task branch"
+    runs-on: ubuntu-latest
+    outputs:
+      branch_commit_hash: ${{ steps.get_hash_for_pr.outputs.branch_commit_hash }}
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
+      - name: "Get branch commit hash for branch"
+        id: get_hash_for_pr
+        run: |
+          branch_commit_hash_full=${{ github.event.pull_request.head.sha }}
+          branch_commit_hash=$(git rev-parse --short $branch_commit_hash_full)
+          echo "branch commit hash: [$branch_commit_hash]"
+          echo "branch_commit_hash=$branch_commit_hash" >> $GITHUB_OUTPUT
+
   generate-tag-name:
     name: "Generate Tag Name"
     needs:
       [
         metadata,
+        derive-commit-hash-for-pr,
       ]
     uses: ./.github/workflows/generate-tag-name.yaml
     with:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: test
       use_commit_hash: "yes"
+      pr_head_sha: ${{ needs.derive-commit-hash-for-pr.outputs.branch_commit_hash }}
   tag-repository:
     name: "Tag Repository"
     needs:
@@ -54,22 +73,28 @@ jobs:
       tag: ${{ needs.generate-tag-name.outputs.tag_name }}
       action: apply
     secrets: inherit
-  build-application:
-    name: Build application
+
+  deploy-application:
+    name: Deploy lambda application code
     needs:
       [
         metadata,
+        deploy-infrastructure,
         generate-tag-name,
-        tag-repository,
-        deploy-infrastructure
+        derive-commit-hash-for-pr
       ]
-    uses: ./.github/workflows/build-application.yaml
+    uses: ./.github/workflows/deploy-lambda-code.yaml
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
+      directory: 'application'
       tag: ${{ needs.generate-tag-name.outputs.tag_name }}
+      # commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      commit_hash: ${{ needs.derive-commit-hash-for-pr.outputs.branch_commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
+
   cleardown-infrastructure:
     name: "Cleardown Infrastructure"
     needs:
@@ -78,7 +103,7 @@ jobs:
         generate-tag-name,
         tag-repository,
         deploy-infrastructure,
-        build-application,
+        deploy-application,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:

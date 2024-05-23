@@ -21,6 +21,10 @@ on:
         required: false
         default: 5
         type: number
+      pr_head_sha:
+        description: "The commit hash at head of branch. Required if use commit hash is true"
+        required: true
+        type: string
     outputs:
       tag_name:
         description: "The name of the generated tag"
@@ -34,11 +38,12 @@ jobs:
       tag_name: ${{ steps.generate-tag-name.outputs.tag_name }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
       - name: "Generate tag name"
         id: "generate-tag-name"
-        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag-name@v0.19
+        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag-name@v0.20
         with:
           workspace: ${{ inputs.workspace }}
           tag_type: ${{ inputs.tag_type }}
           use_commit_hash: ${{ inputs.use_commit_hash }}
+          pr_head_sha: ${{ inputs.pr_head_sha }}
