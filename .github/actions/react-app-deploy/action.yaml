@@ -8,6 +8,18 @@ inputs:
   spa_bucket_name:
     description: 'S3 bucket to host application'
     required: true
+  environment:
+    description: "The name of the environment to deploy into"
+    required: true
+  workspace:
+    description: "The name of the workspace to deploy the application into"
+    required: true
+  commit_hash:
+    description: "Git commit hash - to locate artefacts"
+    required: true
+  artefact_bucket_name:
+    description: "Name of s3 bucket holding domain artefacts"
+    required: true
 runs:
   using: "composite"
   steps:
@@ -17,4 +29,8 @@ runs:
       run: |
         export FRONT_END_DIR=${{ inputs.code_directory }}
         export SPA_BUCKET_NAME=${{ inputs.spa_bucket_name }}
+        export COMMIT_HASH=${{ inputs.commit_hash }}
+        export WORKSPACE=${{ inputs.workspace }}
+        export ARTEFACT_BUCKET_NAME=${{ inputs.artefact_bucket_name }}
+        export ENVIRONMENT=${{ inputs.environment }}
         /bin/bash ./uec-dos-management/scripts/workflow/react-deploy.sh
