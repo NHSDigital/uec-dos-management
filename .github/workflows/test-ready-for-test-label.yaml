@@ -18,7 +18,6 @@ jobs:
   derive-commit-hash-used-for-artefact:
     name: "Get last commit on branch"
     runs-on: ubuntu-latest
-    timeout-minutes: ${{ inputs.workflow_timeout }}
 
     outputs:
       artefact_commit_hash: ${{ steps.get_artefact_hash.outputs.artefact_commit_hash }}
