@@ -89,7 +89,7 @@ jobs:
         id: commit_hash
         uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@v0.20
         with:
-          sha: $GITHUB_SHA
+          sha: "${GITHUB_SHA}"
       # - name: "Output commit hash"
       #   id: commit_hash
       #   run: |
