@@ -50,3 +50,8 @@ module "management_artefacts_bucket" {
   bucket_name = var.management_artefacts_bucket_name
 }
 
+module "management_artefacts_released_bucket" {
+  source      = "../../modules/s3"
+  bucket_name = var.management_artefacts_released_bucket_name
+}
+

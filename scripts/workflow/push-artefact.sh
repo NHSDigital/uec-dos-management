@@ -38,6 +38,11 @@ if [ -z "$SERVICE" ] ; then
   EXPORTS_SET=1
 fi
 
+if [ $EXPORTS_SET = 1 ] ; then
+  echo One or more exports not set
+  exit 1
+fi
+
 echo "Push to S3 bucket: $ARTEFACT_BUCKET_NAME"
 echo "Workspace: $WORKSPACE"
 echo "Commit Hash: $COMMIT_HASH"
