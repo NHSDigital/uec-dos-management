@@ -52,6 +52,8 @@ jobs:
 
     outputs:
       reponame: ${{ steps.get_metadata.outputs.reponame }}
+      commit_hash: ${{ steps.get_metadata.outputs.commit_hash }}
+      artefact_commit_hash: ${{ steps.get_metadata.outputs.artefact_commit_hash }}
 
     steps:
       - name: "Checkout code"
