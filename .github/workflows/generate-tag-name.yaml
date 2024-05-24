@@ -21,7 +21,7 @@ on:
         required: false
         default: 5
         type: number
-      pr_head_sha:
+      commit_hash:
         description: "The commit hash at head of branch. Required if use commit hash is true"
         required: true
         type: string
@@ -46,4 +46,4 @@ jobs:
           workspace: ${{ inputs.workspace }}
           tag_type: ${{ inputs.tag_type }}
           use_commit_hash: ${{ inputs.use_commit_hash }}
-          pr_head_sha: ${{ inputs.pr_head_sha }}
+          commit_hash: ${{ inputs.commit_hash }}

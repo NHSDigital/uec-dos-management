@@ -40,14 +40,13 @@ jobs:
     needs:
       [
         metadata,
-        derive-commit-hash-used-for-artefact,
       ]
     uses: ./.github/workflows/generate-tag-name.yaml
     with:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: test
       use_commit_hash: "yes"
-      pr_head_sha: ${{ needs.derive-commit-hash-used-for-artefact.outputs.artefact_commit_hash }}
+      pr_head_sha: ${{ needs.metadata.outputs.artefact_commit_hash }}
   tag-repository:
     name: "Tag Repository"
     needs:
@@ -85,7 +84,6 @@ jobs:
         metadata,
         deploy-infrastructure,
         generate-tag-name,
-        derive-commit-hash-used-for-artefact
       ]
     uses: ./.github/workflows/deploy-lambda-code.yaml
     with:
