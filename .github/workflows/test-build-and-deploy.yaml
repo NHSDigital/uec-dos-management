@@ -31,7 +31,7 @@ jobs:
     needs:
       [
         metadata,
-        deploy-infrastructure-apply
+        deploy-infrastructure-apply,
       ]
     uses: ./.github/workflows/build-application.yaml
     with:
@@ -40,5 +40,23 @@ jobs:
       services: "['healthcare-services-data-manager']"
       directory: 'application'
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
-      domain: "uec-dos-management"
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    secrets: inherit
+
+  deploy-application:
+    name: Deploy lambda application code
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-apply,
+        build-application
+      ]
+    uses: ./.github/workflows/deploy-lambda-code.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      services: "['healthcare-services-data-manager']"
+      directory: 'application'
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
