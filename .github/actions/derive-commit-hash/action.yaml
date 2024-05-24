@@ -7,7 +7,7 @@ inputs:
 outputs:
     commit_hash:
         description: "The derived short version of the git commit hash "
-        value: ${{ steps.derive-commit-hash.outputs.commit_hash }}
+        value: ${{ steps.derive-short-hash.outputs.commit_hash }}
 
 runs:
   using: "composite"
@@ -18,6 +18,6 @@ runs:
       run: |
         export SHA=${{ inputs.sha }}
         /bin/bash ./uec-dos-management/scripts/workflow/derive-hash-from-sha.sh
-        echo "Setting commit hash: $COMMIT_HASH"
+        echo "Setting commit hash: ${COMMIT_HASH}"
         echo "commit_hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
 
