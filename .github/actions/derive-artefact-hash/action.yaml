@@ -1,0 +1,24 @@
+name: "Derive git hash used to hold artefacts for pull request action"
+description: "Derives the short version of the commit hash used to store artefacts"
+inputs:
+    sha:
+        description: "The sha from which to derive short version of commit hash"
+        required: true
+outputs:
+    commit_hash:
+        description: "The derived short version of the git commit hash on branch used to store artefacts "
+        value: ${{ steps.derive-artefact-short-hash.outputs.commit_hash }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Derive git hash"
+      id: "derive-artefact-short-hash"
+      shell: bash
+      run: |
+        echo not used
+        # export SHA=${{ inputs.sha }}
+        # /bin/bash ./uec-dos-management/scripts/workflow/derive-hash-from-sha.sh
+        # echo "Setting artefact commit hash: $COMMIT_HASH"
+        # echo "artefact_commit_hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
+

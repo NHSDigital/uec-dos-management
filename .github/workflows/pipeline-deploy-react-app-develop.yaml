@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - main
-      - 'task/*'
-
+      - 'feature/*'
+# TODO revert to task
 jobs:
   metadata:
     name: "Get Metadata"
