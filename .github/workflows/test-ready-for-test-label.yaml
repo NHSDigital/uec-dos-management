@@ -46,7 +46,7 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       tag_type: test
       use_commit_hash: "yes"
-      pr_head_sha: ${{ needs.metadata.outputs.artefact_commit_hash }}
+      commit_hash: ${{ needs.metadata.outputs.artefact_commit_hash }}
   tag-repository:
     name: "Tag Repository"
     needs:
