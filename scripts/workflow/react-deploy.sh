@@ -47,6 +47,7 @@ if [ "$ENVIRONMENT" == 'prod' ] ; then
   export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME}-released"
 fi
 
+PROJECT_ROOT_DIR=$(pwd)
 # TODO can i pass file directly as zip-file parameter and avoid landing it in directory
 # Navigate to the frontend directory if it exists
 if [ -d "$FRONT_END_DIR" ]; then
