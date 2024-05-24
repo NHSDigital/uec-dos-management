@@ -32,7 +32,6 @@ jobs:
       metadata,
       deploy-infrastructure-apply,
       # TODO job to build react app
-      #TODO job to derive artefact bucket name job
     ]
     uses: ./.github/workflows/deploy-react-app.yaml
     with:
@@ -41,8 +40,7 @@ jobs:
       domain: ${{ needs.metadata.outputs.reponame }}
       # TODO Hardcoded hash
       commit_hash: def123
-      # Hardcoded artefact bucket name
-      artefact_bucket_name: nhse-mgmt-uec-dos-management-artefacts
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
 
   test-react-application:

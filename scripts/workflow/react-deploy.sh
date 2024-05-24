@@ -62,8 +62,7 @@ if [ -d "$FRONT_END_DIR" ]; then
   aws s3 sync temp/build s3://$SPA_BUCKET_NAME/
   echo "Removing temp files"
   rm -rf temp
-  # TODO code in separate branch
-  # /bin/bash "$PROJECT_ROOT_DIR"/scripts/workflow/tag-deployment.sh
+  /bin/bash "$PROJECT_ROOT_DIR"/scripts/workflow/tag-deployment.sh
 else
   echo No frontend source code to deploy
 fi
