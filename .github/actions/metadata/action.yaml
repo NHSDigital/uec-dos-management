@@ -24,4 +24,6 @@ runs:
         echo "github event ref: ${{ github.event.ref }}"
         echo "username of user triggering the workflow: ${{ github.actor }}"
         echo "repo name ${{ github.event.repository.name }}"
+        echo "commit_hash $(git rev-parse --short "$GITHUB_SHA")
+        echo "artefact_commit_hash_full=${{ github.event.pull_request.head.sha }}"
         echo "reponame=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
