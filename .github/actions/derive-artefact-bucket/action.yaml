@@ -18,5 +18,6 @@ runs:
       id: "derive-artefact-bucket"
       shell: bash
       run: |
+        echo not used
         artefact_bucket_name="nhse-mgmt-${{ inputs.domain }}-artefacts"
         echo "artefact_bucket_name=$artefact_bucket_name" >> $GITHUB_OUTPUT

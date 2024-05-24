@@ -15,25 +15,25 @@ jobs:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
-  derive-commit-hash-used-for-artefact:
-    name: "Get last commit on branch"
-    runs-on: ubuntu-latest
+  # derive-commit-hash-used-for-artefact:
+  #   name: "Get last commit on branch"
+  #   runs-on: ubuntu-latest
 
-    outputs:
-      artefact_commit_hash: ${{ steps.get_artefact_hash.outputs.artefact_commit_hash }}
-    steps:
-      - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-916_Deploy_react_from_bucket
-        with:
-          tag: ${{ inputs.tag }}
+  #   outputs:
+  #     artefact_commit_hash: ${{ steps.get_artefact_hash.outputs.artefact_commit_hash }}
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-916_Deploy_react_from_bucket
+  #       with:
+  #         tag: ${{ inputs.tag }}
 
-      - name: "Output artefact commit hash"
-        id: get_artefact_hash
-        run: |
-          artefact_commit_hash_full=${{ github.event.pull_request.head.sha }}
-          artefact_commit_hash=$(git rev-parse --short $artefact_commit_hash_full)
-          echo "artefact commit hash: $artefact_commit_hash"
-          echo "artefact_commit_hash=$artefact_commit_hash" >> $GITHUB_OUTPUT
+  #     - name: "Output artefact commit hash"
+  #       id: get_artefact_hash
+  #       run: |
+  #         artefact_commit_hash_full=${{ github.event.pull_request.head.sha }}
+  #         artefact_commit_hash=$(git rev-parse --short $artefact_commit_hash_full)
+  #         echo "artefact commit hash: $artefact_commit_hash"
+  #         echo "artefact_commit_hash=$artefact_commit_hash" >> $GITHUB_OUTPUT
 
   generate-tag-name:
     name: "Generate Tag Name"
@@ -94,8 +94,7 @@ jobs:
       services: "['healthcare-services-data-manager']"
       directory: 'application'
       tag: ${{ needs.generate-tag-name.outputs.tag_name }}
-      # commit_hash: ${{ needs.metadata.outputs.commit_hash }}
-      commit_hash: ${{ needs.derive-commit-hash-used-for-artefact.outputs.artefact_commit_hash }}
+      commit_hash: ${{ needs.metadata.outputs.artefact_commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
 

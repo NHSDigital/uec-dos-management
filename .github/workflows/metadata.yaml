@@ -19,12 +19,18 @@ on:
       workspace:
         description: "The name of the workspace that we interacting with"
         value: "${{ jobs.derive-workspace.outputs.workspace }}"
+      artefact_bucket_name:
+        description: "The s3 bucket for domain artefacts"
+        value: ${{ jobs.echo-metadata.outputs.artefact_bucket_name }}
       commit_hash:
         description: "The unique commit hash"
-        value: ${{ jobs.get-commit-hash.outputs.commit_hash }}
-      artefact_bucket_name:
-        description: "The name of the repo for domain artefacts"
-        value: ${{ jobs.derive-artefact-bucket.outputs.artefact_bucket_name }}
+        value: ${{ jobs.echo-metadata.outputs.commit_hash }}
+      artefact_commit_hash:
+        description: "The unique commit hash for artefacts for flows triggered by a pull request "
+        value: ${{ jobs.echo-metadata.outputs.artefact_commit_hash }}
+      # artefact_bucket_name:
+      #   description: "The name of the repo for domain artefacts"
+      #   value: ${{ jobs.derive-artefact-bucket.outputs.artefact_bucket_name }}
 
 jobs:
   code-line-count:
@@ -73,42 +79,42 @@ jobs:
         id: derive_workspace
         uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@task/DR-916_Deploy_react_from_bucket
 
-  get-commit-hash:
-    name: "Get Commit Hash"
-    runs-on: ubuntu-latest
-    timeout-minutes: ${{ inputs.workflow_timeout }}
+  # get-commit-hash:
+  #   name: "Get Commit Hash"
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: ${{ inputs.workflow_timeout }}
 
-    outputs:
-      commit_hash: ${{ steps.commit_hash.outputs.commit_hash }}
-    steps:
-      - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-916_Deploy_react_from_bucket
-        with:
-          tag: ${{ inputs.tag }}
+  #   outputs:
+  #     commit_hash: ${{ steps.commit_hash.outputs.commit_hash }}
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-916_Deploy_react_from_bucket
+  #       with:
+  #         tag: ${{ inputs.tag }}
 
-      - name: "Output commit hash"
-        id: commit_hash
-        run: |
-            commit_hash=$(git rev-parse --short "$GITHUB_SHA")
-            echo "commit hash: [$commit_hash]"
-            echo "commit_hash=$commit_hash" >> $GITHUB_OUTPUT
+  #     - name: "Output commit hash"
+  #       id: commit_hash
+  #       run: |
+  #           commit_hash=$(git rev-parse --short "$GITHUB_SHA")
+  #           echo "commit hash: [$commit_hash]"
+  #           echo "commit_hash=$commit_hash" >> $GITHUB_OUTPUT
 
-  derive-artefact-bucket:
-    name: Derive artefact bucket
-    runs-on: ubuntu-latest
-    outputs:
-      artefact_bucket_name: ${{ steps.identify_bucket.outputs.artefact_bucket_name }}
-    needs:
-      [
-        echo-metadata
-      ]
-    steps:
-      - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-916_Deploy_react_from_bucket
-        with:
-          tag: ${{ inputs.tag }}
-      - name: "Identify domain repository bucket"
-        id: identify_bucket
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-bucket@task/DR-916_Deploy_react_from_bucket
-        with:
-          domain: ${{ needs.echo-metadata.outputs.reponame }}
+  # derive-artefact-bucket:
+  #   name: Derive artefact bucket
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     artefact_bucket_name: ${{ steps.identify_bucket.outputs.artefact_bucket_name }}
+  #   needs:
+  #     [
+  #       echo-metadata
+  #     ]
+  #   steps:
+  #     - name: "Checkout code"
+  #       uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-916_Deploy_react_from_bucket
+  #       with:
+  #         tag: ${{ inputs.tag }}
+  #     - name: "Identify domain repository bucket"
+  #       id: identify_bucket
+  #       uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-bucket@task/DR-916_Deploy_react_from_bucket
+  #       with:
+  #         domain: ${{ needs.echo-metadata.outputs.reponame }}
