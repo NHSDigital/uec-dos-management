@@ -16,8 +16,9 @@ runs:
       id: "derive-short-hash"
       shell: bash
       run: |
-        export SHA=${{ inputs.sha }}
-        /bin/bash ./uec-dos-management/scripts/workflow/derive-hash-from-sha.sh
-        echo "Setting commit hash: ${COMMIT_HASH}"
-        echo "commit_hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
+        echo not used
+        # export SHA=${{ inputs.sha }}
+        # /bin/bash ./uec-dos-management/scripts/workflow/derive-hash-from-sha.sh
+        # echo "Setting commit hash: ${COMMIT_HASH}"
+        # echo "commit_hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
 

@@ -85,17 +85,17 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
         with:
           tag: ${{ inputs.tag }}
-      - name: "Derive commit hash"
+      # - name: "Derive commit hash"
+      #   # id: commit_hash
+        # uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@v0.20
+        # with:
+        #   sha: "${GITHUB_SHA}"
+      - name: "Output commit hash"
         id: commit_hash
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@v0.20
-        with:
-          sha: "${GITHUB_SHA}"
-      # - name: "Output commit hash"
-      #   id: commit_hash
-      #   run: |
-      #       commit_hash=$(git rev-parse --short "$GITHUB_SHA")
-      #       echo "commit hash: [$commit_hash]"
-      #       echo "commit_hash=$commit_hash" >> $GITHUB_OUTPUT
+        run: |
+            commit_hash=$(git rev-parse --short "$GITHUB_SHA")
+            echo "commit hash: [$commit_hash]"
+            echo "commit_hash=$commit_hash" >> $GITHUB_OUTPUT
 
   derive-artefact-bucket:
     name: Derive artefact bucket

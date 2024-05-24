@@ -16,8 +16,9 @@ runs:
       id: "derive-artefact-short-hash"
       shell: bash
       run: |
-        export SHA=${{ inputs.sha }}
-        /bin/bash ./uec-dos-management/scripts/workflow/derive-hash-from-sha.sh
-        echo "Setting artefact commit hash: $COMMIT_HASH"
-        echo "artefact_commit_hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
+        echo not used
+        # export SHA=${{ inputs.sha }}
+        # /bin/bash ./uec-dos-management/scripts/workflow/derive-hash-from-sha.sh
+        # echo "Setting artefact commit hash: $COMMIT_HASH"
+        # echo "artefact_commit_hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT
 
