@@ -27,7 +27,7 @@ runs:
         echo "reponame=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
         echo "commit_hash $(git rev-parse --short $GITHUB_SHA)"
         echo "commit_hash=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_OUTPUT
-        echo "artefact_commit_hash_full=${{ github.event.pull_request.head.sha }}
+        echo "artefact_commit_hash_full=${{ github.event.pull_request.head.sha }}"
         if [ -n "${{ github.event.pull_request.head.sha }}" ] ; then
           echo "artefact_commit_hash_full=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})"
           echo "artefact_commit_hash_full=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})" >> $GITHUB_OUTPUT
