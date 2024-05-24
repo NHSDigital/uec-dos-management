@@ -85,11 +85,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
         with:
           tag: ${{ inputs.tag }}
-      # - name: "Derive commit hash"
-      #   # id: commit_hash
-        # uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@v0.20
-        # with:
-        #   sha: "${GITHUB_SHA}"
+
       - name: "Output commit hash"
         id: commit_hash
         run: |
@@ -115,6 +111,4 @@ jobs:
         id: identify_bucket
         uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-bucket@v0.20
         with:
-          # environment: ${{ inputs.environment }}
-          # workspace: ${{ needs.derive-workspace.outputs.workspace }}
           domain: ${{ needs.echo-metadata.outputs.reponame }}

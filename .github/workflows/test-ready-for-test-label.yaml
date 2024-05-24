@@ -26,11 +26,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
         with:
           tag: ${{ inputs.tag }}
-      # - name: "Derive commit hash"
-      #   # id: commit_hash
-        # uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@v0.20
-        # with:
-        #   sha: "${GITHUB_SHA}"
+
       - name: "Output artefact commit hash"
         id: get_artefact_hash
         run: |
@@ -38,29 +34,6 @@ jobs:
           artefact_commit_hash=$(git rev-parse --short $artefact_commit_hash_full)
           echo "artefact commit hash: $artefact_commit_hash"
           echo "artefact_commit_hash=$artefact_commit_hash" >> $GITHUB_OUTPUT
-  # derive-commit-hash-used-for-artefact:
-  #   name: "Get last commit on task branch"
-  #   runs-on: ubuntu-latest
-  #   outputs:
-  #     artefact_commit_hash: ${{ steps.get_artefact_hash.outputs.artefact_commit_hash }}
-  #   steps:
-  #     - name: "Checkout code"
-  #       uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
-
-  #     - name: "Derive commit hash used for artefacts"
-  #       id: get_artefact_hash
-  #       uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-hash@v0.20
-  #       with:
-  #         sha: ${{ github.event.pull_request.head.sha }}
-
-
-      # - name: "Get branch commit hash for branch"
-      #   id: get_hash_for_pr
-      #   run: |
-      #     branch_commit_hash_full=${{ github.event.pull_request.head.sha }}
-      #     branch_commit_hash=$(git rev-parse --short $branch_commit_hash_full)
-      #     echo "branch commit hash: [$branch_commit_hash]"
-      #     echo "branch_commit_hash=$branch_commit_hash" >> $GITHUB_OUTPUT
 
   generate-tag-name:
     name: "Generate Tag Name"

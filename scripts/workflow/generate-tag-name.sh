@@ -33,14 +33,10 @@ else
   fi
 fi
 
-
-
 if [ $EXPORTS_SET = 1 ] ; then
   echo One or more parameters not set
   exit 1
 fi
-
-
 
 echo "Generate Tag Name Script invoked with the following parameters: "
 echo "WORKSPACE: $WORKSPACE"
