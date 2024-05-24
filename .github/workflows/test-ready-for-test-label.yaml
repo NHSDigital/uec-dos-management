@@ -37,7 +37,7 @@ jobs:
           artefact_commit_hash_full=${{ github.event.pull_request.head.sha }}
           artefact_commit_hash=$(git rev-parse --short $artefact_commit_hash_full)
           echo "artefact commit hash: $artefact_commit_hash"
-          echo "aretefact_commit_hash=$artefact_commit_hash" >> $GITHUB_OUTPUT
+          echo "artefact_commit_hash=$artefact_commit_hash" >> $GITHUB_OUTPUT
   # derive-commit-hash-used-for-artefact:
   #   name: "Get last commit on task branch"
   #   runs-on: ubuntu-latest
