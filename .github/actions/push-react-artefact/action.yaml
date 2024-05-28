@@ -16,6 +16,9 @@ inputs:
         description: "The name of the artefact bucket"
         required: true
         type: string
+    code_directory:
+        description: 'Directory that holds package json for react code '
+        required: true
 
 runs:
   using: "composite"

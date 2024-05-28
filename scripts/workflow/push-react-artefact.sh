@@ -6,7 +6,6 @@ set -e
 export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME:-""}"
 export WORKSPACE="${WORKSPACE:-""}"
 export COMMIT_HASH="${COMMIT_HASH:-""}"
-export DIRECTORY="${DIRECTORY:-""}"
 export FRONT_END_DIR="${FRONT_END_DIR:-"src/frontend"}"
 
 # check exports have been done
@@ -30,11 +29,6 @@ fi
 
 if [ -z "$ARTEFACT_BUCKET_NAME" ] ; then
   echo Set ARTEFACT BUCKET NAME to the artefact bucket name to action the terraform in
-  EXPORTS_SET=1
-fi
-
-if [ -z "$DIRECTORY" ] ; then
-  echo Set DIRECTORY to identify which artefacts to be deployed
   EXPORTS_SET=1
 fi
 
