@@ -23,7 +23,7 @@ runs:
   steps:
     - name: "Install python"
       id: unit_test_python_install
-      uses: NHSDigital/uec-dos-management/.github/actions/install-python@v0.21
+      uses: NHSDigital/uec-dos-management/.github/actions/install-python@task/DR-914_Create_reactapp_buildworkflow
       with:
         python_version: ${{ inputs.python_version }}
     - name: Run unit tests of python code

@@ -1,4 +1,4 @@
-name: Deploy React App
+name: Build React App
 
 on:
   workflow_call:
@@ -36,8 +36,8 @@ on:
 
 jobs:
 
-  deploy-react-app:
-    name: "Deploy react application"
+  build-react-app:
+    name: "Build react application"
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     permissions:
@@ -73,18 +73,39 @@ jobs:
           workspace: ${{ inputs.workspace }}
           domain: ${{ inputs.domain }}
 
-      - name: Deploy react application
-        uses: NHSDigital/uec-dos-management/.github/actions/react-app-deploy@task/DR-914_Create_reactapp_buildworkflow
-        with:
-          code_directory: ${{ inputs.code_directory }}
-          spa_bucket_name: ${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}
-          environment: ${{ inputs.environment }}
-          workspace: ${{ inputs.workspace }}
-          artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
-          commit_hash: ${{ inputs.commit_hash }}
+      - name: Set up Node.js
+        uses: NHSDigital/uec-dos-management/.github/actions/install-node@task/DR-914_Create_reactapp_buildworkflow
 
-      - name: Invalidate CloudFront Cache
-        uses: NHSDigital/uec-dos-management/.github/actions/react_clear_cloudfront_cache@task/DR-914_Create_reactapp_buildworkflow
+      - name: Install dependencies
+        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@task/DR-914_Create_reactapp_buildworkflow
         with:
           code_directory: ${{ inputs.code_directory }}
-          distribution_id: ${{ steps.derive_cloudfront_dist_id.outputs.cloudfront_dist_id }}
+
+      - name: Run Linter
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-lint@task/DR-914_Create_reactapp_buildworkflow
+        with:
+          code_directory: ${{ inputs.code_directory }}
+
+      - name: Run Unit Tests
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-unit-tests@task/DR-914_Create_reactapp_buildworkflow
+        with:
+          code_directory: ${{ inputs.code_directory }}
+
+      - name: Build React application
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@task/DR-914_Create_reactapp_buildworkflow
+        with:
+          code_directory: ${{ inputs.code_directory }}
+
+      - name: "Upload react app to S3 bucket"
+        uses: NHSDigital/uec-dos-management/.github/actions/push-react-artefact@task/DR-914_Create_reactapp_buildworkflow
+        with:
+          directory: ${{ inputs.directory }}
+          workspace: ${{ inputs.workspace }}
+          commit_hash: ${{ inputs.commit_hash }}
+          artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
+
+      # - name: Invalidate CloudFront Cache
+      #   uses: NHSDigital/uec-dos-management/.github/actions/react_clear_cloudfront_cache@task/DR-914_Create_reactapp_buildworkflow
+      #   with:
+      #     code_directory: ${{ inputs.code_directory }}
+      #     distribution_id: ${{ steps.derive_cloudfront_dist_id.outputs.cloudfront_dist_id }}

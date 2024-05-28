@@ -9,6 +9,12 @@ export ENVIRONMENT="${ENVIRONMENT:-""}"
 EXPORTS_SET=0
 # Check key variables have been exported - see above
 
+
+if [ -z "$FRONT_END_DIR" ] ; then
+  echo Set FRONT_END_DIR to name of the front end directory
+  EXPORTS_SET=1
+fi
+
 if [ -z "$SPA_BUCKET_NAME" ] ; then
   echo Set SPA_BUCKET_NAME to name of the bucket to hold the SPA
   EXPORTS_SET=1
