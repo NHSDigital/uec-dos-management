@@ -27,16 +27,20 @@ jobs:
     secrets: inherit
 
   deploy-react-application:
-    name: "Build and deploy react application code"
+    name: "Deploy react application code"
     needs: [
       metadata,
       deploy-infrastructure-apply,
+      # TODO job to build react app
     ]
-    uses: ./.github/workflows/build-and-deploy-react-app.yaml
+    uses: ./.github/workflows/deploy-react-app.yaml
     with:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: ${{ needs.metadata.outputs.reponame }}
+      # TODO Hardcoded hash
+      commit_hash: def123
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
 
   test-react-application:

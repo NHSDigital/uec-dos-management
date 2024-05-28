@@ -1,4 +1,4 @@
-name: Build And Deploy React App
+name: Deploy React App
 
 on:
   workflow_call:
@@ -25,11 +25,19 @@ on:
         required: false
         default: ""
         type: string
+      commit_hash:
+        description: "Git commit hash - to locate artefacts"
+        required: true
+        type: string
+      artefact_bucket_name:
+        description: "Name of s3 bucket holding domain artefacts"
+        required: true
+        type: string
 
 jobs:
 
-  build-and-deploy-react-app:
-    name: "Prepare, build and deploy react application"
+  deploy-react-app:
+    name: "Deploy react application"
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     permissions:
@@ -65,34 +73,15 @@ jobs:
           workspace: ${{ inputs.workspace }}
           domain: ${{ inputs.domain }}
 
-      - name: Set up Node.js
-        uses: NHSDigital/uec-dos-management/.github/actions/install-node@v0.21
-
-      - name: Install dependencies
-        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@v0.21
-        with:
-          code_directory: ${{ inputs.code_directory }}
-
-      - name: Run Linter
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-lint@v0.21
-        with:
-          code_directory: ${{ inputs.code_directory }}
-
-      - name: Run Unit Tests
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-unit-tests@v0.21
-        with:
-          code_directory: ${{ inputs.code_directory }}
-
-      - name: Build React application
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@v0.21
-        with:
-          code_directory: ${{ inputs.code_directory }}
-
       - name: Deploy react application
         uses: NHSDigital/uec-dos-management/.github/actions/react-app-deploy@v0.21
         with:
           code_directory: ${{ inputs.code_directory }}
           spa_bucket_name: ${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}
+          environment: ${{ inputs.environment }}
+          workspace: ${{ inputs.workspace }}
+          artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
+          commit_hash: ${{ inputs.commit_hash }}
 
       - name: Invalidate CloudFront Cache
         uses: NHSDigital/uec-dos-management/.github/actions/react_clear_cloudfront_cache@v0.21

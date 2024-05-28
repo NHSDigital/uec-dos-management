@@ -40,27 +40,27 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.20
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.21
         with:
           tag: ${{ inputs.tag }}
           management-tag: v0.12
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.20
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.21
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
       - name: Install Allure command-line tool
         id: install-allure
         continue-on-error: true
-        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@v0.20
+        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@v0.21
       - name: Run integration test
         id: run-int-test
-        uses: NHSDigital/uec-dos-management/.github/actions/integration-test@v0.20
+        uses: NHSDigital/uec-dos-management/.github/actions/integration-test@v0.21
         with:
           workspace:  ${{ inputs.workspace }}
       - name: Upload allure report
         id: upload_allure_report
-        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.20
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.21
         with:
           name: allure-report
           path: tests/integration/allure-reports/index.html
