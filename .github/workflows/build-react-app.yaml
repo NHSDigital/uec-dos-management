@@ -99,7 +99,7 @@ jobs:
       - name: "Upload react app to S3 bucket"
         uses: NHSDigital/uec-dos-management/.github/actions/push-react-artefact@task/DR-914_Create_reactapp_buildworkflow
         with:
-          directory: ${{ inputs.directory }}
+          code_directory: ${{ inputs.code_directory }}
           workspace: ${{ inputs.workspace }}
           commit_hash: ${{ inputs.commit_hash }}
           artefact_bucket_name: ${{ inputs.artefact_bucket_name }}

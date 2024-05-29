@@ -2,9 +2,6 @@ name: "Upload react app artefact"
 description: "Upload the built artefacts to s3 bucket"
 
 inputs:
-    directory:
-        description: "The name of the directory to build in"
-        required: true
     workspace:
         description: "The name of the workspace to deploy the service into."
         required: true
@@ -28,7 +25,6 @@ runs:
         shell: bash
         run: |
           export FRONT_END_DIR=${{ inputs.code_directory }}
-          export DIRECTORY=${{ inputs.directory }}
           export WORKSPACE=${{ inputs.workspace }}
           export COMMIT_HASH=${{ inputs.commit_hash }}
           export ARTEFACT_BUCKET_NAME=${{ inputs.artefact_bucket_name }}
