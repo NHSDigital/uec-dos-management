@@ -1,9 +1,9 @@
 name: "Upload react app artefact"
-description: "Upload the built artefacts to s3 bucket"
+description: "Upload the built react app artefacts to s3 bucket"
 
 inputs:
     workspace:
-        description: "The name of the workspace to deploy the service into."
+        description: "The name of the workspace to build into."
         required: true
     commit_hash:
         description: "The unique commit hash"

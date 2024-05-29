@@ -40,6 +40,7 @@ jobs:
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
+
   deploy-react-application:
     name: "Deploy react application code"
     needs: [
@@ -100,4 +101,3 @@ jobs:
     with:
       env: mgmt
     secrets: inherit
-
