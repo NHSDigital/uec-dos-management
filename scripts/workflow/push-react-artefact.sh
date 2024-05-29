@@ -45,9 +45,9 @@ echo "Front end directory: $FRONT_END_DIR"
 
 # Push artefacts to s3 bucket
 
-  cd "$FRONT_END_DIR"/build
+  cd "$FRONT_END_DIR/build"
   zip -r ../build.zip .
   cd ..
-  aws s3 cp build.zip/ s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH/$DEPLOYMENT_FILE_NAME
+  aws s3 cp build.zip s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH/$DEPLOYMENT_FILE_NAME
 
   echo "Push to S3 bucket completed"
