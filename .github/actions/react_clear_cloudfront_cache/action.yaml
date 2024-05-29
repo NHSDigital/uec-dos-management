@@ -1,4 +1,4 @@
-name: "Clear cloudfront cache"
+name: "Clear cloudfront cache action"
 description: "Clears cache for deployed react app"
 
 inputs:
