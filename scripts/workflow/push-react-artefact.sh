@@ -7,6 +7,7 @@ export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME:-""}"
 export WORKSPACE="${WORKSPACE:-""}"
 export COMMIT_HASH="${COMMIT_HASH:-""}"
 export FRONT_END_DIR="${FRONT_END_DIR:-"src/frontend"}"
+export DEPLOYMENT_FILE_NAME="build.zip"
 
 # check exports have been done
 EXPORTS_SET=0
@@ -45,6 +46,6 @@ echo "Front end directory: $FRONT_END_DIR"
 # Push artefacts to s3 bucket
 
   cd "$FRONT_END_DIR"
-  aws s3 sync build/ s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH/
+  aws s3 sync build/ s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH/$DEPLOYMENT_FILE_NAME/
 
   echo "Push to S3 bucket completed"
