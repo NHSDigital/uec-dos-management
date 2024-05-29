@@ -66,7 +66,7 @@ if [ -d "$FRONT_END_DIR" ]; then
   echo "Unpacking $DEPLOYMENT_FILE_NAME to temp folder"
   unzip -d temp "${DEPLOYMENT_FILE_NAME}"
   echo "Uploading files from unpacked $DEPLOYMENT_FILE_NAME to $SPA_BUCKET_NAME"
-  aws s3 sync temp/build s3://$SPA_BUCKET_NAME/
+  aws s3 sync temp s3://$SPA_BUCKET_NAME/
   echo "Removing temp files"
   rm -rf temp
   /bin/bash "$PROJECT_ROOT_DIR"/scripts/workflow/tag-deployment.sh
