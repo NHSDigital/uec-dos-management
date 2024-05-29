@@ -38,10 +38,10 @@ jobs:
       tag_name: ${{ steps.generate-tag-name.outputs.tag_name }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.21
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.22
       - name: "Generate tag name"
         id: "generate-tag-name"
-        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag-name@v0.21
+        uses: NHSDigital/uec-dos-management/.github/actions/generate-tag-name@v0.22
         with:
           workspace: ${{ inputs.workspace }}
           tag_type: ${{ inputs.tag_type }}

@@ -9,6 +9,12 @@ export ENVIRONMENT="${ENVIRONMENT:-""}"
 EXPORTS_SET=0
 # Check key variables have been exported - see above
 
+
+if [ -z "$FRONT_END_DIR" ] ; then
+  echo Set FRONT_END_DIR to name of the front end directory
+  EXPORTS_SET=1
+fi
+
 if [ -z "$SPA_BUCKET_NAME" ] ; then
   echo Set SPA_BUCKET_NAME to name of the bucket to hold the SPA
   EXPORTS_SET=1
@@ -60,7 +66,7 @@ if [ -d "$FRONT_END_DIR" ]; then
   echo "Unpacking $DEPLOYMENT_FILE_NAME to temp folder"
   unzip -d temp "${DEPLOYMENT_FILE_NAME}"
   echo "Uploading files from unpacked $DEPLOYMENT_FILE_NAME to $SPA_BUCKET_NAME"
-  aws s3 sync temp/build s3://$SPA_BUCKET_NAME/
+  aws s3 sync temp s3://$SPA_BUCKET_NAME/
   echo "Removing temp files"
   rm -rf temp
   /bin/bash "$PROJECT_ROOT_DIR"/scripts/workflow/tag-deployment.sh

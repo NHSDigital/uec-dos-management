@@ -1,4 +1,4 @@
-name: "Deploy react app to s3 bucket"
+name: "Deploy react app to s3 bucket action"
 description: "Deploys react code to hosting s3 bucket"
 
 inputs:

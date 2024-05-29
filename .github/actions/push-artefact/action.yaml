@@ -1,4 +1,4 @@
-name: "Upload service artefact"
+name: "Upload service artefact action"
 description: "Upload the built artefacts to s3 bucket"
 
 inputs:
