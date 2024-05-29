@@ -45,6 +45,6 @@ echo "Front end directory: $FRONT_END_DIR"
 # Push artefacts to s3 bucket
 
   cd "$FRONT_END_DIR"
-  aws s3 cp build/ s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH/
+  aws s3 sync build/ s3://$ARTEFACT_BUCKET_NAME/$WORKSPACE/$COMMIT_HASH/
 
   echo "Push to S3 bucket completed"
