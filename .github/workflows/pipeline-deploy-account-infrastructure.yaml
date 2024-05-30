@@ -6,6 +6,10 @@ on:
       - 'main'
       - 'task/DR-920_Open_access_to_artefact_repos'
 
+env:
+  TF_VAR_dev_account_number: ${{ secrets.DOS_DEV_ACCOUNT_ID }}
+  TF_VAR_test_account_number: ${{ secrets.DOS_TEST_ACCOUNT_ID }}
+
 jobs:
     metadata:
       name: "Get Metadata"
@@ -15,7 +19,6 @@ jobs:
         needs:
           [
             metadata,
-            export-account-ids,
           ]
         uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.22
         with:
