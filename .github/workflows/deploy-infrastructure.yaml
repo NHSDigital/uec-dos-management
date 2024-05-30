@@ -66,17 +66,19 @@ jobs:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
-      - name: Export terraform variables
-        uses: NHSDigital/uec-dos-management/.github/actions/export_tfvars@task/DR-920_Open_access_to_artefact_repos
-        with:
-          dos_dev_account_id: ${{ secrets.DOS_DEV_ACCOUNT_ID }}
-          dos_test_account_id: ${{ secrets.DOS_TEST_ACCOUNT_ID }}
+      # - name: Export terraform variables
+      #   uses: NHSDigital/uec-dos-management/.github/actions/export_tfvars@task/DR-920_Open_access_to_artefact_repos
+      #   with:
+      #     dos_dev_account_id: ${{ secrets.DOS_DEV_ACCOUNT_ID }}
+      #     dos_test_account_id: ${{ secrets.DOS_TEST_ACCOUNT_ID }}
 
       - name: "Deploy infrastructure stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-920_Open_access_to_artefact_repos
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
           stack: ${{ matrix.stack }}
           action: ${{ inputs.action }}
           project: ${{ inputs.project }}
+          dos_dev_account_id: ${{ secrets.DOS_DEV_ACCOUNT_ID }}
+          dos_test_account_id: ${{ secrets.DOS_TEST_ACCOUNT_ID }}
