@@ -1,9 +1,10 @@
 name: Pipeline Deploy Account Level Infrastructure
-
+# TODO remove task branch and reset stacks and action to apply not plan
 on:
   push:
     branches:
       - 'main'
+      - 'task/DR-920_Open_access_to_artefact_repos'
 
 jobs:
     metadata:
@@ -20,8 +21,9 @@ jobs:
           environment: mgmt
           domain: "uec-dos-management"
           workspace: ${{ needs.metadata.outputs.workspace }}
-          stacks: "['terraform_management','github-runner','dos-artefacts']"
-          action: apply
+          # stacks: "['terraform_management','github-runner','dos-artefacts']"
+          stacks: "['dos-artefacts']"
+          action: plan
         secrets: inherit
     slack-notifications:
       needs: [
