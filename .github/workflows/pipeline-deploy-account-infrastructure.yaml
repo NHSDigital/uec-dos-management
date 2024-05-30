@@ -12,6 +12,8 @@ jobs:
       uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.22
     deploy-account-infrastructure-apply:
         name: "Deploy account level infrastructure"
+        runs-on: ubuntu-latest
+        environment: mgmt
         needs:
           [
             metadata,
