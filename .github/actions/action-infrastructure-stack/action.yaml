@@ -47,6 +47,8 @@ runs:
       - name: Action Infrastructure Stack
         shell: bash
         run: |
+          export TF_VAR_dev_account_number=${{ inputs.dos_dev_account_id }}
+          export TF_VAR_test_account_number=${{ inputs.dos_test_account_id }}
           export ACTION=${{ inputs.action }}
           export STACK=${{ inputs.stack }}
           export ENVIRONMENT=${{ inputs.environment }}
