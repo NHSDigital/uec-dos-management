@@ -1,0 +1,18 @@
+name: "Export account id from secrets action"
+description: "Exports account ids as tfvars based on environment level secrets."
+
+inputs:
+    environment:
+        description: "The name of the environment to action the infrastructure"
+        required: true
+
+runs:
+  using: "composite"
+
+  steps:
+
+      - name: Action Infrastructure Stack
+        shell: bash
+        run: |
+          export TF_VAR_dev_account_number=${{ secrets.DOS_DEV_ACCOUNT_ID }}
+          export TF_VAR_test_account_number=${{ secrets.DOS_TEST_ACCOUNT_ID }}
