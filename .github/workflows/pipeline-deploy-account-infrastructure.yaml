@@ -6,9 +6,9 @@ on:
       - 'main'
       - 'task/DR-920_Open_access_to_artefact_repos'
 
-env:
-  TF_VAR_dev_account_number: ${{ secrets.DOS_DEV_ACCOUNT_ID }}
-  TF_VAR_test_account_number: ${{ secrets.DOS_TEST_ACCOUNT_ID }}
+# env:
+#   TF_VAR_dev_account_number: ${{ secrets.DOS_DEV_ACCOUNT_ID }}
+#   TF_VAR_test_account_number: ${{ secrets.DOS_TEST_ACCOUNT_ID }}
 
 jobs:
     metadata:
@@ -16,6 +16,11 @@ jobs:
       uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.22
     deploy-account-infrastructure-apply:
         name: "Deploy account level infrastructure"
+        runs-on: ubuntu-latest
+        environment: mgmt
+        env:
+          TF_VAR_dev_account_number: ${{ secrets.DOS_DEV_ACCOUNT_ID }}
+          TF_VAR_test_account_number: ${{ secrets.DOS_TEST_ACCOUNT_ID }}
         needs:
           [
             metadata,
