@@ -67,7 +67,7 @@ jobs:
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: Export terraform variables
-        uses: NHSDigital/uec-dos-management/.github/actions/export_tfvars@vtask/DR-920_Open_access_to_artefact_repos
+        uses: NHSDigital/uec-dos-management/.github/actions/export_tfvars@task/DR-920_Open_access_to_artefact_repos
         with:
           environment: ${{ inputs.environment }}
 
