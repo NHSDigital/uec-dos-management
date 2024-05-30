@@ -46,9 +46,6 @@ jobs:
     name: "Deploy Infrastructure"
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
-    env:
-      TF_VAR_dev_account_number: ${{ secrets.DOS_DEV_ACCOUNT_ID }}
-      TF_VAR_test_account_number: ${{ secrets.DOS_TEST_ACCOUNT_ID }}
     permissions:
       id-token: write
       contents: read
