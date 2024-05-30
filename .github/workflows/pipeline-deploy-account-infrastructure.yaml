@@ -20,7 +20,7 @@ jobs:
           [
             metadata,
           ]
-        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.22
+        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-920_Open_access_to_artefact_repos
         with:
           environment: mgmt
           domain: "uec-dos-management"
