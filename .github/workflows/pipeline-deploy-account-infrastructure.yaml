@@ -17,7 +17,6 @@ jobs:
         needs:
           [
             metadata,
-            export-account-ids,
           ]
         uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.22
         with:
