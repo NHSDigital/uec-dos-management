@@ -38,12 +38,6 @@ runs:
         with:
           terraform_version: ${{ steps.derive_tf_version.outputs.terraform_version }}
 
-      - name: Export account numbers
-        shell: bash
-        run: |
-          export TF_VAR_dev_account_number=${{ inputs.dos_dev_account_id }}
-          export TF_VAR_test_account_number=${{ inputs.dos_test_account_id }}
-
       - name: Action Infrastructure Stack
         shell: bash
         run: |

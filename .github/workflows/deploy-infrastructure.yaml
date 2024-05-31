@@ -55,25 +55,19 @@ jobs:
         stack: ${{ fromJSON(inputs.stacks) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.23
         with:
           repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.23
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
-      # - name: Export terraform variables
-      #   uses: NHSDigital/uec-dos-management/.github/actions/export_tfvars@task/DR-920_Open_access_to_artefact_repos
-      #   with:
-      #     dos_dev_account_id: ${{ secrets.DOS_DEV_ACCOUNT_ID }}
-      #     dos_test_account_id: ${{ secrets.DOS_TEST_ACCOUNT_ID }}
-
       - name: "Deploy infrastructure stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-920_Open_access_to_artefact_repos
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@v0.23
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
