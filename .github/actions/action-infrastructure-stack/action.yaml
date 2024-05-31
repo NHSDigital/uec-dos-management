@@ -22,7 +22,7 @@ inputs:
         description: "The dev account id"
         required: false
     dos_test_account_id:
-        description: "The name of the environment to action the infrastructure"
+        description: "The test account id"
         required: false
 
 runs:
