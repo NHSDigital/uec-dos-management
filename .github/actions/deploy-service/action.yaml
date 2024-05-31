@@ -32,7 +32,7 @@ runs:
         shell: bash
         run: |
           export SERVICE=${{ inputs.service }}
-          export DIRECTORY=${{ inputs.directory }}
+          export APPLICATION_ROOT_DIR=${{ inputs.directory }}
           export TAG=${{ inputs.tag }}
           export WORKSPACE=${{ inputs.workspace }}
           export COMMIT_HASH=${{ inputs.commit_hash }}

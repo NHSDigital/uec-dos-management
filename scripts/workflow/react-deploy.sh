@@ -53,7 +53,6 @@ if [ "$ENVIRONMENT" == 'prod' ] ; then
   export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME}-released"
 fi
 
-PROJECT_ROOT_DIR=$(pwd)
 # TODO can i pass file directly as zip-file parameter and avoid landing it in directory
 # Navigate to the frontend directory if it exists
 if [ -d "$FRONT_END_DIR" ]; then
@@ -69,7 +68,13 @@ if [ -d "$FRONT_END_DIR" ]; then
   aws s3 sync temp s3://$SPA_BUCKET_NAME/
   echo "Removing temp files"
   rm -rf temp
-  /bin/bash "$PROJECT_ROOT_DIR"/scripts/workflow/tag-deployment.sh
+  echo "Tagging time of deployment to ${ENVIRONMENT} of artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
+  DEPLOYED_AT=$(date '+%Y-%m-%d %H:%M:%S')
+  aws s3api put-object-tagging \
+      --bucket "${ARTEFACT_BUCKET_NAME}"  \
+      --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" \
+      --tagging "{\"TagSet\": [{ \"Key\": \"${ENVIRONMENT}\", \"Value\": \"${DEPLOYED_AT}\" }]}"
+
 else
   echo No frontend source code to deploy
 fi
