@@ -51,4 +51,21 @@ variable "management_artefacts_released_bucket_name" {
   default     = "nhse-mgmt-uec-dos-management-artefacts-released"
 }
 
+variable "dev_account_number" {
+  description = "Account number for dev account"
+}
+
+variable "test_account_number" {
+  description = "Account number for test account"
+}
+# variable "int_account_number" {
+#   description = "Account number for int account"
+# }
+# variable "staging_account_number" {
+#   description = "Account number for staging account"
+# }
+# variable "prod_account_number" {
+#   description = "Account number for prod account"
+# }
+
 

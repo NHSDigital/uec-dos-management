@@ -44,16 +44,16 @@ jobs:
         stack: ${{ fromJson(inputs.stacks) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.23
         with:
           tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.23
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
       - name: "Validate terraform stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@v0.23
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
@@ -66,11 +66,11 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.23
         with:
           tag: ${{ inputs.tag }}
       - name: "Check format of terraform code"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@v0.23
 
   check-file-format:
     name: "Check File Format"
@@ -78,12 +78,12 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.23
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check general formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@v0.23
 
   check-markdown-format:
     name: "Check Markdown Format"
@@ -91,12 +91,12 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.23
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check markdown file formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@v0.23
 
   check-python-black-format:
     name: "Check Python Format"
@@ -104,12 +104,12 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.23
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check python formatting - black"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-python@v0.23
 
   check-python-flake-rules:
     name: "Check Python Syntax"
@@ -117,12 +117,12 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.23
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check python syntax - flake"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/check-syntax-python@v0.23
 
   scan-secrets:
     name: "Scan secrets"
@@ -130,12 +130,12 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.23
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Scan code for secrets"
-        uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/scan-secrets@v0.23
 
   check-eslint:
     name: "Check ESLint"
@@ -143,21 +143,21 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.23
         with:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: NHSDigital/uec-dos-management/.github/actions/install-node@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/install-node@v0.23
 
       - name: Install npm dependencies
-        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@v0.23
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: "Check Javascipt formating"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@v0.22
+        uses: NHSDigital/uec-dos-management/.github/actions/check-eslint@v0.23
         with:
           code_directory: ${{ inputs.code_directory }}
 
