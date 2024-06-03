@@ -61,19 +61,19 @@ jobs:
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
 # Temp test
-  # cleardown:
-  #   name: "Cleardown Infrastructure"
-  #   needs:
-  #     [
-  #       metadata,
-  #       deploy-infrastructure-apply,
-  #       deploy-application,
-  #     ]
-  #   uses: ./.github/workflows/infrastructure-cleardown.yaml
-  #   with:
-  #     environment: mgmt
-  #     workspace: ${{ needs.metadata.outputs.workspace }}
-  #     artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
-  #     domain: "uec-dos-management"
-  #     stacks: "['lambda-stack']"
-  #   secrets: inherit
+  cleardown:
+    name: "Cleardown Infrastructure"
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-apply,
+        deploy-application,
+      ]
+    uses: ./.github/workflows/infrastructure-cleardown.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
+      domain: "uec-dos-management"
+      stacks: "['lambda-stack']"
+    secrets: inherit
