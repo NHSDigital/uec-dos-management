@@ -53,18 +53,18 @@ jobs:
         service: ${{ fromJSON(inputs.services) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.23
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-919_Cleardown_old_artefacts
         with:
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.23
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-919_Cleardown_old_artefacts
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Deploy service"
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.23
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@task/DR-919_Cleardown_old_artefacts
         with:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
