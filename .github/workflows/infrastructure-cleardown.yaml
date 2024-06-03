@@ -85,6 +85,7 @@ jobs:
     name: "Cleardown Redundant artefacts"
     runs-on: ubuntu-latest
     timeout-minutes: ${{ inputs.workflow_timeout }}
+    environment: ${{ inputs.environment }}
     needs:
       [
         destroy-application-infrastructure,
