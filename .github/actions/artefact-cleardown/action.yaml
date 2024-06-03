@@ -1,0 +1,28 @@
+name: "Cleardown terraform state action"
+description: "Delete the terraform state"
+inputs:
+  workspace:
+    description: "The name of the workspace to action the infrastructure into."
+    required: true
+  environment:
+    description: "The name of the environment to action the infrastructure into."
+    required: true
+  # commit_hash:
+  #   description: "The unique commit hash"
+  #   required: true
+  artefact_bucket_name:
+    description: "The name of the s3 bucket holding domain artefacts"
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Delete terraform state
+      id: delete_tf_state
+      shell: bash
+      run: |
+        export WORKSPACE=${{inputs.workspace}}
+        export ENVIRONMENT=${{inputs.environment}}
+        # export COMMIT_HASH=${{inputs.commit_hash}}
+        export ARTEFACT_BUCKET_NAME=${{inputs.artefact_bucket_name}}
+        ./uec-dos-management/scripts/workflow/cleardown-artefacts.sh
