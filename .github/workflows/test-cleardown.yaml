@@ -28,16 +28,17 @@ jobs:
     secrets: inherit
 
   cleardown:
-      name: "Cleardown Infrastructure"
-      needs:
-        [
-          metadata,
-          deploy-infrastructure-apply,
-        ]
-      uses: ./.github/workflows/infrastructure-cleardown.yaml
-      with:
-        environment: mgmt
-        workspace: ${{ needs.metadata.outputs.workspace }}
-        domain: "uec-dos-management"
-        stacks: "['test-stack-3']"
-      secrets: inherit
+    name: "Cleardown Infrastructure"
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-apply,
+      ]
+    uses: ./.github/workflows/infrastructure-cleardown.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
+      domain: "uec-dos-management"
+      stacks: "['test-stack-3']"
+    secrets: inherit

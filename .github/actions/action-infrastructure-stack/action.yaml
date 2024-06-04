@@ -31,10 +31,10 @@ runs:
   steps:
       - name: "Derive TF Version"
         id: derive_tf_version
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@v0.23
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@v0.24
 
       - name: Install Terraform
-        uses: NHSDigital/uec-dos-management/.github/actions/install-terraform@v0.23
+        uses: NHSDigital/uec-dos-management/.github/actions/install-terraform@v0.24
         with:
           terraform_version: ${{ steps.derive_tf_version.outputs.terraform_version }}
 
