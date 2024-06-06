@@ -1,5 +1,8 @@
 name: Pipeline Deploy Account Level Infrastructure
-# TODO remove task branch, rever action to apply, revert to original stacks array
+# TODO remove task branch,
+# revert workspace change
+# revert action to apply,
+# revert to original stacks array
 on:
   push:
     branches:
@@ -21,7 +24,8 @@ jobs:
         with:
           environment: mgmt
           domain: "uec-dos-management"
-          workspace: ${{ needs.metadata.outputs.workspace }}
+          workspace: default
+          # workspace: ${{ needs.metadata.outputs.workspace }}
           # stacks: "['terraform_management','github-runner','dos-artefacts']"
           stacks: "['dos-artefacts']"
           action: plan
