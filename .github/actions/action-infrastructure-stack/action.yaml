@@ -18,12 +18,12 @@ inputs:
     project:
         description: "The project - eg dos or cm."
         required: true
-    dos_dev_account_id:
-        description: "The dev account id"
-        required: false
-    dos_test_account_id:
-        description: "The test account id"
-        required: false
+    # dos_dev_account_id:
+    #     description: "The dev account id"
+    #     required: false
+    # dos_test_account_id:
+    #     description: "The test account id"
+    #     required: false
 
 runs:
   using: "composite"
@@ -31,18 +31,18 @@ runs:
   steps:
       - name: "Derive TF Version"
         id: derive_tf_version
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@v0.24
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-tf-version@task/DR-971_Open_up_artefact_repos
 
       - name: Install Terraform
-        uses: NHSDigital/uec-dos-management/.github/actions/install-terraform@v0.24
+        uses: NHSDigital/uec-dos-management/.github/actions/install-terraform@task/DR-971_Open_up_artefact_repos
         with:
           terraform_version: ${{ steps.derive_tf_version.outputs.terraform_version }}
 
       - name: Action Infrastructure Stack
         shell: bash
         run: |
-          export TF_VAR_dev_account_number=${{ inputs.dos_dev_account_id }}
-          export TF_VAR_test_account_number=${{ inputs.dos_test_account_id }}
+          # export TF_VAR_dev_account_number=${{ inputs.dos_dev_account_id }}
+          # export TF_VAR_test_account_number=${{ inputs.dos_test_account_id }}
           export ACTION=${{ inputs.action }}
           export STACK=${{ inputs.stack }}
           export ENVIRONMENT=${{ inputs.environment }}

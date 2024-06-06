@@ -1,13 +1,15 @@
 name: Pipeline Deploy Account Level Infrastructure
+# TODO remove task branch, rever action to apply, revert to original stacks array
 on:
   push:
     branches:
       - 'main'
+      - 'task/DR-971_Open_up_artefact_repos'
 
 jobs:
     metadata:
       name: "Get Metadata"
-      uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@v0.24
+      uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-971_Open_up_artefact_repos
 
     deploy-account-infrastructure-apply:
         name: "Deploy account level infrastructure"
@@ -15,13 +17,14 @@ jobs:
           [
             metadata,
           ]
-        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@v0.24
+        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-971_Open_up_artefact_repos
         with:
           environment: mgmt
           domain: "uec-dos-management"
           workspace: ${{ needs.metadata.outputs.workspace }}
-          stacks: "['terraform_management','github-runner','dos-artefacts']"
-          action: apply
+          # stacks: "['terraform_management','github-runner','dos-artefacts']"
+          stacks: "['dos-artefacts']"
+          action: plan
         secrets: inherit
     slack-notifications:
       needs: [
@@ -29,7 +32,7 @@ jobs:
         deploy-account-infrastructure-apply,
       ]
       if: always()
-      uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@v0.24
+      uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@task/DR-971_Open_up_artefact_repos
       with:
         env: mgmt
       secrets: inherit
