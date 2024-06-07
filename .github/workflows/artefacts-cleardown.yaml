@@ -22,7 +22,6 @@ on:
         type: string
 
 jobs:
-
   cleardown-artefacts:
     name: "Cleardown Redundant artefacts"
     runs-on: ubuntu-latest
