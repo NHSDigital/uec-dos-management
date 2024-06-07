@@ -5,9 +5,9 @@ data "aws_iam_policy_document" "bucket_policy_ss_artefacts" {
     principals {
       type = "AWS"
       identifiers = [
-        "arn:aws:iam::${var.dev_account_number}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
-        "arn:aws:iam::${var.dev_account_number}:role/uec-dos-service-search-github-runner",
-        "arn:aws:iam::${var.test_account_number}:role/uec-dos-service-search-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/uec-dos-service-search-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-dos-service-search-github-runner",
       ]
     }
     actions = [
@@ -22,9 +22,9 @@ data "aws_iam_policy_document" "bucket_policy_ss_artefacts" {
     principals {
       type = "AWS"
       identifiers = [
-        "arn:aws:iam::${var.dev_account_number}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
-        "arn:aws:iam::${var.dev_account_number}:role/uec-dos-service-search-github-runner",
-        "arn:aws:iam::${var.test_account_number}:role/uec-dos-service-search-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/uec-dos-service-search-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-dos-service-search-github-runner",
       ]
     }
     actions = [
@@ -46,9 +46,9 @@ data "aws_iam_policy_document" "bucket_policy_ss_artefacts_released" {
     principals {
       type = "AWS"
       identifiers = [
-        "arn:aws:iam::${var.dev_account_number}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
-        "arn:aws:iam::${var.dev_account_number}:role/uec-dos-service-search-github-runner",
-        "arn:aws:iam::${var.test_account_number}:role/uec-dos-service-search-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/uec-dos-service-search-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-dos-service-search-github-runner",
       ]
     }
     actions = [
@@ -63,9 +63,9 @@ data "aws_iam_policy_document" "bucket_policy_ss_artefacts_released" {
     principals {
       type = "AWS"
       identifiers = [
-        "arn:aws:iam::${var.dev_account_number}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
-        "arn:aws:iam::${var.dev_account_number}:role/uec-dos-service-search-github-runner",
-        "arn:aws:iam::${var.test_account_number}:role/uec-dos-service-search-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/uec-dos-service-search-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-dos-service-search-github-runner",
       ]
     }
     actions = [

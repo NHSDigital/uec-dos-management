@@ -18,12 +18,6 @@ inputs:
     project:
         description: "The project - eg dos or cm."
         required: true
-    dos_dev_account_id:
-        description: "The dev account id"
-        required: false
-    dos_test_account_id:
-        description: "The test account id"
-        required: false
 
 runs:
   using: "composite"
