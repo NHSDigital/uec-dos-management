@@ -33,6 +33,7 @@ runs:
         echo "github event ref: ${{ github.event.ref }}"
         echo "username of user triggering the workflow: ${{ github.actor }}"
         echo "repo name ${{ github.event.repository.name }}"
+        echo "Hello latest"
         echo "reponame=${{ github.event.repository.name }}" >> $GITHUB_OUTPUT
         echo artefact_bucket_name="nhse-mgmt-${{ github.event.repository.name }}-artefacts"
         echo "artefact_bucket_name=nhse-mgmt-${{ github.event.repository.name }}-artefacts" >> $GITHUB_OUTPUT
