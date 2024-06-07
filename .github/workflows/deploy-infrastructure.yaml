@@ -74,5 +74,3 @@ jobs:
           stack: ${{ matrix.stack }}
           action: ${{ inputs.action }}
           project: ${{ inputs.project }}
-          # dos_dev_account_id: ${{ secrets.DOS_DEV_ACCOUNT_ID }}
-          # dos_test_account_id: ${{ secrets.DOS_TEST_ACCOUNT_ID }}
