@@ -11,8 +11,8 @@ inputs:
 runs:
   using: composite
   steps:
-    - name: Delete terraform state
-      id: delete_tf_state
+    - name: Delete artefacts
+      id: delete_artefacts
       shell: bash
       run: |
         export WORKSPACE=${{inputs.workspace}}

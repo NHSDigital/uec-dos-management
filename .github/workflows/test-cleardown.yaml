@@ -27,7 +27,7 @@ jobs:
       action: apply
     secrets: inherit
 
-  cleardown:
+  cleardown-infrastructure:
     name: "Cleardown Infrastructure"
     needs:
       [
@@ -41,4 +41,19 @@ jobs:
       artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
       domain: "uec-dos-management"
       stacks: "['test-stack-3']"
+    secrets: inherit
+
+  cleardown-artefacts:
+    name: "Cleardown Artefacts"
+    needs:
+      [
+        metadata,
+        cleardown-infrastructure,
+
+      ]
+    uses: ./.github/workflows/artefacts-cleardown.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      artefact_bucket_name: ${{needs.metadata.outputs.artefact_bucket_name}}
     secrets: inherit
