@@ -39,6 +39,7 @@ runs:
         echo "commit_hash $(git rev-parse --short $GITHUB_SHA)"
         echo "commit_hash=$(git rev-parse --short $GITHUB_SHA)" >> $GITHUB_OUTPUT
         echo "artefact_commit_hash=${{ github.event.pull_request.head.sha }}"
+        echo "Update to (x + 1) i.e. v0.28"
         if [ -n "${{ github.event.pull_request.head.sha }}" ] ; then
           echo "artefact_commit_hash=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})"
           echo "artefact_commit_hash=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})" >> $GITHUB_OUTPUT
