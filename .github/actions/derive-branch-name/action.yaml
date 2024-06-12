@@ -4,12 +4,12 @@ description: "Derives the name of the branch for subsequent actions to run again
 outputs:
     branchname:
         description: "The derived branch name"
-        value: ${{ steps.derive-branch.outputs.workspace }}
+        value: ${{ steps.derive-branch.outputs.branchname }}
 
 runs:
   using: "composite"
   steps:
-    - name: "Derive workspace"
+    - name: "Derive branchname"
       id: "derive-branch"
       shell: bash
       run: |
