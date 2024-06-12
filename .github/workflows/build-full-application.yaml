@@ -16,14 +16,9 @@ jobs:
   build-full-application:
     name: "Build Full Application"
     runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
     permissions:
       id-token: write
       contents: read
-    timeout-minutes: ${{ inputs.workflow_timeout }}
-    strategy:
-      matrix:
-        service: ${{ fromJSON(inputs.services) }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
