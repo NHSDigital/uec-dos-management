@@ -40,27 +40,27 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
           tag: ${{ inputs.tag }}
           management-tag: v0.12
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-930_Implement_appdeploy_intenv
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
       - name: Install Allure command-line tool
         id: install-allure
         continue-on-error: true
-        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@task/DR-930_Implement_appdeploy_intenv
       - name: Run integration test
         id: run-int-test
-        uses: NHSDigital/uec-dos-management/.github/actions/integration-test@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/integration-test@task/DR-930_Implement_appdeploy_intenv
         with:
           workspace:  ${{ inputs.workspace }}
       - name: Upload allure report
         id: upload_allure_report
-        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@task/DR-930_Implement_appdeploy_intenv
         with:
           name: allure-report
           path: tests/integration/allure-reports/index.html

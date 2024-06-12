@@ -38,11 +38,11 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
           tag: ${{ inputs.tag }}
       - name: "Code line count"
-        uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/code-line-count@task/DR-930_Implement_appdeploy_intenv
 
   echo-metadata:
     name: "Get Metadata"
@@ -57,12 +57,12 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
           tag: ${{ inputs.tag }}
       - name: "Get metadata"
         id: get_metadata
-        uses: NHSDigital/uec-dos-management/.github/actions/metadata@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/metadata@task/DR-930_Implement_appdeploy_intenv
 
   derive-workspace:
     name: "Derive Workspace"
@@ -74,12 +74,12 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
           tag: ${{ inputs.tag }}
       - name: "Derive workspace"
         id: derive_workspace
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@task/DR-930_Implement_appdeploy_intenv
 
   derive-branchname:
     name: "Derive branch name"
@@ -91,9 +91,9 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
           tag: ${{ inputs.tag }}
       - name: "Derive branchname"
         id: derive_branchname
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-branch-name@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-branch-name@task/DR-930_Implement_appdeploy_intenv
