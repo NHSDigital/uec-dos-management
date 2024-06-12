@@ -60,16 +60,3 @@ jobs:
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
-
-  build-full-application:
-    name: Build full application
-    needs:
-      [
-        metadata,
-        deploy-infrastructure-apply,
-      ]
-    uses: ./.github/workflows/build-full-application.yaml
-    with:
-      target_repo: 'uec-dos-management'
-      target_repo_branch: ${{ needs.metadata.outputs.workspace }}
-    secrets: inherit
