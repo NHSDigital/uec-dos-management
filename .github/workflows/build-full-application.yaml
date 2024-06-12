@@ -3,29 +3,29 @@ name: Build Full Application workflow
 on:
   workflow_call:
     inputs:
-      # environment:
-      #   description: "The name of the environment to build into"
-      #   required: true
-      #   type: string
+      environment:
+        description: "The name of the environment to build into"
+        required: true
+        type: string
       # workspace:
       #   description: "The name of the workspace to build the application into"
       #   required: true
       #   type: string
-      # # services:
-      # #   description: "A list of the services to build"
-      # #   required: false
-      # #   default: ""
-      # #   type: string
-      # # tag:
-      # #   description: "The tag to build from"
-      # #   required: false
-      # #   default: ""
-      # #   type: string
-      # # workflow_timeout:
-      # #   description: "Timeout duration in minutes"
-      # #   required: false
-      # #   default: 5
-      # #   type: number
+      # services:
+      #   description: "A list of the services to build"
+      #   required: false
+      #   default: ""
+      #   type: string
+      tag:
+        description: "The tag to build from"
+        required: false
+        default: ""
+        type: string
+      workflow_timeout:
+        description: "Timeout duration in minutes"
+        required: false
+        default: 5
+        type: number
       target_repo:
         description: "The name of the repo"
         required: true
@@ -39,9 +39,11 @@ jobs:
   build-full-application:
     name: "Build Full Application"
     runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
     permissions:
       id-token: write
       contents: read
+    timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
