@@ -52,6 +52,7 @@ jobs:
       ]
     uses: ./.github/workflows/build-full-application.yaml
     with:
+      environment: int
       target_repo: 'uec-dos-management'
       target_repo_branch: ${{ needs.metadata.outputs.branchname }}
     secrets: inherit
