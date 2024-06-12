@@ -1,0 +1,57 @@
+name: Test full application build
+
+on:
+  push:
+    branches:
+      - main
+      - 'task/*'
+
+jobs:
+  metadata:
+    name: "Get Metadata"
+    uses: ./.github/workflows/metadata.yaml
+
+  deploy-infrastructure-apply:
+    name: "Apply Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: int
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['lambda-stack']"
+      action: plan
+    secrets: inherit
+
+  # build-application:
+  #   name: Build application
+  #   needs:
+  #     [
+  #       metadata,
+  #       deploy-infrastructure-apply,
+  #     ]
+  #   uses: ./.github/workflows/build-application.yaml
+  #   with:
+  #     environment: int
+  #     workspace: ${{ needs.metadata.outputs.workspace }}
+  #     services: "['healthcare-services-data-manager']"
+  #     directory: 'application'
+  #     commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+  #     artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+  #   secrets: inherit
+
+  build-full-application:
+    name: Build full application
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-apply,
+      ]
+    uses: ./.github/workflows/build-full-application.yaml
+    with:
+      target_repo: 'uec-dos-management'
+      target_repo_branch: ${{ needs.metadata.outputs.workspace }}
+    secrets: inherit
