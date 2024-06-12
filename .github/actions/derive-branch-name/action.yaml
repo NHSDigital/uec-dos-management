@@ -1,0 +1,17 @@
+name: "Derive branch name action"
+description: "Derives the name of the branch for subsequent actions to run against"
+
+outputs:
+    branchname:
+        description: "The derived branch name"
+        value: ${{ steps.derive-branch.outputs.workspace }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Derive workspace"
+      id: "derive-branch"
+      shell: bash
+      run: |
+      BRANCH_NAME=${BRANCH_NAME:-$(git rev-parse --abbrev-ref HEAD)}
+      echo "branchname=${BRANCH_NAME}" >> $GITHUB_OUTPUT

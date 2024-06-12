@@ -28,7 +28,9 @@ on:
       artefact_commit_hash:
         description: "The unique commit hash for artefacts for flows triggered by a pull request "
         value: ${{ jobs.echo-metadata.outputs.artefact_commit_hash }}
-
+      branchname:
+        description: "The name of the branch"
+        value: "${{ jobs.derive-branchname.outputs.reponame }}"
 jobs:
   code-line-count:
     name: "Code Line Count"
@@ -78,3 +80,20 @@ jobs:
       - name: "Derive workspace"
         id: derive_workspace
         uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@latest
+
+  derive-branchname:
+    name: "Derive branch name"
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.workflow_timeout }}
+
+    outputs:
+      branchname: ${{ steps.derive_branchname.outputs.workspace }}
+
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        with:
+          tag: ${{ inputs.tag }}
+      - name: "Derive branchname"
+        id: derive_branchname
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-branch-name@latest
