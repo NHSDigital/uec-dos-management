@@ -15,3 +15,4 @@ runs:
       run: |
       echo "branchname $(git rev-parse --abbrev-ref HEAD)"
       echo "branchname=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_OUTPUT
+      fi
