@@ -13,6 +13,5 @@ runs:
       id: "derive-branch"
       shell: bash
       run: |
-      BRANCH_NAME=${BRANCH_NAME:-$(git rev-parse --abbrev-ref HEAD)}
-      echo "branchname: ${BRANCH_NAME}"
-      echo "branchname=${BRANCH_NAME}" >> $GITHUB_OUTPUT
+      echo "branchname $(git rev-parse --abbrev-ref HEAD)"
+      echo "branchname=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_OUTPUT
