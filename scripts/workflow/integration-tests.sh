@@ -29,7 +29,7 @@ fi
 echo "Installing requirements"
 pip install -r "$APPLICATION_TEST_DIR"/requirements.txt
 
-echo "Running integration tests under $APPLICATION_TEST_DIR for workspace $WORKSPACE and environment $ENVIRONMENT"
+echo "Now running integration tests under $APPLICATION_TEST_DIR for workspace $WORKSPACE and environment $ENVIRONMENT"
 cd "$APPLICATION_TEST_DIR" || exit
 behave --tags=pipeline_tests -D workspace="$WORKSPACE" -D env="$ENVIRONMENT" --format=allure -o allure-results;
 
