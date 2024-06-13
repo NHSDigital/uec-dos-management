@@ -59,6 +59,7 @@ jobs:
         with:
           workspace:  ${{ inputs.workspace }}
       - name: Upload allure report
+        if: always()
         id: upload_allure_report
         uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@latest
         with:
