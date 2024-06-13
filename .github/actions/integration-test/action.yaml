@@ -13,5 +13,7 @@ runs:
       id: run-integration-test-script
       shell: bash
       run: |
+        export AWS_REGION=${{ inputs.aws_region }}
         export WORKSPACE=${{ inputs.workspace }}
+        export ENVIRONMENT=${{ inputs.environment }}
         /bin/bash ./uec-dos-management/scripts/workflow/integration-tests.sh
