@@ -11,21 +11,6 @@ jobs:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
-  deploy-infrastructure-apply:
-    name: "Apply Deploy Infrastructure"
-    needs:
-      [
-        metadata,
-      ]
-    uses: ./.github/workflows/deploy-infrastructure.yaml
-    with:
-      environment: int
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: "uec-dos-management"
-      stacks: "['lambda-stack']"
-      action: plan
-    secrets: inherit
-
   # build-application:
   #   name: Build application
   #   needs:
@@ -48,11 +33,14 @@ jobs:
     needs:
       [
         metadata,
-        deploy-infrastructure-apply,
       ]
     uses: ./.github/workflows/build-full-application.yaml
     with:
       environment: int
-      target_repo: 'uec-dos-management'
-      target_repo_branch: ${{ needs.metadata.outputs.branchname }}
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['application']"
+      action: plan
+      # target_repo: 'uec-dos-management'
+      # target_repo_branch: ${{ needs.metadata.outputs.branchname }}
     secrets: inherit

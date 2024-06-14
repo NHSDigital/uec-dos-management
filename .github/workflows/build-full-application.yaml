@@ -7,15 +7,15 @@ on:
         description: "The name of the environment to build into"
         required: true
         type: string
-      # workspace:
-      #   description: "The name of the workspace to build the application into"
-      #   required: true
-      #   type: string
-      # services:
-      #   description: "A list of the services to build"
-      #   required: false
-      #   default: ""
-      #   type: string
+      workspace:
+        description: "The name of the workspace to build the application into"
+        required: true
+        type: string
+      services:
+        description: "A list of the services to build"
+        required: false
+        default: ""
+        type: string
       tag:
         description: "The tag to build from"
         required: false
@@ -26,32 +26,56 @@ on:
         required: false
         default: 5
         type: number
-      target_repo:
-        description: "The name of the repo"
-        required: true
-        type: string
-      target_repo_branch:
-        description: "The name of the target repo branch"
-        required: true
-        type: string
+      # target_repo:
+      #   description: "The name of the repo"
+      #   required: true
+      #   type: string
+      # target_repo_commit_hash:
+      #   description: "The name of the target repo branch"
+      #   required: true
+      #   type: string
 
 jobs:
-  build-full-application:
-    name: "Build Full Application"
-    runs-on: ubuntu-latest
-    environment: ${{ inputs.environment }}
-    permissions:
-      id-token: write
-      contents: read
-    timeout-minutes: ${{ inputs.workflow_timeout }}
-    steps:
-      - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
-        with:
-          tag: ${{ inputs.tag }}
+  deploy-infrastructure-apply:
+    name: "Apply Deploy Infrastructure"
+    strategy:
+      matrix:
+        domain: "['uec-service-management','uec-cm','uec-account-mngt','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']"
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: int
+      workspace: ${{ inputs.workspace }}
+      domain: ${{ matrix.domain }}
+      stacks: "['application']"
+      action: plan
+    secrets: inherit
 
-      - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-930_Implement_appdeploy_intenv
-        with:
-          aws_account_id: ${{ secrets.ACCOUNT_ID }}
-          aws_region: ${{ vars.AWS_REGION }}
+  deploy-lambda-code:
+    name: "Deploy Application "
+    strategy:
+      matrix:
+        domain: "['uec-service-management','uec-cm','uec-account-mngt','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']"
+    uses: ./.github/workflows/deploy-lambda-code.yaml
+    with:
+      environment: int
+      workspace: ${{ inputs.workspace }}
+      services: "['healthcare-services-data-manager']"
+      directory: 'application'
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    secrets: inherit
+
+
+  deploy-react-app:
+    name: "Deploy react application "
+    strategy:
+      matrix:
+        domain: "['uec-service-management','uec-cm','uec-account-mngt','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']"
+    uses: ./.github/workflows/deploy-react-app.yaml
+    with:
+      environment: int
+      workspace: ${{ inputs.workspace }}
+      domain: ${{ matrix.domain }}
+      stacks: "['application']"
+      action: plan
+    secrets: inherit
