@@ -11,6 +11,11 @@ on:
         description: "The name of the environment to deploy into"
         required: true
         type: string
+      # domain:
+      #     description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
+      #     required: false
+      #     default: ""
+      #     type: string
       workspace:
         description: "The name of the workspace to deploy the application into"
         required: true
@@ -55,6 +60,7 @@ jobs:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
+          # repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials

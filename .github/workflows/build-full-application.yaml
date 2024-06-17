@@ -50,32 +50,32 @@ jobs:
       action: plan
     secrets: inherit
 
-  deploy-lambda-code:
-    name: "Deploy Application "
-    strategy:
-      matrix:
-        domain: "['uec-service-management','uec-cm','uec-account-mngt','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']"
-    uses: ./.github/workflows/deploy-lambda-code.yaml
-    with:
-      environment: int
-      workspace: ${{ inputs.workspace }}
-      services: "['healthcare-services-data-manager']"
-      directory: 'application'
-      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
-      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
-    secrets: inherit
+  # deploy-lambda-code:
+  #   name: "Deploy Application "
+  #   strategy:
+  #     matrix:
+  #       domain: "['uec-service-management','uec-cm','uec-account-mngt','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']"
+  #   uses: ./.github/workflows/deploy-lambda-code.yaml
+  #   with:
+  #     environment: int
+  #     workspace: ${{ inputs.workspace }}
+  #     services: "['healthcare-services-data-manager']"
+  #     directory: 'application'
+  #     commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+  #     artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+  #   secrets: inherit
 
 
-  deploy-react-app:
-    name: "Deploy react application "
-    strategy:
-      matrix:
-        domain: "['uec-service-management','uec-cm','uec-account-mngt','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']"
-    uses: ./.github/workflows/deploy-react-app.yaml
-    with:
-      environment: int
-      workspace: ${{ inputs.workspace }}
-      domain: ${{ matrix.domain }}
-      stacks: "['application']"
-      action: plan
-    secrets: inherit
+  # deploy-react-app:
+  #   name: "Deploy react application "
+  #   strategy:
+  #     matrix:
+  #       domain: "['uec-service-management','uec-cm','uec-account-mngt','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']"
+  #   uses: ./.github/workflows/deploy-react-app.yaml
+  #   with:
+  #     environment: int
+  #     workspace: ${{ inputs.workspace }}
+  #     domain: ${{ matrix.domain }}
+  #     stacks: "['application']"
+  #     action: plan
+  #   secrets: inherit
