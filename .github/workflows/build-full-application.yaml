@@ -40,7 +40,7 @@ jobs:
     name: "Apply Deploy Infrastructure"
     strategy:
       matrix:
-        domain: ['uec-service-management','uec-cm','uec-account-mngt','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']
+        domain: ['uec-dos-service-management','uec-cm','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
       environment: int
@@ -54,7 +54,7 @@ jobs:
   #   name: "Deploy Application "
   #   strategy:
   #     matrix:
-  #       domain: "['uec-service-management','uec-cm','uec-account-mngt','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']"
+  #       domain: "['uec-service-management','uec-cm','uec-dos-service-search','uec-dos-user-management','uec-dos-user-interfaces']"
   #   uses: ./.github/workflows/deploy-lambda-code.yaml
   #   with:
   #     environment: int
