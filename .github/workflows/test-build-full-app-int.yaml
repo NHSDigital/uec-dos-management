@@ -39,8 +39,8 @@ jobs:
       environment: int
       workspace: ${{ needs.metadata.outputs.workspace }}
       # domain: "uec-dos-management"
-      stacks: "['application']"
-      action: plan
+      # stacks: "['application']"
+      # action: plan
       # target_repo: 'uec-dos-management'
       # target_repo_branch: ${{ needs.metadata.outputs.branchname }}
     secrets: inherit
