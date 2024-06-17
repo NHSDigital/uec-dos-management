@@ -38,7 +38,7 @@ jobs:
     with:
       environment: int
       workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: "uec-dos-management"
+      # domain: "uec-dos-management"
       stacks: "['application']"
       action: plan
       # target_repo: 'uec-dos-management'
