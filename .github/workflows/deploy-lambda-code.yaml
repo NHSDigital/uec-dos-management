@@ -1,4 +1,4 @@
-name: Build and Deploy Application workflow
+name: Deploy Application workflow
 
 on:
   workflow_call:
@@ -11,17 +11,17 @@ on:
         description: "The name of the environment to deploy into"
         required: true
         type: string
-      # domain:
-      #     description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
-      #     required: false
-      #     default: ""
-      #     type: string
+      domain:
+          description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
+          required: false
+          default: ""
+          type: string
       workspace:
         description: "The name of the workspace to deploy the application into"
         required: true
         type: string
       services:
-        description: "A list of the services to build and deploy"
+        description: "A list of the services to build and deploy. All services can be deployed by specifying 'all' "
         required: false
         default: ""
         type: string
@@ -45,6 +45,27 @@ on:
         type: string
 
 jobs:
+  derive-service-names:
+    name: "Derive Service Names"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        with:
+          repository: ${{ inputs.domain }}
+          tag: ${{ inputs.tag }}
+
+      - name: Derive Service Names
+      shell: bash
+          run: |
+        if [ ${{ inputs.services }} == 'all' ]; then
+                cd ${{ inputs.directory }}
+          SERVICES=$(find *  -maxdepth 0 )
+          echo "services=${SERVICES}" >> $GITHUB_OUTPUT
+        else
+          echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
+        fi
+
   deploy-application:
     name: "Deploy Application"
     runs-on: ubuntu-latest
@@ -55,12 +76,12 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     strategy:
       matrix:
-        service: ${{ fromJSON(inputs.services) }}
+        service: ${{ needs.derive-service-names.outputs.services}}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
-          # repository: ${{ inputs.domain }}
+          repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
