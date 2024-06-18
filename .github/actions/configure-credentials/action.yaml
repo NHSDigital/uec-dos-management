@@ -8,6 +8,11 @@ inputs:
   aws_region:
     description: "The AWS region where the account resides"
     required: true
+  domain:
+    description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
+    required: false
+    default: ""
+    type: string
 
 runs:
   using: "composite"
@@ -15,6 +20,6 @@ runs:
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v4.0.2
       with:
-        role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/${{ github.event.repository.name }}-github-runner
+        role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/${{ inputs.domain != '' && inputs.domain || github.event.repository.name }}-github-runner
         role-session-name: github-pipeline-session
         aws-region: ${{ inputs.aws_region }}
