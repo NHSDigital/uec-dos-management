@@ -30,14 +30,14 @@ on:
         description: "The name of the repo"
         required: true
         type: string
-      target_repo_commit_hash:
-        description: "The name of the target repo branch"
-        required: true
-        type: string
-      artefact_bucket_name:
-        description: "Name of s3 repo holding domain artefacts"
-        required: true
-        type: string
+      # target_repo_commit_hash:
+      #   description: "The name of the target repo branch"
+      #   required: true
+      #   type: string
+      # artefact_bucket_name:
+      #   description: "Name of s3 repo holding domain artefacts"
+      #   required: true
+      #   type: string
 
 jobs:
   deploy-infrastructure-apply:
