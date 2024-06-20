@@ -102,7 +102,7 @@ function terraform-initialise {
 
 COMMON_TF_VARS_FILE="common.tfvars"
 STACK_TF_VARS_FILE="$STACK.tfvars"
-PROJECT_TF_VARS_FILE="$PROJECT-project.tfvars"
+PROJECT_TF_VARS_FILE="project.tfvars"
 ENV_TF_VARS_FILE="$ENVIRONMENT.tfvars"
 
 echo "Preparing to run terraform $ACTION for stack $STACK to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
