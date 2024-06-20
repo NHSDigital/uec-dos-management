@@ -106,7 +106,7 @@ function terraform-initialise {
 # These used by both stacks to be bootstrapped
 ROOT_DIR=$PWD
 COMMON_TF_VARS_FILE="common.tfvars"
-PROJECT_TF_VARS_FILE="$PROJECT-project.tfvars"
+PROJECT_TF_VARS_FILE="project.tfvars"
 ENV_TF_VARS_FILE="$ENVIRONMENT.tfvars"
 
 
