@@ -54,20 +54,20 @@ jobs:
       action: apply
     secrets: inherit
 
-  # deploy-lambda-code:
-  #   name: "Deploy Application "
-  #   strategy:
-  #     matrix:
-  #       domain: ['uec-dos-service-management','uec-cm']
-  #   uses: ./.github/workflows/deploy-lambda-code.yaml
-  #   with:
-  #     environment: int
-  #     workspace: ${{ inputs.workspace }}
-  #     services: 'all'
-  #     directory: 'application'
-  #     commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest_commit_hash' }}
-  #     artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
-  #   secrets: inherit
+  deploy-lambda-code:
+    name: "Deploy Application "
+    strategy:
+      matrix:
+        domain: ['uec-dos-service-management','uec-cm']
+    uses: ./.github/workflows/deploy-lambda-code.yaml
+    with:
+      environment: int
+      workspace: ${{ inputs.workspace }}
+      services: 'all'
+      directory: 'application'
+      commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest_hash' }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    secrets: inherit
 
 
   # deploy-react-app:
