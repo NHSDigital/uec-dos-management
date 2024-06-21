@@ -56,15 +56,34 @@ jobs:
           tag: ${{ inputs.tag }}
 
       - name: Derive Service Names
-      shell: bash
+        shell: bash
           run: |
-        if [ ${{ inputs.services }} == 'all' ]; then
+              if [ ${{ inputs.services }} == 'all' ]; then
                 cd ${{ inputs.directory }}
-          SERVICES=$(find *  -maxdepth 0 )
-          echo "services=${SERVICES}" >> $GITHUB_OUTPUT
-        else
-          echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
-        fi
+                SERVICES=$(find *  -maxdepth 0 )
+                echo "services=${SERVICES}" >> $GITHUB_OUTPUT
+              else
+                echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
+              fi
+
+  derive-commit-hash:
+    name: Derive Commit Hash
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        with:
+          domain: ${{ inputs.domain }}
+
+      - name: Derive Commit Hash
+        shell: bash
+          run: |
+              if [ ${{ inputs.commit_hash}} == 'latest' ]; then
+                LATEST_HASH=$(git rev-parse main)
+                echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
+              else
+                echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
+              fi
 
   deploy-application:
     name: "Deploy Application"
@@ -74,9 +93,15 @@ jobs:
       id-token: write
       contents: read
     timeout-minutes: ${{ inputs.workflow_timeout }}
+    needs:
+      [
+        derive-service-names,
+        derive-commit-hash
+      ]
     strategy:
       matrix:
         service: ${{ needs.derive-service-names.outputs.services}}
+
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
