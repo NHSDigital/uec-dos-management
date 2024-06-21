@@ -51,7 +51,7 @@ jobs:
       workspace: ${{ inputs.workspace }}
       domain: ${{ matrix.domain }}
       stacks: "['application']"
-      action: plan
+      action: apply
     secrets: inherit
 
   # deploy-lambda-code:
