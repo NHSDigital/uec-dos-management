@@ -50,7 +50,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
           repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
           domain: ${{ inputs.domain }}
 
