@@ -61,7 +61,7 @@ jobs:
         domain: ['uec-dos-service-management','uec-cm']
     uses: ./.github/workflows/deploy-lambda-code.yaml
     with:
-      environment: int
+      environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
       domain: ${{ matrix.domain }}
       services: 'all'
