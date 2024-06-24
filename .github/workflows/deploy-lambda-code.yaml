@@ -57,14 +57,14 @@ jobs:
 
       - name: Derive Service Names
         shell: bash
-          run: |
-            if [ ${{ inputs.services }} == 'all' ]; then
-              cd ${{ inputs.directory }}
-              SERVICES=$(find *  -maxdepth 0 )
-              echo "services=${SERVICES}" >> $GITHUB_OUTPUT
-            else
-              echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
-            fi
+        run: |
+          if [ ${{ inputs.services }} == 'all' ]; then
+            cd ${{ inputs.directory }}
+            SERVICES=$(find *  -maxdepth 0 )
+            echo "services=${SERVICES}" >> $GITHUB_OUTPUT
+          else
+            echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
+          fi
 
   derive-commit-hash:
     name: Derive Commit Hash
@@ -77,13 +77,13 @@ jobs:
 
       - name: Derive Commit Hash
         shell: bash
-          run: |
-            if [ ${{ inputs.commit_hash}} == 'latest' ]; then
-              LATEST_HASH=$(git rev-parse main)
-              echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
-            else
-              echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
-            fi
+        run: |
+          if [ ${{ inputs.commit_hash}} == 'latest' ]; then
+            LATEST_HASH=$(git rev-parse main)
+            echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
+          else
+            echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
+          fi
 
   deploy-application:
     name: "Deploy Application"
