@@ -59,8 +59,8 @@ jobs:
         shell: bash
         run: |
           if [ ${{ inputs.services }} == 'all' ]; then
-            cd ${{ inputs.directory }}
-            SERVICE=readarray -t <<<$(find *  -maxdepth 0 )
+            cd "${{ inputs.directory }}" || exit 1
+            SERVICES=$(find . -maxdepth 1 -type d -exec basename {} \; | tr '\n' ' ')
             echo "services=${SERVICES}" >> $GITHUB_OUTPUT
           else
             echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
