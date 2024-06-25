@@ -52,7 +52,7 @@ jobs:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
-          domain: ${{ inputs.domain }}
+          repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
 
       - name: Derive Service Names
@@ -73,7 +73,7 @@ jobs:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
         with:
-          domain: ${{ inputs.domain }}
+          repository: ${{ inputs.domain }}
 
       - name: Derive Commit Hash
         shell: bash
