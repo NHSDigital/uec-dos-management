@@ -59,8 +59,9 @@ jobs:
         shell: bash
         run: |
           if [ ${{ inputs.services }} == 'all' ]; then
-            cd ${{ inputs.directory }}
-            SERVICES=$(find *  -maxdepth 0 )
+            cd "${{ inputs.directory }}"
+            SERVICES=$(find * -maxdepth 0 -type d)
+            SERVICES=$(echo "${SERVICES}" | tr '\n' ' ')
             echo "services=${SERVICES}" >> $GITHUB_OUTPUT
           else
             echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
