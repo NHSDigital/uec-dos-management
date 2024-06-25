@@ -56,7 +56,7 @@ jobs:
           tag: ${{ inputs.tag }}
 
       - name: Derive Service Names
-        shell: bash
+        shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
         run: |
           if [ ${{ inputs.services }} == 'all' ]; then
             cd "${{ inputs.directory }}"
