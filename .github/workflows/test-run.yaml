@@ -1,4 +1,4 @@
-name: Test full application build
+name: Test Passthru
 on:
   push:
     branches:
