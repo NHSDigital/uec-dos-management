@@ -86,6 +86,8 @@ jobs:
   derive-commit-hash:
     name: Derive Commit Hash
     runs-on: ubuntu-latest
+    outputs:
+        commit_hash: ${{ steps.derive-commit-hash.outputs.commit_hash }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
@@ -93,6 +95,7 @@ jobs:
           repository: ${{ inputs.domain }}
 
       - name: Derive Commit Hash
+        id: derive-commit-hash
         shell: bash
         run: |
           if [ ${{ inputs.commit_hash}} == 'latest' ]; then
