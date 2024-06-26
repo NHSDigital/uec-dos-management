@@ -60,8 +60,8 @@ jobs:
         run: |
           if [ ${{ inputs.services }} == 'all' ]; then
             cd ${{ inputs.directory }}
-            echo services=$(printf '%s\n' * | jq -R . | jq -cs .)
-            echo "services=$services" >> $GITHUB_OUTPUT
+            echo "services=$(printf '%s\n' * | jq -R '{services: .}' | jq -s 'map(.) | .[]')"
+            echo "services=$(printf '%s\n' * | jq -R '{services: .}' | jq -s 'map(.) | .[]')" >> $GITHUB_OUTPUT
           else
             echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
           fi
@@ -78,7 +78,7 @@ jobs:
         shell: bash
         run: |
             echo ${{ needs.derive-service-names.outputs.services}}
-
+    
   derive-commit-hash:
     name: Derive Commit Hash
     runs-on: ubuntu-latest
