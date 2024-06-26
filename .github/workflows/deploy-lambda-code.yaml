@@ -48,6 +48,8 @@ jobs:
   derive-service-names:
     name: "Derive Service Names"
     runs-on: ubuntu-latest
+    outputs:
+        services: ${{ steps.derive-service-names.outputs.services }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
@@ -56,12 +58,13 @@ jobs:
           tag: ${{ inputs.tag }}
 
       - name: Derive Service Names
+        id: derive-service-names
         shell: bash
         run: |
           if [ ${{ inputs.services }} == 'all' ]; then
             cd ${{ inputs.directory }}
-            echo "services=$(printf '%s\n' * | jq -Rsc 'split("\n")[:-1]')"
-            echo "services=$(printf '%s\n' * | jq -Rsc 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
+            SERVICES=$(ls | jq -R -s -c 'split("\n")[:-1]')
+            echo "services=${SERVICES}" >> $GITHUB_OUTPUT
           else
             echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
           fi
@@ -78,7 +81,7 @@ jobs:
       - name: output Service Names
         shell: bash
         run: |
-            echo ${{ needs.derive-service-names.outputs.services}}
+            echo ${{ fromJSON(needs.derive-service-names.outputs.services) }}
 
   derive-commit-hash:
     name: Derive Commit Hash
@@ -114,7 +117,7 @@ jobs:
       ]
     strategy:
       matrix:
-        service: ${{ needs.derive-service-names.outputs.services}}
+        service: ${{ fromJSON(needs.derive-service-names.outputs.services) }}
 
     steps:
       - name: "Checkout code"
