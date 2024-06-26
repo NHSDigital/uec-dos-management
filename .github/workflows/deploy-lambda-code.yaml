@@ -78,7 +78,7 @@ jobs:
         shell: bash
         run: |
             echo ${{ needs.derive-service-names.outputs.services}}
-    
+
   derive-commit-hash:
     name: Derive Commit Hash
     runs-on: ubuntu-latest
