@@ -60,6 +60,7 @@ jobs:
         run: |
           if [ ${{ inputs.services }} == 'all' ]; then
             cd ${{ inputs.directory }}
+            echo "services=$(printf '%s\n' * | jq -Rsc 'split("\n")[:-1]')"
             echo "services=$(printf '%s\n' * | jq -Rsc 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
           else
             echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
