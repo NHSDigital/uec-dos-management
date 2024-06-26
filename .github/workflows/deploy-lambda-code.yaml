@@ -60,8 +60,8 @@ jobs:
         run: |
           if [ ${{ inputs.services }} == 'all' ]; then
             cd ${{ inputs.directory }}
-            echo 'services='"$(printf '%s' * | sed 's/-/_/g; s/.*/\L&/')"
-            echo 'services='"$(printf '%s' * | sed 's/-/_/g; s/.*/\L&/')" >> $GITHUB_OUTPUT
+            echo "services=$(printf '%s\n' * | jq -Rsc 'split("\n")[:-1]')"
+            echo "services=$(printf '%s\n' * | jq -Rsc 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
           else
             echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
           fi
@@ -74,6 +74,7 @@ jobs:
         derive-service-names
       ]
     steps:
+
       - name: output Service Names
         shell: bash
         run: |
