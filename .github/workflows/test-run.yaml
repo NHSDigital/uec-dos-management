@@ -1,0 +1,46 @@
+name: Test full application build
+on:
+  push:
+    branches:
+      - main
+      - task/*
+jobs:
+  derive-values:
+    name: Derive Values
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
+        with:
+          tag: ${{ inputs.tag }}
+      - name: Derive Service Names
+        shell: bash
+        run: |
+          	cd ./application
+          	SERVICES="['one','two','three']"
+            echo "services=${SERVICES}" >> $GITHUB_OUTPUT
+            
+  matrix-values:
+    name: Matrix Values
+    runs-on: ubuntu-latest
+    needs:
+      - derive-values
+    strategy:
+      matrix:
+        service: ${{ needs.derive-values.outputs.services}}
+    steps:
+      - name: matrix-names
+        shell: bash
+        run: |
+          echo ${{ matrix.service }}
+          
+  output-values:
+    name: Output Values
+    runs-on: ubuntu-latest
+    needs:
+      - derive-values
+    steps:
+      - name: output-name
+        shell: bash
+        run: |
+          echo ${{ needs.derive-values.outputs.services}}
