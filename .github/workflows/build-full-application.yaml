@@ -64,7 +64,7 @@ jobs:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
       domain: ${{ matrix.domain }}
-      services: 'locations-data-manager'
+      services: 'locations'
       directory: 'application'
       commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest_hash' }}
       artefact_bucket_name: ${{ matrix.domain == inputs.target_repo && inputs.artefact_bucket_name }}
