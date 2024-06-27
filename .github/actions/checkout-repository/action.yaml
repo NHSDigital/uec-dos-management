@@ -32,7 +32,7 @@ runs:
     - name: Checkout Repository
       uses: actions/checkout@v4
       with:
-        repository: "NHSDigital/${{ inputs.repository == '' && github.event.repository.name || inputs.repository }}
+        repository: "NHSDigital/${{ inputs.repository == '' && github.event.repository.name || inputs.repository }}"
         ref: ${{ inputs.tag }}
         fetch-depth: ${{ inputs.fetch-depth }}
         sparse-checkout: ${{ inputs.sparse-checkout }}
