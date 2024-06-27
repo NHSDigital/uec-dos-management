@@ -52,9 +52,13 @@ jobs:
 
   deploy-lambda-code:
     name: "Deploy Application "
+    needs:
+      [
+        deploy-infrastructure-apply,
+      ]
     strategy:
       matrix:
-        domain: ['uec-dos-service-management','uec-cm']
+        domain: ['uec-dos-service-management']
     uses: ./.github/workflows/deploy-lambda-code.yaml
     with:
       environment: ${{ inputs.environment }}
