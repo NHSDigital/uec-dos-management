@@ -54,22 +54,33 @@ jobs:
       action: apply
     secrets: inherit
 
-  deploy-lambda-code:
+  # deploy-lambda-code:
+  #   name: "Deploy Application "
+  #   strategy:
+  #     matrix:
+  #       domain: ['uec-dos-service-management','uec-cm']
+  #   uses: ./.github/workflows/deploy-lambda-code.yaml
+  #   with:
+  #     environment: ${{ inputs.environment }}
+  #     workspace: ${{ inputs.workspace }}
+  #     domain: ${{ matrix.domain }}
+  #     services: 'all'
+  #     directory: 'application'
+  #     commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
+  #     artefact_bucket_name: ${{ matrix.domain == inputs.target_repo && inputs.artefact_bucket_name }}
+  #   secrets: inherit
+
+  test-deploy-lambda-code:
     name: "Deploy Application "
     strategy:
       matrix:
         domain: ['uec-dos-service-management','uec-cm']
-    uses: ./.github/workflows/deploy-lambda-code.yaml
-    with:
-      environment: ${{ inputs.environment }}
-      workspace: ${{ inputs.workspace }}
-      domain: ${{ matrix.domain }}
-      services: 'all'
-      directory: 'application'
-      commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
-      artefact_bucket_name: ${{ matrix.domain == inputs.target_repo && inputs.artefact_bucket_name }}
-    secrets: inherit
-
+    shell: bash
+    run: |
+        echo ${{ matrix.domain }}
+        echo ${{ inputs.target_repo }}
+        echo ${{ inputs.target_repo_commit_hash }}
+        echo ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
 
   # deploy-react-app:
   #   name: "Deploy react application "
