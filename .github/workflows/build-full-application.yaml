@@ -75,12 +75,14 @@ jobs:
     strategy:
       matrix:
         domain: ['uec-dos-service-management','uec-cm']
-    shell: bash
-    run: |
-        echo ${{ matrix.domain }}
-        echo ${{ inputs.target_repo }}
-        echo ${{ inputs.target_repo_commit_hash }}
-        echo ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
+    steps:
+      - name: "test"
+        shell: bash
+        run: |
+            echo ${{ matrix.domain }}
+            echo ${{ inputs.target_repo }}
+            echo ${{ inputs.target_repo_commit_hash }}
+            echo ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
 
   # deploy-react-app:
   #   name: "Deploy react application "
