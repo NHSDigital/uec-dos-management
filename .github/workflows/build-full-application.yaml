@@ -66,7 +66,7 @@ jobs:
       domain: ${{ matrix.domain }}
       services: 'all'
       directory: 'application'
-      commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest_hash' }}
+      commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
       artefact_bucket_name: ${{ matrix.domain == inputs.target_repo && inputs.artefact_bucket_name }}
     secrets: inherit
 
