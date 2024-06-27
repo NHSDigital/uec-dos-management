@@ -65,6 +65,7 @@ jobs:
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
+          domain: ${{ inputs.domain }}
 
       - name: "Deploy infrastructure stack"
         uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-930_Implement_appdeploy_intenv
