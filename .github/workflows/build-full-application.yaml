@@ -71,7 +71,8 @@ jobs:
   #   secrets: inherit
 
   test-deploy-lambda-code:
-    name: "Deploy Application "
+    name: "Deploy Application"
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         domain: ['uec-dos-service-management','uec-cm']
