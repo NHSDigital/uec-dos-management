@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        domain: ['uec-dos-service-management','uec-cm']
+        domain: ['uec-dos-service-management']
     steps:
       - name: "test"
         shell: bash
