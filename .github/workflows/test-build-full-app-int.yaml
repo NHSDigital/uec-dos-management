@@ -39,6 +39,6 @@ jobs:
       environment: int
       workspace: ${{ needs.metadata.outputs.workspace }}
       target_repo: 'uec-dos-service-management'
-      target_repo_commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      target_repo_commit_hash: '6907a09'
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
