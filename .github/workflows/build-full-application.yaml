@@ -64,7 +64,7 @@ jobs:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
       domain: ${{ matrix.domain }}
-      services: "['locations-data-manager']"
+      services: 'all'
       directory: 'application'
       commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
       artefact_bucket_name: "nhse-mgmt-${{ matrix.domain }}-artefacts"
@@ -85,16 +85,19 @@ jobs:
             echo ${{ inputs.target_repo_commit_hash }}
             echo ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
 
-  # deploy-react-app:
-  #   name: "Deploy react application "
-  #   strategy:
-  #     matrix:
-  #       domain: ['uec-dos-service-management','uec-cm']
-  #   uses: ./.github/workflows/deploy-react-app.yaml
-  #   with:
-  #     environment: int
-  #     workspace: ${{ inputs.workspace }}
-  #     domain: ${{ matrix.domain }}
-  #     stacks: "['application']"
-  #     action: plan
-  #   secrets: inherit
+  deploy-react-app:
+    name: "Deploy React App "
+    needs:
+      [
+        deploy-infrastructure-apply,
+      ]
+    strategy:
+      matrix:
+        domain: ['uec-cm']
+    uses: ./.github/workflows/deploy-react-app.yaml
+    with:
+      environment: ${{ inputs.environment }}
+      workspace: ${{ inputs.workspace }}
+      domain: ${{ matrix.domain }}
+      commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
+      artefact_bucket_name: "nhse-mgmt-${{ matrix.domain }}-artefacts"
