@@ -64,7 +64,7 @@ jobs:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
       domain: ${{ matrix.domain }}
-      services: 'all'
+      services: 'locations'
       directory: 'application'
       commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
       artefact_bucket_name: "nhse-mgmt-${{ matrix.domain }}-artefacts"
