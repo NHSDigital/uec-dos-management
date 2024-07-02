@@ -34,6 +34,10 @@ on:
         description: "The name of the target repo branch"
         required: true
         type: string
+      int_domain:
+        description: "The name of the domain to assume github runner role"
+        required: true
+        type: string
 
 jobs:
   deploy-infrastructure-apply:
@@ -99,7 +103,7 @@ jobs:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
       domain: ${{ matrix.domain }}
-      int_domain: ['uec-dos-management']
+      int_domain: ${{ inputs.int_domain }}
       commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
       artefact_bucket_name: "nhse-mgmt-${{ matrix.domain }}-artefacts"
     secrets: inherit
