@@ -39,7 +39,15 @@ jobs:
       environment: mgmt
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: "uec-dos-management"
-      stacks: "['test-stack-3']"
+      stacks:
+        "[
+          'test-stack-1',
+          'test-stack-3',
+          'ui-test-stack',
+          'lambda-stack',
+          'test-ready-for-test-stack'
+        ]"
+      workflow_timeout: 10
     secrets: inherit
 
   cleardown-artefacts:
