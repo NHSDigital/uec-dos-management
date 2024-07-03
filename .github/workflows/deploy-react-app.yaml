@@ -61,7 +61,7 @@ jobs:
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
-          domain: ${{ inputs.domain }}
+          multi_domain: ${{ inputs.multi_domain }}
 
       - name: Derive spa bucket
         id: derive_spa_bucket
