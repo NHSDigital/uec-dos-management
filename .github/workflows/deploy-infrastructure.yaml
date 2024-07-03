@@ -22,10 +22,10 @@ on:
           default: ""
           type: string
       multi_domain:
-          description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
-          required: false
-          default: ""
-          type: string
+        description: "Domain to uassume github runner role "
+        required: false
+        default: ""
+        type: boolean
       stacks:
           description: "A list of the infrastructure stacks to deploy from the domain. If not supplied, no infrastructure will be deployed"
           required: false
