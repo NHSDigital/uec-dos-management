@@ -16,8 +16,8 @@ inputs:
   multi_domain:
     description: "Multi domain"
     required: false
-    default: 'false'
-
+    default: false
+    type: boolean
 runs:
   using: "composite"
   steps:
