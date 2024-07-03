@@ -16,22 +16,22 @@ inputs:
   multi_domain:
     description: "Multi domain"
     required: false
-    default: 'false'
+    default: false
 
 runs:
   using: "composite"
   steps:
     - name: Configure AWS Credentials
-      if: ${{ inputs.multi_domain == 'false' }}
+      if: ${{ inputs.multi_domain == false }}
       uses: aws-actions/configure-aws-credentials@v4.0.2
       with:
         role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/${{ inputs.domain != '' && inputs.domain || github.event.repository.name }}-github-runner
         role-session-name: github-pipeline-session
         aws-region: ${{ inputs.aws_region }}
     - name: Configure AWS Credentials for multi domain
-      if: ${{ inputs.multi_domain == 'true' }}
+      if: ${{ inputs.multi_domain == true }}
       uses: aws-actions/configure-aws-credentials@v4.0.2
       with:
-        role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/uec-cm-github-runner
+        role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/uec-dos-management-github-runner
         role-session-name: github-pipeline-session
         aws-region: ${{ inputs.aws_region }}
