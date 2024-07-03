@@ -24,7 +24,7 @@ on:
       multi_domain:
         description: "Domain to uassume github runner role "
         required: false
-        default: ""
+        default: false
         type: boolean
       workflow_timeout:
         description: "Timeout duration in minutes"
