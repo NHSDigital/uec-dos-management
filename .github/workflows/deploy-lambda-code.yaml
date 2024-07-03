@@ -15,6 +15,11 @@ on:
           description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
           required: false
           default: ""
+          type: string]
+      multi_domain:
+          description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
+          required: false
+          default: ""
           type: string
       workspace:
         description: "The name of the workspace to deploy the application into"
@@ -134,7 +139,7 @@ jobs:
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
-          domain: ${{ inputs.domain }}
+          multi_domain: ${{ inputs.multi_domain }}
 
       - name: "Deploy service"
         uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@task/DR-930_Implement_appdeploy_intenv

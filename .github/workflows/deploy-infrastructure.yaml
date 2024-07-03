@@ -21,6 +21,11 @@ on:
           required: false
           default: ""
           type: string
+      multi_domain:
+          description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
+          required: false
+          default: ""
+          type: string
       stacks:
           description: "A list of the infrastructure stacks to deploy from the domain. If not supplied, no infrastructure will be deployed"
           required: false
@@ -65,7 +70,7 @@ jobs:
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
-          domain: ${{ inputs.domain }}
+          multi_domain: ${{ inputs.multi_domain }}
 
       - name: "Deploy infrastructure stack"
         uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-930_Implement_appdeploy_intenv

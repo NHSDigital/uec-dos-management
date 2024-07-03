@@ -15,6 +15,11 @@ on:
         description: "The name of the code repository"
         required: true
         type: string
+      multi_domain:
+          description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
+          required: false
+          default: ""
+          type: string
       code_directory:
         description: "The root directory for react code"
         required: false
@@ -64,7 +69,7 @@ jobs:
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
-          domain: ${{ inputs.domain }}
+          multi_domain: ${{ inputs.multi_domain }}
 
       - name: Derive cloudfront dist id
         id: derive_cloudfront_dist_id
