@@ -32,6 +32,6 @@ runs:
       if: ${{ inputs.multi_domain == 'true' }}
       uses: aws-actions/configure-aws-credentials@v4.0.2
       with:
-        role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/uec-dos-management-github-runner
+        role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/uec-cm-github-runner
         role-session-name: github-pipeline-session
         aws-region: ${{ inputs.aws_region }}
