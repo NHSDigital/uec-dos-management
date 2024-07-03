@@ -22,10 +22,10 @@ on:
         default: ""
         type: string
       multi_domain:
-        description: "Domain to uassume github runner role "
+        description: "Domain to use for github runner role"
         required: false
-        default: false
-        type: boolean
+        default: ""
+        type: string
       workflow_timeout:
         description: "Timeout duration in minutes"
         required: false
