@@ -15,10 +15,6 @@ on:
         description: "The name of the code repository"
         required: true
         type: string
-      int_domain:
-        description: "The name of the code repository"
-        required: true
-        type: string
       code_directory:
         description: "The root directory for react code"
         required: false
@@ -60,7 +56,7 @@ jobs:
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
-          int_domain: ${{ inputs.int_domain }}
+          domain: ${{ inputs.domain }}
 
       - name: Derive spa bucket
         id: derive_spa_bucket

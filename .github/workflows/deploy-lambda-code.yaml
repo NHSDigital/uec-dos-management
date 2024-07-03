@@ -16,10 +16,6 @@ on:
           required: false
           default: ""
           type: string
-      int_domain:
-        description: "The name of the code repository"
-        required: true
-        type: string
       workspace:
         description: "The name of the workspace to deploy the application into"
         required: true
@@ -138,7 +134,7 @@ jobs:
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
-          int_domain: ${{ inputs.int_domain }}
+          domain: ${{ inputs.domain }}
 
       - name: "Deploy service"
         uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@task/DR-930_Implement_appdeploy_intenv
