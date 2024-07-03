@@ -148,5 +148,5 @@ jobs:
           directory: ${{ inputs.directory }}
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
-          commit_hash: ${{ inputs.commit_hash }}
+          commit_hash: ${{ needs.derive-commit-hash.outputs.commit_hash }}
           artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
