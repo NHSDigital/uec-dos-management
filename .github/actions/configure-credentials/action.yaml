@@ -22,6 +22,7 @@ runs:
   using: "composite"
   steps:
     - name: Configure AWS Credentials
+      if: ${{ inputs.multi_domain == 'false' }}
       uses: aws-actions/configure-aws-credentials@v4.0.2
       with:
         role-to-assume: arn:aws:iam::${{ inputs.aws_account_id }}:role/${{ inputs.domain != '' && inputs.domain || github.event.repository.name }}-github-runner
