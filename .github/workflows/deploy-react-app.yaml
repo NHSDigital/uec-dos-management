@@ -16,10 +16,10 @@ on:
         required: true
         type: string
       multi_domain:
-        description: "Domain to uassume github runner role "
+        description: "Domain to assume github runner role "
         required: false
-        default: false
-        type: boolean
+        default: ""
+        type: string
       code_directory:
         description: "The root directory for react code"
         required: false

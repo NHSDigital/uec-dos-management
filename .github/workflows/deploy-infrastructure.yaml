@@ -22,10 +22,10 @@ on:
           default: ""
           type: string
       multi_domain:
-        description: "Domain to uassume github runner role "
+        description: "Domain to assume github runner role "
         required: false
-        default: false
-        type: boolean
+        default: ""
+        type: string
       stacks:
           description: "A list of the infrastructure stacks to deploy from the domain. If not supplied, no infrastructure will be deployed"
           required: false
