@@ -28,6 +28,7 @@ on:
       custom_artefact_location:
         description: "If deploying a custom artefact, specify its S3 subdirectory here."
         required: false
+        type: string
       services:
         description: "A list of the services to build and deploy. All services can be deployed by specifying 'all' "
         required: false
