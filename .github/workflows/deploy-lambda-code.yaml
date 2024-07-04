@@ -74,20 +74,6 @@ jobs:
             echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
           fi
 
-  # output-service-names:
-  #   name: "output Service Names"
-  #   runs-on: ubuntu-latest
-  #   needs:
-  #     [
-  #       derive-service-names
-  #     ]
-  #   steps:
-
-  #     - name: output Service Names
-  #       shell: bash
-  #       run: |
-  #           echo ${{ fromJSON(needs.derive-service-names.outputs.services) }}
-
   derive-commit-hash:
     name: Derive Commit Hash
     runs-on: ubuntu-latest
