@@ -19,7 +19,7 @@ on:
       multi_domain:
         description: "Domain to uassume github runner role "
         required: false
-        default: ""
+        default: 'false'
         type: string
       workspace:
         description: "The name of the workspace to deploy the application into"
