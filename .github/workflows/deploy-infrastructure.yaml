@@ -24,7 +24,7 @@ on:
       multi_domain:
         description: "Domain to assume github runner role "
         required: false
-        default: ""
+        default: 'false'
         type: string
       stacks:
           description: "A list of the infrastructure stacks to deploy from the domain. If not supplied, no infrastructure will be deployed"
