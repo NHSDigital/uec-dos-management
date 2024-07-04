@@ -11,23 +11,6 @@ jobs:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
-  # build-application:
-  #   name: Build application
-  #   needs:
-  #     [
-  #       metadata,
-  #       deploy-infrastructure-apply,
-  #     ]
-  #   uses: ./.github/workflows/build-application.yaml
-  #   with:
-  #     environment: int
-  #     workspace: ${{ needs.metadata.outputs.workspace }}
-  #     services: "['healthcare-services-data-manager']"
-  #     directory: 'application'
-  #     commit_hash: ${{ needs.metadata.outputs.commit_hash }}
-  #     artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
-  #   secrets: inherit
-
   build-full-application:
     name: Build full application
     needs:
