@@ -104,7 +104,7 @@ jobs:
         shell: bash
         run: |
           if [ ${{ inputs.commit_hash}} == 'latest' ]; then
-            echo LATEST_HASH=$(git rev-parse main)
+            LATEST_HASH=$(git rev-parse --short main)
             echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
           else
             echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
