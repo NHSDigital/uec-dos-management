@@ -106,7 +106,6 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
-      custom_artefact_location: ${{ matrix.domain == inputs.target_repo && 'default' || ''  }}
       domain: ${{ matrix.domain }}
       multi_domain: ${{ inputs.multi_domain }}
       commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
