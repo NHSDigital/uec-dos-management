@@ -24,6 +24,7 @@ jobs:
       domain: "uec-dos-management"
       stacks: "['lambda-stack']"
       action: apply
+      multi_domain: 'false'
     secrets: inherit
 
   build-application:
@@ -41,6 +42,7 @@ jobs:
       directory: 'application'
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+      multi_domain: 'false'
     secrets: inherit
 
   deploy-application:
@@ -59,4 +61,5 @@ jobs:
       directory: 'application'
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+      multi_domain: 'false'
     secrets: inherit
