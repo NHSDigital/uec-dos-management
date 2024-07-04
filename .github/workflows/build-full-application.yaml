@@ -68,7 +68,7 @@ jobs:
     uses: ./.github/workflows/deploy-lambda-code.yaml
     with:
       environment: ${{ inputs.environment }}
-      workspace: ${{ inputs.workspace }}
+      workspace: ${{ matrix.domain == inputs.target_repo && inputs.workspace || 'default' }}
       domain: ${{ matrix.domain }}
       multi_domain: ${{ inputs.multi_domain }}
       services: "['locations-data-manager']"
