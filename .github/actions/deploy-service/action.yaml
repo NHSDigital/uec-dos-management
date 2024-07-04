@@ -11,6 +11,9 @@ inputs:
     workspace:
         description: "The name of the workspace to deploy the service into."
         required: true
+    custom_artefact_location:
+        description: "If deploying a custom artefact, specify its S3 subdirectory here."
+        required: false
     commit_hash:
         description: "The short version of the git commit hash"
         required: true
@@ -35,6 +38,7 @@ runs:
           export APPLICATION_ROOT_DIR=${{ inputs.directory }}
           export TAG=${{ inputs.tag }}
           export WORKSPACE=${{ inputs.workspace }}
+          export CUSTOM_ARTEFACT_LOCATION=${{ inputs.custom_artefact_location }}
           export COMMIT_HASH=${{ inputs.commit_hash }}
           export ARTEFACT_BUCKET_NAME=${{ inputs.artefact_bucket_name }}
           export ENVIRONMENT=${{ inputs.environment }}

@@ -6,6 +6,7 @@ set -e
 export SERVICE="${SERVICE:-""}"
 export COMMIT_HASH="${COMMIT_HASH:-""}"
 export WORKSPACE="${WORKSPACE:-""}"
+export CUSTOM_ARTEFACT_LOCATION="${CUSTOM_ARTEFACT_LOCATION:-""}"
 export ENVIRONMENT="${ENVIRONMENT:-""}"
 export APPLICATION_ROOT_DIR="${APPLICATION_ROOT_DIR:-"application"}"
 export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME:-""}"
@@ -62,12 +63,26 @@ if [ "${WORKSPACE}" != "default" ]; then
   LAMBDA_FUNCTION="${SERVICE}-${WORKSPACE}"
 fi
 echo "Pulling deployment artefact ${DEPLOYMENT_FILE_NAME} for service ${SERVICE}"
-echo "From ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}"
+
+# TODO The if statements related to custom bucket locations shoud be refactored to be more elegant once we are happy this works
+
+if [ -z "${CUSTOM_ARTEFACT_LOCATION}" ]; then
+  echo "From ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}"
+else
+  echo "From ${ARTEFACT_BUCKET_NAME}/${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}"
+  echo "Note that a custom artefact lookup location has been specified as ${CUSTOM_ARTEFACT_LOCATION} for this run."
+fi
+
 echo "For deployment to the lambda ${LAMBDA_FUNCTION} in the ${WORKSPACE} workspace in the ${ENVIRONMENT} environment"
 
 # TODO can i pass file directly as zip-file parameter and avoid landing it in directory
 cd ./"${APPLICATION_ROOT_DIR}"/"${SERVICE}"
-aws s3api get-object --bucket "${ARTEFACT_BUCKET_NAME}" --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" "${DEPLOYMENT_FILE_NAME}"
+
+if [ -z "${CUSTOM_ARTEFACT_LOCATION}" ]; then
+  aws s3api get-object --bucket "${ARTEFACT_BUCKET_NAME}" --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" "${DEPLOYMENT_FILE_NAME}"
+else
+  aws s3api get-object --bucket "${ARTEFACT_BUCKET_NAME}" --key "${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" "${DEPLOYMENT_FILE_NAME}"
+fi
 
 LAMBDA_OUTPUT=$(aws lambda update-function-code --function-name="${LAMBDA_FUNCTION}" --zip-file=fileb://"${DEPLOYMENT_FILE_NAME}" --publish)
 LATEST_VERSION=$(jq -r '.Version' --compact-output <<< "$LAMBDA_OUTPUT" )

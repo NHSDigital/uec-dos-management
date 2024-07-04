@@ -25,6 +25,9 @@ on:
         description: "The name of the workspace to deploy the application into"
         required: true
         type: string
+      custom_artefact_location:
+        description: "If deploying a custom artefact, specify its S3 subdirectory here."
+        required: false
       services:
         description: "A list of the services to build and deploy. All services can be deployed by specifying 'all' "
         required: false
@@ -134,5 +137,6 @@ jobs:
           directory: ${{ inputs.directory }}
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
+          custom_artefact_location: ${{ inputs.custom_artefact_location }}
           commit_hash: ${{ needs.derive-commit-hash.outputs.commit_hash }}
           artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
