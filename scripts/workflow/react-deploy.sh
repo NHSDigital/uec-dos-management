@@ -3,6 +3,7 @@ export FRONT_END_DIR="${FRONT_END_DIR:-"src/frontend"}"
 export SPA_BUCKET_NAME="${SPA_BUCKET_NAME:-""}"
 export COMMIT_HASH="${COMMIT_HASH:-""}"
 export WORKSPACE="${WORKSPACE:-""}"
+export CUSTOM_ARTEFACT_LOCATION="${CUSTOM_ARTEFACT_LOCATION:-""}"
 export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME:-""}"
 export ENVIRONMENT="${ENVIRONMENT:-""}"
 
@@ -56,24 +57,48 @@ fi
 # TODO can i pass file directly as zip-file parameter and avoid landing it in directory
 # Navigate to the frontend directory if it exists
 if [ -d "$FRONT_END_DIR" ]; then
+
+
   echo "Preparing to deploy react artefact to the ${WORKSPACE} workspace in the ${ENVIRONMENT} environment"
   cd "$FRONT_END_DIR"  || exit
   rm -rf temp
   mkdir temp
-  echo "Downloading react artefact ${DEPLOYMENT_FILE_NAME} from ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}"
+
+# TODO The if statements related to custom bucket locations should be refactored to be more elegant once we are happy this works
+
+if [ -z "${CUSTOM_ARTEFACT_LOCATION}" ]; then
+echo "Downloading react artefact ${DEPLOYMENT_FILE_NAME} from ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}"
   aws s3api get-object --bucket "${ARTEFACT_BUCKET_NAME}" --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" "${DEPLOYMENT_FILE_NAME}"
-  echo "Unpacking $DEPLOYMENT_FILE_NAME to temp folder"
-  unzip -d temp "${DEPLOYMENT_FILE_NAME}"
-  echo "Uploading files from unpacked $DEPLOYMENT_FILE_NAME to $SPA_BUCKET_NAME"
-  aws s3 sync temp s3://$SPA_BUCKET_NAME/
-  echo "Removing temp files"
-  rm -rf temp
+else
+echo "Downloading react artefact ${DEPLOYMENT_FILE_NAME} from ${ARTEFACT_BUCKET_NAME}/${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}"
+  aws s3api get-object --bucket "${ARTEFACT_BUCKET_NAME}" --key "${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" "${DEPLOYMENT_FILE_NAME}"
+echo "Note that a custom artefact lookup location has been specified as ${CUSTOM_ARTEFACT_LOCATION} for this run."
+fi
+
+echo "Unpacking $DEPLOYMENT_FILE_NAME to temp folder"
+unzip -d temp "${DEPLOYMENT_FILE_NAME}"
+echo "Uploading files from unpacked $DEPLOYMENT_FILE_NAME to $SPA_BUCKET_NAME"
+aws s3 sync temp s3://$SPA_BUCKET_NAME/
+echo "Removing temp files"
+rm -rf temp
+
+# TODO The if statements related to custom bucket locations should be refactored to be more elegant once we are happy this works
+
+if [ -z "${CUSTOM_ARTEFACT_LOCATION}" ]; then
   echo "Tagging time of deployment to ${ENVIRONMENT} of artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
   DEPLOYED_AT=$(date '+%Y-%m-%d %H:%M:%S')
   aws s3api put-object-tagging \
       --bucket "${ARTEFACT_BUCKET_NAME}"  \
       --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" \
       --tagging "{\"TagSet\": [{ \"Key\": \"${ENVIRONMENT}\", \"Value\": \"${DEPLOYED_AT}\" }]}"
+else
+  echo "Tagging time of deployment to ${ENVIRONMENT} of artefact ${ARTEFACT_BUCKET_NAME}/${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
+  DEPLOYED_AT=$(date '+%Y-%m-%d %H:%M:%S')
+  aws s3api put-object-tagging \
+      --bucket "${ARTEFACT_BUCKET_NAME}"  \
+      --key "${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" \
+      --tagging "{\"TagSet\": [{ \"Key\": \"${ENVIRONMENT}\", \"Value\": \"${DEPLOYED_AT}\" }]}"
+fi
 
 else
   echo No frontend source code to deploy

@@ -11,6 +11,10 @@ on:
         description: "The name of the workspace to deploy the application into"
         required: true
         type: string
+      custom_artefact_location:
+        description: "If deploying a custom artefact, specify its S3 subdirectory here."
+        required: false
+        type: string
       domain:
         description: "The name of the code repository"
         required: true
@@ -69,7 +73,7 @@ jobs:
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
-          multi_domain: ${{ inputs.multi_domain }}
+          domain: ${{ inputs.domain }}
 
       - name: Derive cloudfront dist id
         id: derive_cloudfront_dist_id
@@ -86,6 +90,7 @@ jobs:
           spa_bucket_name: ${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
+          custom_artefact_location: ${{ inputs.custom_artefact_location }}
           artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
           commit_hash: ${{ inputs.commit_hash }}
 
