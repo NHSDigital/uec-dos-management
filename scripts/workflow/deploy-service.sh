@@ -88,26 +88,21 @@ LAMBDA_OUTPUT=$(aws lambda update-function-code --function-name="${LAMBDA_FUNCTI
 LATEST_VERSION=$(jq -r '.Version' --compact-output <<< "$LAMBDA_OUTPUT" )
 PREVIOUS_VERSION=$(expr "${LATEST_VERSION}" - 1)
 
-if [ -z "${CUSTOM_ARTEFACT_LOCATION}" ]; then
-  echo "Artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
-  echo "Deployed to version ${LATEST_VERSION} of the lambda ${LAMBDA_FUNCTION} in the ${WORKSPACE} in the ${ENVIRONMENT} environment"
-  echo "Tagging time of deployment to ${ENVIRONMENT} of artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
-else
-echo "Artefact ${ARTEFACT_BUCKET_NAME}/${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
-echo "Deployed to version ${LATEST_VERSION} of the lambda ${LAMBDA_FUNCTION} in the ${CUSTOM_ARTEFACT_LOCATION} in the ${ENVIRONMENT} environment"
-echo "Tagging time of deployment to ${ENVIRONMENT} of artefact ${ARTEFACT_BUCKET_NAME}/${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
-fi
-
+echo "Artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
+echo "Deployed to version ${LATEST_VERSION} of the lambda ${LAMBDA_FUNCTION} in the ${WORKSPACE} in the ${ENVIRONMENT} environment"
 echo "Replacing previous version: ${PREVIOUS_VERSION}"
 
+echo "Tagging time of deployment to ${ENVIRONMENT} of artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
 
 DEPLOYED_AT=$(date '+%Y-%m-%d %H:%M:%S')
+
 if [ -z "${CUSTOM_ARTEFACT_LOCATION}" ]; then
 aws s3api put-object-tagging \
     --bucket "${ARTEFACT_BUCKET_NAME}"  \
     --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" \
     --tagging "{\"TagSet\": [{ \"Key\": \"${ENVIRONMENT}\", \"Value\": \"${DEPLOYED_AT}\" }]}"
 else
+aws s3api put-object-tagging \
     --bucket "${ARTEFACT_BUCKET_NAME}"  \
     --key "${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" \
     --tagging "{\"TagSet\": [{ \"Key\": \"${ENVIRONMENT}\", \"Value\": \"${DEPLOYED_AT}\" }]}"
