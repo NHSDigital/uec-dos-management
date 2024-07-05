@@ -80,20 +80,3 @@ jobs:
       - name: "Derive workspace"
         id: derive_workspace
         uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@task/DR-930_Implement_appdeploy_intenv
-
-  derive-branchname:
-    name: "Derive branch name"
-    runs-on: ubuntu-latest
-    timeout-minutes: ${{ inputs.workflow_timeout }}
-
-    outputs:
-      branchname: ${{ steps.derive_branchname.outputs.workspace }}
-
-    steps:
-      - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
-        with:
-          tag: ${{ inputs.tag }}
-      - name: "Derive branchname"
-        id: derive_branchname
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-branch-name@task/DR-930_Implement_appdeploy_intenv
