@@ -69,7 +69,7 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
-      custom_artefact_location: ${{ matrix.domain == inputs.target_repo && inputs.workspace || '' }}
+      custom_artefact_location: ${{ matrix.domain == inputs.target_repo && inputs.workspace || 'default' }}
       domain: ${{ matrix.domain }}
       multi_domain: ${{ inputs.multi_domain }}
       services: "['locations-data-manager']"
