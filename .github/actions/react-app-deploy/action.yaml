@@ -14,6 +14,9 @@ inputs:
   workspace:
     description: "The name of the workspace to deploy the application into"
     required: true
+  custom_artefact_location:
+      description: "If deploying a custom artefact, specify its S3 subdirectory here."
+      required: false
   commit_hash:
     description: "Git commit hash - to locate artefacts"
     required: true
@@ -31,6 +34,7 @@ runs:
         export SPA_BUCKET_NAME=${{ inputs.spa_bucket_name }}
         export COMMIT_HASH=${{ inputs.commit_hash }}
         export WORKSPACE=${{ inputs.workspace }}
+        export CUSTOM_ARTEFACT_LOCATION=${{ inputs.custom_artefact_location }}
         export ARTEFACT_BUCKET_NAME=${{ inputs.artefact_bucket_name }}
         export ENVIRONMENT=${{ inputs.environment }}
         /bin/bash ./uec-dos-management/scripts/workflow/react-deploy.sh
