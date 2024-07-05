@@ -45,7 +45,7 @@ jobs:
           'test-stack-3',
           'ui-test-stack',
           'lambda-stack',
-          'test-ready-for-test-stack',
+          'test-ready-for-test-stack'
         ]"
       workflow_timeout: 10
     secrets: inherit
