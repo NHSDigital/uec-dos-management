@@ -65,6 +65,7 @@ jobs:
             echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
           else
             echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
+          fi
 
   deploy-react-app:
     name: "Deploy react application"
