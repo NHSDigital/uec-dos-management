@@ -21,7 +21,7 @@ jobs:
     with:
       environment: int
       workspace: ${{ needs.metadata.outputs.workspace }}
-      target_repo: 'uec-cm'
-      target_repo_commit_hash: '0fab9f9'
+      target_repo: 'uec-dos-service-management'
+      target_repo_commit_hash: '7be3b06'
       multi_domain: 'true'
     secrets: inherit
