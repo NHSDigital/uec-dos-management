@@ -8,13 +8,13 @@ data "aws_iam_policy_document" "bucket_policy_ui_artefacts" {
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/uec-dos-user-interfaces-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-dos-user-interfaces-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/uec-dos-management-github-runner",
       ]
     }
     actions = [
       "s3:ListBucket",
     ]
     resources = [
-
       "${module.ui_artefacts_bucket.s3_bucket_arn}"
     ]
   }
@@ -37,6 +37,22 @@ data "aws_iam_policy_document" "bucket_policy_ui_artefacts" {
     ]
     resources = [
       "${module.ui_artefacts_bucket.s3_bucket_arn}/*",
+    ]
+  }
+
+  statement {
+    principals {
+      type = "AWS"
+      identifiers = [
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/uec-dos-management-github-runner",
+      ]
+    }
+    actions = [
+      "s3:GetObject",
+      "s3:GetObjectTagging",
+    ]
+    resources = [
+      "${module.ui_artefacts_bucket.s3_bucket_arn}/*"
     ]
   }
 }
