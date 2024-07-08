@@ -45,6 +45,27 @@ on:
 
 jobs:
 
+  derive-commit-hash:
+    name: Derive Commit Hash
+    runs-on: ubuntu-latest
+    outputs:
+        commit_hash: ${{ steps.derive-commit-hash.outputs.commit_hash }}
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
+        with:
+          repository: ${{ inputs.domain }}
+
+      - name: Derive Commit Hash
+        id: derive-commit-hash
+        shell: bash
+        run: |
+          if [ ${{ inputs.commit_hash}} == 'latest' ]; then
+            LATEST_HASH=$(git rev-parse --short main)
+            echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
+          else
+            echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
+
   deploy-react-app:
     name: "Deploy react application"
     runs-on: ubuntu-latest
@@ -92,7 +113,7 @@ jobs:
           workspace: ${{ inputs.workspace }}
           custom_artefact_location: ${{ inputs.custom_artefact_location }}
           artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
-          commit_hash: ${{ inputs.commit_hash }}
+          commit_hash: ${{ needs.derive-commit-hash.outputs.commit_hash }}
 
       - name: Invalidate CloudFront Cache
         uses: NHSDigital/uec-dos-management/.github/actions/react_clear_cloudfront_cache@task/DR-930_Implement_appdeploy_intenv
