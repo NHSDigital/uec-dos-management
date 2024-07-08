@@ -75,6 +75,10 @@ jobs:
       id-token: write
       contents: read
     timeout-minutes: 5
+    needs:
+      [
+        derive-commit-hash
+      ]
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-930_Implement_appdeploy_intenv
