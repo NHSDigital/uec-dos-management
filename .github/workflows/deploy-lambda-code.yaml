@@ -79,7 +79,7 @@ jobs:
           fi
 
   derive-commit-hash:
-    name: Derive Commit Hash
+    name: Derive Commit Hash For Lambda Code
     runs-on: ubuntu-latest
     outputs:
         commit_hash: ${{ steps.derive-commit-hash.outputs.commit_hash }}
@@ -89,7 +89,7 @@ jobs:
         with:
           repository: ${{ inputs.domain }}
 
-      - name: Derive Commit Hash
+      - name: Derive Commit Hash For Lambda Code
         id: derive-commit-hash
         shell: bash
         run: |

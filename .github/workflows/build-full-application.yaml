@@ -78,21 +78,6 @@ jobs:
       artefact_bucket_name: "nhse-mgmt-${{ matrix.domain }}-artefacts"
     secrets: inherit
 
-  test-deploy-lambda-code:
-    name: "test deploy Application"
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        domain: ['uec-dos-service-management']
-    steps:
-      - name: "test"
-        shell: bash
-        run: |
-            echo ${{ matrix.domain }}
-            echo ${{ inputs.target_repo }}
-            echo ${{ inputs.target_repo_commit_hash }}
-            echo ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
-
   deploy-react-app:
     name: "Deploy React App "
     needs:
