@@ -71,7 +71,6 @@ jobs:
       - name: "Upload service to S3 bucket"
         uses: NHSDigital/uec-dos-management/.github/actions/push-artefact@task/DR-930_Implement_appdeploy_intenv
         with:
-          code_directory: ${{ inputs.code_directory }}
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
           workspace: ${{ inputs.workspace }}

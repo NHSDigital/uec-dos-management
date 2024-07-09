@@ -69,32 +69,12 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
     secrets: inherit
 
-  deploy-infrastructure-destroy:
-    name: "Destroy Deploy Infrastructure"
-    needs:
-      [
-        metadata,
-        deploy-infrastructure-apply,
-        deploy-react-application,
-        test-react-application,
-      ]
-    uses: ./.github/workflows/deploy-infrastructure.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: "uec-dos-management"
-      stacks: "['ui-test-stack']"
-      action: destroy
-      workflow_timeout: 10
-    secrets: inherit
-
   slack-notifications:
     needs: [
       metadata,
       deploy-infrastructure-apply,
       deploy-react-application,
-      test-react-application,
-      deploy-infrastructure-destroy,
+      test-react-application
     ]
     if: always()
     uses: ./.github/workflows/slack-notifications.yaml
