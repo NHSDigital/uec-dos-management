@@ -57,6 +57,9 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       services: "['healthcare-services-data-manager']"
       directory: 'application'
+      artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      multi_domain: "false"
       commit_hash: ${{ needs.metadata.outputs.commit_hash }}
       artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
     secrets: inherit
