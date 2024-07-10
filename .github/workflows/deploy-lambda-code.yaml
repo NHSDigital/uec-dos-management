@@ -1,4 +1,4 @@
-name: Build and Deploy Application workflow
+name: Deploy Application workflow
 
 on:
   workflow_call:
@@ -11,12 +11,26 @@ on:
         description: "The name of the environment to deploy into"
         required: true
         type: string
+      domain:
+        description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
+        required: false
+        default: ""
+        type: string
+      multi_domain:
+        description: "If true uses 'dos-management' github runner ; if false uses github runner for triggering repo"
+        required: false
+        default: 'false'
+        type: string
       workspace:
         description: "The name of the workspace to deploy the application into"
         required: true
         type: string
+      artefact_sub_dir:
+        description: "If deploying a custom artefact, specify its S3 subdirectory here."
+        required: false
+        type: string
       services:
-        description: "A list of the services to build and deploy"
+        description: "A list of the services to build and deploy. All services can be deployed by specifying 'all' "
         required: false
         default: ""
         type: string
@@ -40,6 +54,52 @@ on:
         type: string
 
 jobs:
+  derive-service-names:
+    name: "Derive Service Names"
+    runs-on: ubuntu-latest
+    outputs:
+        services: ${{ steps.derive-service-names.outputs.services }}
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.32
+        with:
+          repository: ${{ inputs.domain }}
+          tag: ${{ inputs.tag }}
+
+      - name: Derive Service Names
+        id: derive-service-names
+        shell: bash
+        run: |
+          if [ ${{ inputs.services }} == 'all' ]; then
+            cd ${{ inputs.directory }}
+            SERVICES=$(ls | jq -R -s -c 'split("\n")[:-1]')
+            echo "services=${SERVICES}" >> $GITHUB_OUTPUT
+          else
+            echo "services=${{ inputs.services }}" >> $GITHUB_OUTPUT
+          fi
+
+  derive-commit-hash:
+    name: Derive Commit Hash For Lambda Code
+    runs-on: ubuntu-latest
+    outputs:
+        commit_hash: ${{ steps.derive-commit-hash.outputs.commit_hash }}
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.32
+        with:
+          repository: ${{ inputs.domain }}
+
+      - name: Derive Commit Hash For Lambda Code
+        id: derive-commit-hash
+        shell: bash
+        run: |
+          if [ ${{ inputs.commit_hash}} == 'latest' ]; then
+            LATEST_HASH=$(git rev-parse --short main)
+            echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
+          else
+            echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
+          fi
+
   deploy-application:
     name: "Deploy Application"
     runs-on: ubuntu-latest
@@ -48,27 +108,36 @@ jobs:
       id-token: write
       contents: read
     timeout-minutes: ${{ inputs.workflow_timeout }}
+    needs:
+      [
+        derive-service-names,
+        derive-commit-hash
+      ]
     strategy:
       matrix:
-        service: ${{ fromJSON(inputs.services) }}
+        service: ${{ fromJSON(needs.derive-service-names.outputs.services) }}
+
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.32
         with:
+          repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.32
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
+          multi_domain: ${{ inputs.multi_domain }}
 
       - name: "Deploy service"
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.32
         with:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
-          commit_hash: ${{ inputs.commit_hash }}
+          artefact_sub_dir: ${{ inputs.artefact_sub_dir }}
+          commit_hash: ${{ needs.derive-commit-hash.outputs.commit_hash }}
           artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
