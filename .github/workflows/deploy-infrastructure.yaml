@@ -22,7 +22,7 @@ on:
           default: ""
           type: string
       multi_domain:
-        description: "Domain to assume github runner role "
+        description: "If true uses 'dos-management' github runner ; if false uses github runner for triggering repo"
         required: false
         default: 'false'
         type: string

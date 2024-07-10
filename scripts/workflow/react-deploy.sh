@@ -3,7 +3,7 @@ export FRONT_END_DIR="${FRONT_END_DIR:-"src/frontend"}"
 export SPA_BUCKET_NAME="${SPA_BUCKET_NAME:-""}"
 export COMMIT_HASH="${COMMIT_HASH:-""}"
 export WORKSPACE="${WORKSPACE:-""}"
-export CUSTOM_ARTEFACT_LOCATION="${CUSTOM_ARTEFACT_LOCATION:-""}"
+export ARTEFACT_SUB_DIR="${ARTEFACT_SUB_DIR:-""}"
 export ARTEFACT_BUCKET_NAME="${ARTEFACT_BUCKET_NAME:-""}"
 export ENVIRONMENT="${ENVIRONMENT:-""}"
 
@@ -66,13 +66,13 @@ if [ -d "$FRONT_END_DIR" ]; then
 
 # TODO The if statements related to custom bucket locations should be refactored to be more elegant once we are happy this works
 
-if [ -z "${CUSTOM_ARTEFACT_LOCATION}" ]; then
+if [ -z "${ARTEFACT_SUB_DIR}" ]; then
 echo "Downloading react artefact ${DEPLOYMENT_FILE_NAME} from ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}"
   aws s3api get-object --bucket "${ARTEFACT_BUCKET_NAME}" --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" "${DEPLOYMENT_FILE_NAME}"
 else
-echo "Downloading react artefact ${DEPLOYMENT_FILE_NAME} from ${ARTEFACT_BUCKET_NAME}/${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}"
-  aws s3api get-object --bucket "${ARTEFACT_BUCKET_NAME}" --key "${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" "${DEPLOYMENT_FILE_NAME}"
-echo "Note that a custom artefact lookup location has been specified as ${CUSTOM_ARTEFACT_LOCATION} for this run."
+echo "Downloading react artefact ${DEPLOYMENT_FILE_NAME} from ${ARTEFACT_BUCKET_NAME}/${ARTEFACT_SUB_DIR}/${COMMIT_HASH}"
+  aws s3api get-object --bucket "${ARTEFACT_BUCKET_NAME}" --key "${ARTEFACT_SUB_DIR}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" "${DEPLOYMENT_FILE_NAME}"
+echo "Note that a custom artefact lookup location has been specified as ${ARTEFACT_SUB_DIR} for this run."
 fi
 
 echo "Unpacking $DEPLOYMENT_FILE_NAME to temp folder"
@@ -84,7 +84,7 @@ rm -rf temp
 
 # TODO The if statements related to custom bucket locations should be refactored to be more elegant once we are happy this works
 
-if [ -z "${CUSTOM_ARTEFACT_LOCATION}" ]; then
+if [ -z "${ARTEFACT_SUB_DIR}" ]; then
   echo "Tagging time of deployment to ${ENVIRONMENT} of artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
   DEPLOYED_AT=$(date '+%Y-%m-%d %H:%M:%S')
   aws s3api put-object-tagging \
@@ -92,11 +92,11 @@ if [ -z "${CUSTOM_ARTEFACT_LOCATION}" ]; then
       --key "${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" \
       --tagging "{\"TagSet\": [{ \"Key\": \"${ENVIRONMENT}\", \"Value\": \"${DEPLOYED_AT}\" }]}"
 else
-  echo "Tagging time of deployment to ${ENVIRONMENT} of artefact ${ARTEFACT_BUCKET_NAME}/${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
+  echo "Tagging time of deployment to ${ENVIRONMENT} of artefact ${ARTEFACT_BUCKET_NAME}/${ARTEFACT_SUB_DIR}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
   DEPLOYED_AT=$(date '+%Y-%m-%d %H:%M:%S')
   aws s3api put-object-tagging \
       --bucket "${ARTEFACT_BUCKET_NAME}"  \
-      --key "${CUSTOM_ARTEFACT_LOCATION}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" \
+      --key "${ARTEFACT_SUB_DIR}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}" \
       --tagging "{\"TagSet\": [{ \"Key\": \"${ENVIRONMENT}\", \"Value\": \"${DEPLOYED_AT}\" }]}"
 fi
 

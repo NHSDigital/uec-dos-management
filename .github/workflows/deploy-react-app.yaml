@@ -11,7 +11,7 @@ on:
         description: "The name of the workspace to deploy the application into"
         required: true
         type: string
-      custom_artefact_location:
+      artefact_sub_dir:
         description: "If deploying a custom artefact, specify its S3 subdirectory here."
         required: false
         type: string
@@ -20,7 +20,7 @@ on:
         required: true
         type: string
       multi_domain:
-        description: "Domain to assume github runner role "
+        description: "If true uses 'dos-management' github runner ; if false uses github runner for triggering repo"
         required: false
         default: 'false'
         type: string
@@ -116,7 +116,7 @@ jobs:
           spa_bucket_name: ${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
-          custom_artefact_location: ${{ inputs.custom_artefact_location }}
+          artefact_sub_dir: ${{ inputs.artefact_sub_dir }}
           artefact_bucket_name: ${{ inputs.artefact_bucket_name }}
           commit_hash: ${{ needs.derive-commit-hash.outputs.commit_hash }}
 

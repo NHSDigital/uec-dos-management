@@ -22,7 +22,7 @@ on:
         default: ""
         type: string
       multi_domain:
-        description: "Domain to use for github runner role"
+        description: "If true uses 'dos-management' github runner ; if false uses github runner for triggering repo"
         required: false
         default: ""
         type: string
@@ -31,12 +31,12 @@ on:
         required: false
         default: 5
         type: number
-      target_repo:
-        description: "The name of the repo"
+      triggering_repo:
+        description: "The name of the repo that triggered the workflow"
         required: true
         type: string
-      target_repo_commit_hash:
-        description: "The name of the target repo branch"
+      triggering_repo_commit_hash:
+        description: "The commit hash that triggered the workflow"
         required: true
         type: string
 
@@ -69,12 +69,12 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
-      custom_artefact_location: ${{ matrix.domain == inputs.target_repo && inputs.workspace || 'default' }}
+      artefact_sub_dir: ${{ matrix.domain == inputs.triggering_repo && inputs.workspace || 'default' }}
       domain: ${{ matrix.domain }}
       multi_domain: ${{ inputs.multi_domain }}
       services: 'all'
       directory: 'application'
-      commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
+      commit_hash: ${{ matrix.domain == inputs.triggering_repo && inputs.triggering_repo_commit_hash || 'latest' }}
       artefact_bucket_name: "nhse-mgmt-${{ matrix.domain }}-artefacts"
     secrets: inherit
 
@@ -91,9 +91,9 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       workspace: ${{ inputs.workspace }}
-      custom_artefact_location: ${{ matrix.domain == inputs.target_repo && inputs.workspace || 'default' }}
+      artefact_sub_dir: ${{ matrix.domain == inputs.triggering_repo && inputs.workspace || 'default' }}
       domain: ${{ matrix.domain }}
       multi_domain: ${{ inputs.multi_domain }}
-      commit_hash: ${{ matrix.domain == inputs.target_repo && inputs.target_repo_commit_hash || 'latest' }}
+      commit_hash: ${{ matrix.domain == inputs.triggering_repo && inputs.triggering_repo_commit_hash || 'latest' }}
       artefact_bucket_name: "nhse-mgmt-${{ matrix.domain }}-artefacts"
     secrets: inherit
