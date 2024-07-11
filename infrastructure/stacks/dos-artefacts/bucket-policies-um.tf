@@ -50,6 +50,7 @@ data "aws_iam_policy_document" "bucket_policy_um_artefacts" {
     actions = [
       "s3:GetObject",
       "s3:GetObjectTagging",
+      "s3:PutObjectTagging",
     ]
     resources = [
       "${module.um_artefacts_bucket.s3_bucket_arn}/*"
