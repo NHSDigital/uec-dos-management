@@ -46,6 +46,7 @@ jobs:
     strategy:
       matrix:
         domain: ['uec-dos-service-management','uec-cm']
+      fail-fast: false
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
       environment: ${{ inputs.environment }}
