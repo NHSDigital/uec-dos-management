@@ -14,7 +14,7 @@ on:
       domain:
         description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
         required: false
-        default: ""
+        default: ${{ github.event.repository.name }}
         type: string
       multi_domain:
         description: "If true uses 'dos-management' github runner ; if false uses github runner for triggering repo"
