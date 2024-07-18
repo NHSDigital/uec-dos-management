@@ -49,7 +49,7 @@ if [ -z "$ENVIRONMENT" ] ; then
   echo Set ENVIRONMENT to identify if account is for dev, test, security, preprod or prod
   EXPORTS_SET=1
 else
-  if [[ ! $ENVIRONMENT =~ ^(mgmt|dev|test|int|preprod|prod|security) ]]; then
+  if [[ ! $ENVIRONMENT =~ ^(mgmt|dev|test|int|preprod|prod|security|prototype) ]]; then
       echo ENVIRONMENT should be mgmt dev test int preprod security or prod
       EXPORTS_SET=1
   fi

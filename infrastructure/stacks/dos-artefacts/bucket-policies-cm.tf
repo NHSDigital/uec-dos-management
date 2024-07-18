@@ -6,11 +6,13 @@ data "aws_iam_policy_document" "bucket_policy_cm_artefacts" {
       type = "AWS"
       identifiers = [
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_CM-Developer_30f49a270d26af77",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/uec-cm-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/uec-dos-management-github-runner",
-        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/aws-reserved/sso.amazonaws.com/eu-west-2/AWSReservedSSO_DOS-PowerUser_19e3f02bbd1bf46f",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-PowerUser_19e3f02bbd1bf46f",
       ]
     }
     actions = [
@@ -26,9 +28,11 @@ data "aws_iam_policy_document" "bucket_policy_cm_artefacts" {
       type = "AWS"
       identifiers = [
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_CM-Developer_30f49a270d26af77",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/uec-cm-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/uec-cm-github-runner",
       ]
     }
     actions = [
@@ -68,10 +72,12 @@ data "aws_iam_policy_document" "bucket_policy_cm_artefacts_released" {
       type = "AWS"
       identifiers = [
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_CM-Developer_30f49a270d26af77",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/uec-cm-github-runner",
-        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/aws-reserved/sso.amazonaws.com/eu-west-2/AWSReservedSSO_DOS-PowerUser_19e3f02bbd1bf46f",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/uec-cm-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-PowerUser_19e3f02bbd1bf46f",
       ]
     }
     actions = [
@@ -87,9 +93,11 @@ data "aws_iam_policy_document" "bucket_policy_cm_artefacts_released" {
       type = "AWS"
       identifiers = [
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-Developer_8bdf3f98a2591a2b",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_CM-Developer_30f49a270d26af77",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_dev.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/uec-cm-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/uec-cm-github-runner",
       ]
     }
     actions = [
