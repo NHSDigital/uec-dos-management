@@ -17,3 +17,7 @@ data "aws_ssm_parameter" "aws_account_id_preprod" {
 data "aws_ssm_parameter" "aws_account_id_prod" {
   name = "/dos/aws_account_id_prod"
 }
+
+data "aws_ssm_parameter" "aws_account_id_prototype" {
+  name = "/dos/aws_account_id_prototype"
+}
