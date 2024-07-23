@@ -2,7 +2,7 @@ resource "aws_ssm_parameter" "dos_aws_account_id_dev" {
   name        = "/dos/aws_account_id_dev"
   description = "Id of current dev account"
   type        = "SecureString"
-  tier        = "standard"
+  tier        = "Standard"
   value       = "default"
 }
 
