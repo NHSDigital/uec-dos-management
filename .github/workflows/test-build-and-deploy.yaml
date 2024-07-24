@@ -38,7 +38,7 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: "uec-dos-management"
       stacks: "['parameter_store']"
-      action: plan
+      action: apply
     secrets: inherit
 
   build-application:
