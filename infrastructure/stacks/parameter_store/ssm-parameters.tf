@@ -25,7 +25,7 @@ resource "aws_ssm_parameter" "dos_aws_account_id_int" {
   description = "Id of current integration test account"
   type        = "SecureString"
   tier        = "Standard"
-  value       = "default"
+  value       = "do not know"
 
   lifecycle {
     ignore_changes = [
