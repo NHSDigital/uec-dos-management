@@ -4,6 +4,12 @@ resource "aws_ssm_parameter" "dos_aws_account_id_dev" {
   type        = "SecureString"
   tier        = "Standard"
   value       = "default"
+
+  lifecycle {
+    ignore_changes = [
+      value
+    ]
+  }
 }
 
 resource "aws_ssm_parameter" "dos_aws_account_id_test" {
@@ -11,7 +17,7 @@ resource "aws_ssm_parameter" "dos_aws_account_id_test" {
   description = "Id of current test account"
   type        = "SecureString"
   tier        = "Standard"
-  value       = "default"
+  value       = "no longer default"
 }
 
 resource "aws_ssm_parameter" "dos_aws_account_id_int" {
@@ -20,6 +26,12 @@ resource "aws_ssm_parameter" "dos_aws_account_id_int" {
   type        = "SecureString"
   tier        = "Standard"
   value       = "default"
+
+  lifecycle {
+    ignore_changes = [
+      value
+    ]
+  }
 }
 
 resource "aws_ssm_parameter" "dos_aws_account_id_preprod" {
@@ -28,6 +40,12 @@ resource "aws_ssm_parameter" "dos_aws_account_id_preprod" {
   type        = "SecureString"
   tier        = "Standard"
   value       = "default"
+
+  lifecycle {
+    ignore_changes = [
+      value
+    ]
+  }
 }
 
 resource "aws_ssm_parameter" "dos_aws_account_id_prod" {
@@ -36,6 +54,12 @@ resource "aws_ssm_parameter" "dos_aws_account_id_prod" {
   type        = "SecureString"
   tier        = "Standard"
   value       = "default"
+
+  lifecycle {
+    ignore_changes = [
+      value
+    ]
+  }
 }
 
 resource "aws_ssm_parameter" "dos_aws_account_id_prototype" {
@@ -44,4 +68,10 @@ resource "aws_ssm_parameter" "dos_aws_account_id_prototype" {
   type        = "SecureString"
   tier        = "Standard"
   value       = "default"
+
+  lifecycle {
+    ignore_changes = [
+      value
+    ]
+  }
 }
