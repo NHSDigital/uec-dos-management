@@ -1,0 +1,49 @@
+name: Pipeline Deployment Application Prod Environment
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "The name of the environment to build into"
+        required: true
+        type: string
+      workspace:
+        description: "The workspace to deploy the service into"
+        required: true
+        type: string
+      domain:
+        description: "The name of the domain to deploy from. If not supplied, we will deploy from the domain that has invoked the workflow"
+        required: false
+        default: ""
+        type: string
+
+  deploy-infrastructure-apply:
+    name: "Apply Deploy Infrastructure"
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: ${{ inputs.environment }
+      workspace: ${{ inputs.workspace }}
+      domain: ${{ inputs.domain }}
+      stacks: "['lambda-stack']"
+      action: apply
+    secrets: inherit
+
+  deploy-lambda-application:
+    name: deploy lambda application to prod
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-apply,
+      ]
+    uses: ./.github/workflows/deploy-lambda-code-prod.yaml
+    with:
+      environment: prod
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      services: "['healthcare-services-data-manager']"
+      directory: 'application'
+      artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      multi_domain: "false"
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    secrets: inherit

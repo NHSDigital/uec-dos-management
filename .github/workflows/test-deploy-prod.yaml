@@ -1,0 +1,33 @@
+name: Test Build and Deploy Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - 'task/*'
+
+jobs:
+
+  metadata:
+    name: "Get Metadata"
+    uses: ./.github/workflows/metadata.yaml
+
+  application-deployment-to-prod-env:
+    name: Deploy to prod environment
+    uses: ./.github/workflows/pipeline-deploy-app.yaml
+    with:
+      environment: prod
+      workspace: prototype
+      domain: uec-dos-management
+    secrets: inherit
+
+  slack-notifications:
+    name: Send notification to slack
+    needs: [
+      application-deployment-to-prod-env,
+    ]
+    if: always()
+    uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+    with:
+      env: prod
+    secrets: inherit
