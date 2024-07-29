@@ -1,5 +1,5 @@
 resource "aws_ssm_parameter" "dos_aws_account_id_dev" {
-  name        = "/dos/aws_account_id_dev_testing"
+  name        = "/dos/aws_account_id_dev_testing_changed"
   description = "Id of current dev account"
   type        = "SecureString"
   tier        = "Standard"
@@ -17,7 +17,13 @@ resource "aws_ssm_parameter" "dos_aws_account_id_test" {
   description = "Id of current test account"
   type        = "SecureString"
   tier        = "Standard"
-  value       = "no longer default"
+  value       = "default"
+
+  lifecycle {
+    ignore_changes = [
+      value
+    ]
+  }
 }
 
 resource "aws_ssm_parameter" "dos_aws_account_id_int" {
@@ -25,7 +31,7 @@ resource "aws_ssm_parameter" "dos_aws_account_id_int" {
   description = "Id of current integration test account"
   type        = "SecureString"
   tier        = "Standard"
-  value       = "do not know"
+  value       = "default"
 
   lifecycle {
     ignore_changes = [
