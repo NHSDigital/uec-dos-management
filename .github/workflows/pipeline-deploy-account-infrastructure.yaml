@@ -20,7 +20,7 @@ jobs:
           environment: mgmt
           domain: "uec-dos-management"
           workspace: ${{ needs.metadata.outputs.workspace }}
-          stacks: "['terraform_management','github-runner','dos-artefacts']"
+          stacks: "['parameter_store','terraform_management','github-runner','dos-artefacts']"
           action: apply
         secrets: inherit
     slack-notifications:

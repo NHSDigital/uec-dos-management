@@ -26,20 +26,7 @@ jobs:
       action: apply
     secrets: inherit
 
-  deploy-ssm-parameters:
-    name: "Deploy ssm parameters"
-    needs:
-      [
-        metadata,
-      ]
-    uses: ./.github/workflows/deploy-infrastructure.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: "uec-dos-management"
-      stacks: "['parameter_store']"
-      action: apply
-    secrets: inherit
+
 
   build-application:
     name: Build application
