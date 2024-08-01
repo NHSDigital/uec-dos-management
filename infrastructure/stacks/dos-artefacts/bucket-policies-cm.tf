@@ -13,6 +13,7 @@ data "aws_iam_policy_document" "bucket_policy_cm_artefacts" {
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/uec-dos-management-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-PowerUser_19e3f02bbd1bf46f",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prod.value}:role/uec-cm-github-runner",
       ]
     }
     actions = [
