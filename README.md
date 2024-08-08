@@ -63,7 +63,7 @@ The following software packages, or their equivalents, are expected to be instal
 
 ### Configuration
 
-Installation and configuration of the toolchain dependencies
+Installation and configuration of the toolchain dependencies.
 
 ```shell
 make config
