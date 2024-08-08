@@ -14,7 +14,7 @@ on:
       workflow_timeout:
         description: "Timeout duration in minutes"
         required: false
-        default: 5
+        default: 10
         type: number
       artefact_bucket_name:
         description: "The name of the s3 bucket holding domain artefacts"
