@@ -35,7 +35,9 @@ data "aws_iam_policy_document" "bucket_policy_sm_artefacts" {
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-dos-service-management-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/uec-dos-service-management-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_DOS-PowerUser_4a903db5b9ddfab0",
-        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_Admin_d52b9f142fb98fdb"
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/aws-reserved/sso.amazonaws.com/${var.aws_region}/AWSReservedSSO_Admin_d52b9f142fb98fdb",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/uec-dos-service-management-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prod.value}:role/uec-dos-service-management-github-runner"
       ]
     }
     actions = [
@@ -103,7 +105,9 @@ data "aws_iam_policy_document" "bucket_policy_sm_artefacts_released" {
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-dos-service-management-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/uec-dos-service-management-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/aws-reserved/sso.amazonaws.com/eu-west-2/AWSReservedSSO_DOS-PowerUser_4a903db5b9ddfab0",
-        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/aws-reserved/sso.amazonaws.com/eu-west-2/AWSReservedSSO_Admin_d52b9f142fb98fdb"
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_int.value}:role/aws-reserved/sso.amazonaws.com/eu-west-2/AWSReservedSSO_Admin_d52b9f142fb98fdb",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/uec-dos-service-management-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prod.value}:role/uec-dos-service-management-github-runner",
       ]
     }
     actions = [

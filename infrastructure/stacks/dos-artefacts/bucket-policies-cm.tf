@@ -35,6 +35,7 @@ data "aws_iam_policy_document" "bucket_policy_cm_artefacts" {
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/uec-cm-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prod.value}:role/uec-cm-github-runner"
       ]
     }
     actions = [
@@ -102,6 +103,7 @@ data "aws_iam_policy_document" "bucket_policy_cm_artefacts_released" {
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_test.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_preprod.value}:role/uec-cm-github-runner",
         "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prototype.value}:role/uec-cm-github-runner",
+        "arn:aws:iam::${data.aws_ssm_parameter.aws_account_id_prod.value}:role/uec-cm-github-runner"
       ]
     }
     actions = [
