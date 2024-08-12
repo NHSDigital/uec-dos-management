@@ -19,10 +19,8 @@ runs:
         if [ ${{ inputs.commit_hash}} == 'latest' ]; then
           LATEST_HASH=$(git rev-parse --short main)
           export COMMIT_HASH=$(git rev-parse --short main)
-          # echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
         else
           export COMMIT_HASH="${{ inputs.commit_hash }}"
-          # echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
         fi
         echo "COMMIT_HASH = ${COMMIT_HASH}"
         echo "commit_hash=${COMMIT_HASH}" >> $GITHUB_OUTPUT

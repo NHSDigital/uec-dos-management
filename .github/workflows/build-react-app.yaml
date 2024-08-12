@@ -46,20 +46,20 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.41
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
         with:
           tag: ${{ inputs.tag }}
           repository: ${{ inputs.domain }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.41
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: Derive spa bucket
         id: derive_spa_bucket
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@v0.41
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@latest
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
@@ -67,37 +67,37 @@ jobs:
 
       - name: Derive cloudfront dist id
         id: derive_cloudfront_dist_id
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-cloudfront-dist-id@v0.41
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-cloudfront-dist-id@latest
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
           domain: ${{ inputs.domain }}
 
       - name: Set up Node.js
-        uses: NHSDigital/uec-dos-management/.github/actions/install-node@v0.41
+        uses: NHSDigital/uec-dos-management/.github/actions/install-node@latest
 
       - name: Install dependencies
-        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@v0.41
+        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@latest
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Run Linter
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-lint@v0.41
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-lint@latest
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Run Unit Tests
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-unit-tests@v0.41
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-unit-tests@latest
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Build React application
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@v0.41
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@latest
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: "Upload react app to S3 bucket"
-        uses: NHSDigital/uec-dos-management/.github/actions/push-react-artefact@v0.41
+        uses: NHSDigital/uec-dos-management/.github/actions/push-react-artefact@latest
         with:
           code_directory: ${{ inputs.code_directory }}
           workspace: ${{ inputs.workspace }}
