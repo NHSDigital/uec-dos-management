@@ -38,4 +38,6 @@ jobs:
           tag: ${{ inputs.tag }}
       - name: "Get arteafact address"
         id: get-artefact-address
+        with:
+          artefact-tag: ${{ inputs.artefact-tag }}
         uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-address@v0.42
