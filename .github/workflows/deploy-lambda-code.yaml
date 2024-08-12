@@ -88,17 +88,21 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.41
         with:
           repository: ${{ inputs.domain }}
-
-      - name: Derive Commit Hash For Lambda Code
-        id: derive-commit-hash
-        shell: bash
-        run: |
-          if [ ${{ inputs.commit_hash}} == 'latest' ]; then
-            LATEST_HASH=$(git rev-parse --short main)
-            echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
-          else
-            echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
-          fi
+      - name: Derive Commit Hash For Lambda code App
+        id: derive-commit-hash-lambda
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@v0.41
+        with:
+          commit_hash: ${{ inputs.commit_hash}}
+      # - name: Derive Commit Hash For Lambda Code
+      #   id: derive-commit-hash
+      #   shell: bash
+      #   run: |
+      #     if [ ${{ inputs.commit_hash}} == 'latest' ]; then
+      #       LATEST_HASH=$(git rev-parse --short main)
+      #       echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
+      #     else
+      #       echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
+      #     fi
 
   deploy-application:
     name: "Deploy Application"
