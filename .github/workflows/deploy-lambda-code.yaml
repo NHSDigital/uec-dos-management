@@ -82,7 +82,7 @@ jobs:
     name: Derive Commit Hash For Lambda Code
     runs-on: ubuntu-latest
     outputs:
-        commit_hash: ${{ steps.derive-commit-hash.outputs.commit_hash }}
+        commit_hash: ${{ steps.derive-commit-hash-lambda.outputs.commit_hash }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.41
