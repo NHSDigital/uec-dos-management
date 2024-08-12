@@ -77,11 +77,11 @@ jobs:
       - name: test-derive-commit-hash-latest
         uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@v0.41
         with:
-          commit-hash: "latest"
+          commit_hash: "latest"
       - name: test-derive-commit-hash
         uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@v0.41
         with:
-          commit-hash: "abc123def"
+          commit_hash: "abc123def"
 
   slack-notifications:
     needs: [
