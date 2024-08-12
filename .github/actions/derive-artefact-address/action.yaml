@@ -20,10 +20,9 @@ runs:
       shell: bash
       run : |
           export ARTEFACT_TAG="${{ inputs.artefact-tag }}"
-          echo "ARTEFACT_TAG=$ARTEFACT_TAG" >> $GITHUB_OUTPUT
 
-          artefact_sub_dir=$(echo $ARTEFACT_TAG | cut -d'-' -f1-2)
-          commit_hash=$(echo $ARTEFACT_TAG | cut -d'-' -f3)
+          artefact_sub_dir=$(echo "$ARTEFACT_TAG" | cut -d'-' -f1-2)
+          commit_hash=$(echo "$ARTEFACT_TAG" | cut -d'-' -f3)
 
           echo "Artefact Sub Directory: $artefact_sub_dir"
           echo "Commit Hash: $commit_hash"
