@@ -49,7 +49,7 @@ jobs:
     name: Derive Commit Hash For React App
     runs-on: ubuntu-latest
     outputs:
-        commit_hash: ${{ steps.derive-commit-hash.outputs.commit_hash }}
+        commit_hash: ${{ steps.derive-commit-hash-react.outputs.commit_hash }}
     steps:
       - name: "Checkout code"
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
@@ -57,15 +57,10 @@ jobs:
           repository: ${{ inputs.domain }}
 
       - name: Derive Commit Hash For React App
-        id: derive-commit-hash
-        shell: bash
-        run: |
-          if [ ${{ inputs.commit_hash}} == 'latest' ]; then
-            LATEST_HASH=$(git rev-parse --short main)
-            echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
-          else
-            echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
-          fi
+        id: derive-commit-hash-react
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@latest
+        with:
+          commit_hash: ${{ inputs.commit_hash}}
 
   deploy-react-app:
     name: "Deploy react application"
