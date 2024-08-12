@@ -29,11 +29,11 @@ jobs:
     timeout-minutes: ${{ inputs.workflow_timeout }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repositoryv0.41
         with:
           tag: ${{ inputs.repository_tag }}
       - name: "Push tag"
-        uses: NHSDigital/uec-dos-management/.github/actions/push-tag@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/push-tagv0.41
         with:
           tag_to_push: ${{ inputs.tag_to_push }}
           tag_overwrite: ${{ inputs.tag_overwrite }}

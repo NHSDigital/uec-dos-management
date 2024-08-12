@@ -52,20 +52,23 @@ jobs:
         commit_hash: ${{ steps.derive-commit-hash.outputs.commit_hash }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repositoryv0.41
         with:
           repository: ${{ inputs.domain }}
 
       - name: Derive Commit Hash For React App
-        id: derive-commit-hash
-        shell: bash
-        run: |
-          if [ ${{ inputs.commit_hash}} == 'latest' ]; then
-            LATEST_HASH=$(git rev-parse --short main)
-            echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
-          else
-            echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
-          fi
+        id: derive-commit-hash-react
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hashv0.41
+        with:
+          commit_hash: ${{ inputs.commit_hash}}
+        # shell: bash
+        # run: |
+        #   if [ ${{ inputs.commit_hash}} == 'latest' ]; then
+        #     LATEST_HASH=$(git rev-parse --short main)
+        #     echo "commit_hash=${LATEST_HASH}" >> $GITHUB_OUTPUT
+        #   else
+        #     echo "commit_hash=${{ inputs.commit_hash }}" >> $GITHUB_OUTPUT
+        #   fi
 
   deploy-react-app:
     name: "Deploy react application"
@@ -81,13 +84,13 @@ jobs:
       ]
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repositoryv0.41
         with:
           tag: ${{ inputs.tag }}
           repository: ${{ inputs.domain }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentialsv0.41
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
@@ -95,7 +98,7 @@ jobs:
 
       - name: Derive spa bucket
         id: derive_spa_bucket
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucketv0.41
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
@@ -103,14 +106,14 @@ jobs:
 
       - name: Derive cloudfront dist id
         id: derive_cloudfront_dist_id
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-cloudfront-dist-id@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-cloudfront-dist-idv0.41
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
           domain: ${{ inputs.domain }}
 
       - name: Deploy react application
-        uses: NHSDigital/uec-dos-management/.github/actions/react-app-deploy@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/react-app-deployv0.41
         with:
           code_directory: ${{ inputs.code_directory }}
           spa_bucket_name: ${{ steps.derive_spa_bucket.outputs.spa_bucket_name }}
@@ -121,7 +124,7 @@ jobs:
           commit_hash: ${{ needs.derive-commit-hash.outputs.commit_hash }}
 
       - name: Invalidate CloudFront Cache
-        uses: NHSDigital/uec-dos-management/.github/actions/react_clear_cloudfront_cache@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/react_clear_cloudfront_cachev0.41
         with:
           code_directory: ${{ inputs.code_directory }}
           distribution_id: ${{ steps.derive_cloudfront_dist_id.outputs.cloudfront_dist_id }}

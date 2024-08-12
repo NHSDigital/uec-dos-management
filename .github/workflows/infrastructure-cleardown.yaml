@@ -36,7 +36,7 @@ on:
 
 jobs:
   destroy-application-infrastructure:
-        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yamlv0.41
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
@@ -62,17 +62,17 @@ jobs:
     needs: [destroy-application-infrastructure]
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repositoryv0.41
         with:
           tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentialsv0.41
         with:
             aws_account_id: ${{ secrets.ACCOUNT_ID }}
             aws_region: ${{ vars.AWS_REGION }}
       - name: "Delete terraform state file"
         id: delete_tf_state
-        uses: NHSDigital/uec-dos-management/.github/actions/cleardown-tf-state@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/cleardown-tf-statev0.41
         with:
           workspace: ${{ inputs.workspace }}
           environment: ${{ inputs.environment }}

@@ -68,6 +68,21 @@ jobs:
       env: mgmt
     secrets: inherit
 
+  test-derive-commit-hash:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: test-derive-commit-hash-latest
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hashv0.41
+        with:
+          commit-hash: "latest"
+      - name: test-derive-commit-hash
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hashv0.41
+        with:
+          commit-hash: "abc123def"
+
   slack-notifications:
     needs: [
       metadata,
