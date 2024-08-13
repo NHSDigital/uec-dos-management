@@ -3,7 +3,7 @@ name: Derive artefact address workflow
 on:
   workflow_call:
     inputs:
-      artefact-tag:
+      tag:
         description: "The git tag to derive artefact location from"
         required: true
         type: string
@@ -39,5 +39,5 @@ jobs:
       - name: "Get arteafact address"
         id: get-artefact-address
         with:
-          artefact-tag: ${{ inputs.artefact-tag }}
+          tag: ${{ inputs.tag }}
         uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-address@v0.42

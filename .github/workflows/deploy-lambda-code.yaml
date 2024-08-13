@@ -88,6 +88,7 @@ jobs:
         uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.42
         with:
           repository: ${{ inputs.domain }}
+          tag: ${{ inputs.tag }}
 
       - name: Derive Commit Hash For Lambda Code
         id: derive-commit-hash
