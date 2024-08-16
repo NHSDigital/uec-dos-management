@@ -7,11 +7,6 @@ on:
         description: "The git tag to derive artefact location from"
         required: true
         type: string
-      workflow_timeout:
-        description: "Timeout duration in minutes"
-        required: false
-        default: 5
-        type: number
     outputs:
       commit_hash:
         description: "The unique commit hash"
@@ -25,7 +20,6 @@ jobs:
   derive-artefact-address:
     name: "Get Artefact address"
     runs-on: ubuntu-latest
-    timeout-minutes: ${{ inputs.workflow_timeout }}
 
     outputs:
       commit_hash: ${{ steps.get-artefact-address.outputs.commit_hash }}

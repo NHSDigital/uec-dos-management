@@ -7,10 +7,10 @@ inputs:
       required: true
 outputs:
   commit_hash:
-    description: "Commit hash for head of branch being processed"
+    description: "Commit hash for derived from the Tag to identify artefact address"
     value: ${{ steps.artefact-address.outputs.commit_hash }}
   artefact_sub_dir:
-    description: "The unique commit hash for artefacts for flows triggered by a pull request "
+    description: "The sub directory derived from the tag to identify the artefact address  "
     value: ${{ steps.artefact-address.outputs.artefact_sub_dir }}
 runs:
   using: "composite"
