@@ -60,6 +60,29 @@ if [ $EXPORTS_SET = 1 ] ; then
     exit 1
 fi
 
+# TODO remove exit
+echo "ENVIRONMENT = $ENVIRONMENT"
+echo "TF_VAR_repo_name = $TF_VAR_repo_name"
+
+# the github runner for uec-dos-management repo is only required in mgmt environment and is different
+# echo "Checking if github runner stack needs to be run for $TF_VAR_repo_name in $ENVIRONMENT environment"
+# if [ "$ENVIRONMENT" == "mgmt" ]; then
+#   if [ "$TF_VAR_repo_name" == "uec-dos-management" ] ; then
+#     echo "buld git hub runner with more trust rels"
+#   else
+#     echo "No github runner for $TF_VAR_repo_name repo required in $ENVIRONMENT environment"
+#   fi
+# else
+#   if [ "$TF_VAR_repo_name" != "uec-dos-management" ]; then
+#     echo "Build standard github runner for $TF_VAR_repo_name repo in $ENVIRONMENT environment"
+#   else
+#     echo "No github runner for $TF_VAR_repo_name repo required in $ENVIRONMENT environment"
+#   fi
+# fi
+
+# echo temporarily stopping here
+# exit 0
+# -------------
 # First time thru we haven't build the remote state bucket or lock table - so assume it doesn't exist to use
 # if remote state bucket does exist we are going to use it
 if aws s3api head-bucket --bucket "$TF_VAR_terraform_state_bucket_name" 2>/dev/null; then
@@ -101,6 +124,79 @@ function terraform-initialise {
           -backend-config="key=$STACK/terraform.state" \
           -backend-config="region=$AWS_REGION"
     fi
+}
+
+function github_runner_stack {
+    #  now do github runner stack
+  export STACK=github-runner
+  # specific to stack
+  STACK_TF_VARS_FILE="$STACK.tfvars"
+  # the directory that holds the stack to terraform
+  STACK_DIR=$PWD/$TERRAFORM_DIR/$STACK
+
+  if [[ "$USE_REMOTE_STATE_STORE" =~ ^(false|no|n|off|0|FALSE|NO|N|OFF) ]]; then
+    echo "Bootstrapping the $STACK stack (terraform $ACTION) to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
+  else
+    echo "Preparing to run terraform $ACTION for $STACK stack to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
+  fi
+
+  # ------------- Step three create  thumbprint for github actions -----------
+  export HOST=$(curl https://token.actions.githubusercontent.com/.well-known/openid-configuration)
+  export CERT_URL=$(jq -r '.jwks_uri | split("/")[2]' <<< $HOST)
+  export THUMBPRINT=$(echo | openssl s_client -servername "$CERT_URL" -showcerts -connect "$CERT_URL":443 2> /dev/null | tac | sed -n '/-----END CERTIFICATE-----/,/-----BEGIN CERTIFICATE-----/p; /-----BEGIN CERTIFICATE-----/q' | tac | openssl x509 -sha1 -fingerprint -noout | sed 's/://g' | awk -F= '{print tolower($2)}')
+  # ------------- Step four create oidc identity provider, github runner role and policies for that role -----------
+  export TF_VAR_oidc_provider_url="https://token.actions.githubusercontent.com"
+  export TF_VAR_oidc_thumbprint=$THUMBPRINT
+  export TF_VAR_oidc_client="sts.amazonaws.com"
+
+  # remove any previous local backend for stack
+  rm -rf "$STACK_DIR"/.terraform
+  rm -f "$STACK_DIR"/.terraform.lock.hcl
+  cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/common/locals.tf "$STACK_DIR"
+  cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/common/provider.tf "$STACK_DIR"
+  cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/common/common-variables.tf "$STACK_DIR"
+  #  copy shared tf files to stack
+  if [[ "$USE_REMOTE_STATE_STORE" =~ ^(true|yes|y|on|1|TRUE|YES|Y|ON) ]]; then
+    cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/remote/versions.tf "$STACK_DIR"
+  else
+    cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/local/versions.tf "$STACK_DIR"
+  fi
+  # switch to target stack directory ahead of tf init/plan/apply
+  cd "$STACK_DIR" || exit
+  # if no stack tfvars create temporary one
+  TEMP_STACK_TF_VARS_FILE=0
+  if [ ! -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE" ] ; then
+    touch "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
+    TEMP_STACK_TF_VARS_FILE=1
+  fi
+
+  # init terraform
+  terraform-initialise
+
+  if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
+    terraform plan \
+    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
+    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
+    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
+    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+  fi
+
+  if [ -n "$ACTION" ] && [ "$ACTION" = 'apply' ] ; then
+    terraform apply -auto-approve \
+    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
+    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
+    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
+    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+  fi
+  # cleardown temp files
+  rm -f "$STACK_DIR"/common-variables.tf
+  rm -f "$STACK_DIR"/locals.tf
+  rm -f "$STACK_DIR"/provider.tf
+  rm -f "$STACK_DIR"/versions.tf
+  if [[ $TEMP_STACK_TF_VARS_FILE == 1 ]]; then
+    rm "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
+  fi
+
 }
 
 # These used by both stacks to be bootstrapped
@@ -210,72 +306,86 @@ fi
 
 # back to root
 cd "$ROOT_DIR" || exit
-#  now do github runner stack
-export STACK=github-runner
-# specific to stack
-STACK_TF_VARS_FILE="$STACK.tfvars"
-# the directory that holds the stack to terraform
-STACK_DIR=$PWD/$TERRAFORM_DIR/$STACK
-
-if [[ "$USE_REMOTE_STATE_STORE" =~ ^(false|no|n|off|0|FALSE|NO|N|OFF) ]]; then
-  echo "Bootstrapping the $STACK stack (terraform $ACTION) to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
+#  only uec-dos-management github runner stack in int environment
+if [ "$ENVIRONMENT" == "int" ]; then
+  if [ "$TF_VAR_repo_name" == "uec-dos-management" ] ; then
+    echo "Preparing the $TF_VAR_repo_name repo github-runner in $ENVIRONMENT environment"
+    github_runner_stack
+  else
+    echo "No github runner for $TF_VAR_repo_name repo required in $ENVIRONMENT environment"
+  fi
 else
-  echo "Preparing to run terraform $ACTION for $STACK stack to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
+    echo "Build standard github runner for $TF_VAR_repo_name repo in $ENVIRONMENT environment"
+    github_runner_stack
 fi
 
-# ------------- Step three create  thumbprint for github actions -----------
-export HOST=$(curl https://token.actions.githubusercontent.com/.well-known/openid-configuration)
-export CERT_URL=$(jq -r '.jwks_uri | split("/")[2]' <<< $HOST)
-export THUMBPRINT=$(echo | openssl s_client -servername "$CERT_URL" -showcerts -connect "$CERT_URL":443 2> /dev/null | tac | sed -n '/-----END CERTIFICATE-----/,/-----BEGIN CERTIFICATE-----/p; /-----BEGIN CERTIFICATE-----/q' | tac | openssl x509 -sha1 -fingerprint -noout | sed 's/://g' | awk -F= '{print tolower($2)}')
-# ------------- Step four create oidc identity provider, github runner role and policies for that role -----------
-export TF_VAR_oidc_provider_url="https://token.actions.githubusercontent.com"
-export TF_VAR_oidc_thumbprint=$THUMBPRINT
-export TF_VAR_oidc_client="sts.amazonaws.com"
 
-# remove any previous local backend for stack
-rm -rf "$STACK_DIR"/.terraform
-rm -f "$STACK_DIR"/.terraform.lock.hcl
-cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/common/locals.tf "$STACK_DIR"
-cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/common/provider.tf "$STACK_DIR"
-cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/common/common-variables.tf "$STACK_DIR"
-#  copy shared tf files to stack
-if [[ "$USE_REMOTE_STATE_STORE" =~ ^(true|yes|y|on|1|TRUE|YES|Y|ON) ]]; then
-  cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/remote/versions.tf "$STACK_DIR"
-else
-  cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/local/versions.tf "$STACK_DIR"
-fi
-# switch to target stack directory ahead of tf init/plan/apply
-cd "$STACK_DIR" || exit
-# if no stack tfvars create temporary one
-TEMP_STACK_TF_VARS_FILE=0
-if [ ! -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE" ] ; then
-  touch "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
-  TEMP_STACK_TF_VARS_FILE=1
-fi
+# #  now do github runner stack
+# export STACK=github-runner
+# # specific to stack
+# STACK_TF_VARS_FILE="$STACK.tfvars"
+# # the directory that holds the stack to terraform
+# STACK_DIR=$PWD/$TERRAFORM_DIR/$STACK
 
-# init terraform
-terraform-initialise
+# if [[ "$USE_REMOTE_STATE_STORE" =~ ^(false|no|n|off|0|FALSE|NO|N|OFF) ]]; then
+#   echo "Bootstrapping the $STACK stack (terraform $ACTION) to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
+# else
+#   echo "Preparing to run terraform $ACTION for $STACK stack to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
+# fi
 
-if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
-  terraform plan \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
-fi
+# # ------------- Step three create  thumbprint for github actions -----------
+# export HOST=$(curl https://token.actions.githubusercontent.com/.well-known/openid-configuration)
+# export CERT_URL=$(jq -r '.jwks_uri | split("/")[2]' <<< $HOST)
+# export THUMBPRINT=$(echo | openssl s_client -servername "$CERT_URL" -showcerts -connect "$CERT_URL":443 2> /dev/null | tac | sed -n '/-----END CERTIFICATE-----/,/-----BEGIN CERTIFICATE-----/p; /-----BEGIN CERTIFICATE-----/q' | tac | openssl x509 -sha1 -fingerprint -noout | sed 's/://g' | awk -F= '{print tolower($2)}')
+# # ------------- Step four create oidc identity provider, github runner role and policies for that role -----------
+# export TF_VAR_oidc_provider_url="https://token.actions.githubusercontent.com"
+# export TF_VAR_oidc_thumbprint=$THUMBPRINT
+# export TF_VAR_oidc_client="sts.amazonaws.com"
 
-if [ -n "$ACTION" ] && [ "$ACTION" = 'apply' ] ; then
-  terraform apply -auto-approve \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
-fi
-# cleardown temp files
-rm -f "$STACK_DIR"/common-variables.tf
-rm -f "$STACK_DIR"/locals.tf
-rm -f "$STACK_DIR"/provider.tf
-rm -f "$STACK_DIR"/versions.tf
-if [[ $TEMP_STACK_TF_VARS_FILE == 1 ]]; then
-  rm "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
-fi
+# # remove any previous local backend for stack
+# rm -rf "$STACK_DIR"/.terraform
+# rm -f "$STACK_DIR"/.terraform.lock.hcl
+# cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/common/locals.tf "$STACK_DIR"
+# cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/common/provider.tf "$STACK_DIR"
+# cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/common/common-variables.tf "$STACK_DIR"
+# #  copy shared tf files to stack
+# if [[ "$USE_REMOTE_STATE_STORE" =~ ^(true|yes|y|on|1|TRUE|YES|Y|ON) ]]; then
+#   cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/remote/versions.tf "$STACK_DIR"
+# else
+#   cp "$ROOT_DIR"/"$INFRASTRUCTURE_DIR"/local/versions.tf "$STACK_DIR"
+# fi
+# # switch to target stack directory ahead of tf init/plan/apply
+# cd "$STACK_DIR" || exit
+# # if no stack tfvars create temporary one
+# TEMP_STACK_TF_VARS_FILE=0
+# if [ ! -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE" ] ; then
+#   touch "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
+#   TEMP_STACK_TF_VARS_FILE=1
+# fi
+
+# # init terraform
+# terraform-initialise
+
+# if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
+#   terraform plan \
+#   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
+#   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
+#   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
+#   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+# fi
+
+# if [ -n "$ACTION" ] && [ "$ACTION" = 'apply' ] ; then
+#   terraform apply -auto-approve \
+#   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
+#   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
+#   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
+#   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+# fi
+# # cleardown temp files
+# rm -f "$STACK_DIR"/common-variables.tf
+# rm -f "$STACK_DIR"/locals.tf
+# rm -f "$STACK_DIR"/provider.tf
+# rm -f "$STACK_DIR"/versions.tf
+# if [[ $TEMP_STACK_TF_VARS_FILE == 1 ]]; then
+#   rm "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE"
+# fi
