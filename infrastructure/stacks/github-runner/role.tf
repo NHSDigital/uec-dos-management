@@ -47,3 +47,53 @@ resource "aws_iam_role" "github_runner_role" {
     }
     EOF
 }
+
+resource "aws_iam_role" "github_runner_role_cm" {
+  count              = var.int_environment ? 1 : 0
+  name               = "${var.repo_name}-github-runner"
+  assume_role_policy = <<-EOF
+    {
+      "Version":"2012-10-17",
+      "Statement":[
+        {
+          "Effect":"Allow",
+          "Principal":{
+            "Federated":"arn:aws:iam::${local.account_id}:oidc-provider/token.actions.githubusercontent.com"
+          },
+          "Action":"sts:AssumeRoleWithWebIdentity",
+          "Condition":{
+            "ForAllValues:StringLike":{
+                "token.actions.githubusercontent.com:sub":"repo:${var.github_org}/uec-cm:*",
+                "token.actions.githubusercontent.com:aud":"sts.amazonaws.com"
+              }
+          }
+        }
+      ]
+    }
+    EOF
+}
+
+resource "aws_iam_role" "github_runner_role_sm" {
+  count              = var.int_environment ? 1 : 0
+  name               = "${var.repo_name}-github-runner"
+  assume_role_policy = <<-EOF
+    {
+      "Version":"2012-10-17",
+      "Statement":[
+        {
+          "Effect":"Allow",
+          "Principal":{
+            "Federated":"arn:aws:iam::${local.account_id}:oidc-provider/token.actions.githubusercontent.com"
+          },
+          "Action":"sts:AssumeRoleWithWebIdentity",
+          "Condition":{
+            "ForAllValues:StringLike":{
+                "token.actions.githubusercontent.com:sub":"repo:${var.github_org}/uec-dos-service-management:*",
+                "token.actions.githubusercontent.com:aud":"sts.amazonaws.com"
+              }
+          }
+        }
+      ]
+    }
+    EOF
+}
