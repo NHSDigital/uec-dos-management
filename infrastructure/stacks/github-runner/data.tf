@@ -11,7 +11,7 @@ resource "aws_iam_policy" "ro_policy_iam" {
 }
 
 data "aws_iam_policy_document" "assume_role_policy_int" {
-  count      = var.int_environment ? 1 : 0
+  count = var.int_environment ? 1 : 0
   statement {
     actions = ["sts:AssumeRoleWithWebIdentity"]
 
