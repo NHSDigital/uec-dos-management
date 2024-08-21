@@ -1,5 +1,5 @@
-name: "Integration tests action"
-description: "Run integration tests"
+name: "domain tests action"
+description: "Run domain tests"
 
 inputs:
     environment:
@@ -16,11 +16,11 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Run integration test script
-      id: run-integration-test-script
+    - name: Run domain test script
+      id: run-domain-test-script
       shell: bash
       run: |
         export AWS_REGION=${{ inputs.aws_region }}
         export WORKSPACE=${{ inputs.workspace }}
         export ENVIRONMENT=${{ inputs.environment }}
-        /bin/bash ./uec-dos-management/scripts/workflow/integration-tests.sh
+        /bin/bash ./uec-dos-management/scripts/workflow/domain-tests.sh

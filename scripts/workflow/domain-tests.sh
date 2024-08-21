@@ -1,8 +1,8 @@
 #! /bin/bash
 
-# This script runs python integration tests
+# This script runs python domain tests
 #
-export APPLICATION_TEST_DIR="${APPLICATION_TEST_DIR:-"tests/integration"}"
+export APPLICATION_TEST_DIR="${APPLICATION_TEST_DIR:-"tests/domain"}"
 
 # check export has been done
 EXPORTS_SET=0
@@ -29,7 +29,7 @@ fi
 echo "Installing requirements"
 pip install -r "$APPLICATION_TEST_DIR"/requirements.txt
 
-echo "Now running integration tests under $APPLICATION_TEST_DIR for workspace $WORKSPACE and environment $ENVIRONMENT"
+echo "Now running domain tests under $APPLICATION_TEST_DIR for workspace $WORKSPACE and environment $ENVIRONMENT"
 cd "$APPLICATION_TEST_DIR" || exit
 behave --tags=pipeline_tests -D workspace="$WORKSPACE" -D env="$ENVIRONMENT" --format=allure -o allure-results;
 
@@ -40,9 +40,9 @@ allure generate --single-file -c -o  allure-reports;
 
 
 if [ $TEST_RESULTS -ne 0 ] ; then
-  echo "Integration Tests have failed"
+  echo "domain Tests have failed"
   exit $TEST_RESULTS
 else
-  echo "Integration Tests have passed"
+  echo "domain Tests have passed"
   exit 0
 fi
