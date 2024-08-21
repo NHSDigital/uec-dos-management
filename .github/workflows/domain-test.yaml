@@ -1,4 +1,4 @@
-name: Integration test workflow
+name: domain test workflow
 
 on:
   workflow_call:
@@ -29,8 +29,8 @@ on:
         type: number
 
 jobs:
-  integration-tests:
-    name: "Run integration tests"
+  domain-tests:
+    name: "Run domain tests"
     runs-on: ubuntu-latest
     timeout-minutes: ${{ inputs.workflow_timeout }}
     environment: ${{ inputs.environment }}
@@ -40,21 +40,21 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.44
         with:
           tag: ${{ inputs.tag }}
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.44
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
       - name: Install Allure command-line tool
         id: install-allure
         continue-on-error: true
-        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@latest
-      - name: Run integration test
+        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@v0.44
+      - name: Run domain test
         id: run-int-test
-        uses: NHSDigital/uec-dos-management/.github/actions/integration-test@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/domain-test@v0.44
         with:
           aws_region: ${{ vars.AWS_REGION }}
           environment: ${{ inputs.environment }}
@@ -62,9 +62,9 @@ jobs:
       - name: Upload allure report
         if: always()
         id: upload_allure_report
-        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@v0.44
         with:
           name: allure-report
-          path: tests/integration/allure-reports/index.html
+          path: tests/domain/allure-reports/index.html
           retention-days: ${{ inputs.allure_report_retention }}
 
