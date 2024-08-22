@@ -285,15 +285,6 @@ fi
 
 # back to root
 cd "$ROOT_DIR" || exit
-#  only uec-dos-management github runner stack in int environment
-if [ "$ENVIRONMENT" == "int" ]; then
-  if [ "$TF_VAR_repo_name" == "uec-dos-management" ] ; then
-    echo "Preparing the $TF_VAR_repo_name repo github-runner in $ENVIRONMENT environment"
-    github_runner_stack
-  else
-    echo "No github runner for $TF_VAR_repo_name repo required in $ENVIRONMENT environment"
-  fi
-else
-    echo "Build standard github runner for $TF_VAR_repo_name repo in $ENVIRONMENT environment"
-    github_runner_stack
-fi
+echo "Preparing the $TF_VAR_repo_name repo github-runner in $ENVIRONMENT environment"
+github_runner_stack
+
