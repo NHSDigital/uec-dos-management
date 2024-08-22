@@ -23,4 +23,5 @@ runs:
         export AWS_REGION=${{ inputs.aws_region }}
         export WORKSPACE=${{ inputs.workspace }}
         export ENVIRONMENT=${{ inputs.environment }}
+        pwd
         /bin/bash ./uec-dos-management/scripts/workflow/domain-tests.sh
