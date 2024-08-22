@@ -10,3 +10,9 @@ variable "oidc_client" {
 variable "oidc_thumbprint" {
   description = "Thumbprint for oidc provider"
 }
+
+variable "int_environment" {
+  description = "True only for integration environment that requires one role policy per domain repo"
+  type        = bool
+  default     = false
+}
