@@ -60,9 +60,6 @@ if [ $EXPORTS_SET = 1 ] ; then
     exit 1
 fi
 
-# TODO remove exit
-echo "ENVIRONMENT = $ENVIRONMENT"
-echo "TF_VAR_repo_name = $TF_VAR_repo_name"
 
 # -------------
 # First time thru we haven't build the remote state bucket or lock table - so assume it doesn't exist to use

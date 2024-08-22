@@ -1,7 +1,4 @@
 
-# aws_iam_role_policy = an inline policy
-# aws_iam_policy, that is a managed policy and can be re-used
-
 # Version of the role (and policies for integration env only)
 # Attach the pu policy to the role
 resource "aws_iam_role_policy_attachment" "attach_power_user_int" {
