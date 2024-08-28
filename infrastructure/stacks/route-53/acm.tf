@@ -3,7 +3,6 @@ module "acm_certificate" {
   domain_name = "uec-capacity-management.nhs.uk"
   zone_id     = module.cm_route53.zone_id
   san_list    = ["*.uec-capacity-management.nhs.uk"]
-
 }
 
 output "certificate_arn" {
