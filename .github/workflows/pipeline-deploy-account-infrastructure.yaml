@@ -20,7 +20,7 @@ jobs:
           environment: mgmt
           domain: "uec-dos-management"
           workspace: ${{ needs.metadata.outputs.workspace }}
-          stacks: "['terraform_management','github-runner','dos-artefacts','parameter_store']"
+          stacks: "['terraform_management','github-runner','dos-artefacts','parameter_store',route-53']"
           action: apply
         secrets: inherit
     deploy-int-account-infrastructure-apply:
