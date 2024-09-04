@@ -22,6 +22,7 @@ jobs:
     permissions:
       id-token: write
       contents: read
+    timeout-minutes: 5
     steps:
       - name: Delete workflow runs
         uses: NHSDigital/uec-dos-management/.github/actions/delete-workflow-runs@task/DR-644_Truncate_action_history
