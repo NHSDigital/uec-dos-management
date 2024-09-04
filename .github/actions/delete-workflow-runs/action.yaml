@@ -17,7 +17,7 @@ inputs:
   dry_run:
     description: 'Logs simulated changes, no deletions are performed'
     required: false
-    default: 'True'
+    default: 'true'
 
 runs:
   using: "composite"

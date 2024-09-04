@@ -14,7 +14,9 @@ jobs:
 
   test_delete_past_runs:
     name: "Apply Deploy Infrastructure"
-
+    permissions:
+      id-token: write
+      contents: read
     uses: ./.github/workflows/truncate-workflow-history.yaml
     with:
       domain: "uec-dos-management"
