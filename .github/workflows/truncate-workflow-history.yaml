@@ -25,6 +25,15 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: Delete workflow runs
-        uses: NHSDigital/uec-dos-management/.github/actions/delete-workflow-runs@task/DR-644_Truncate_action_history
+        uses: Mattraks/delete-workflow-runs@v2
         with:
-          domain: ${{ inputs.domain }}
+          token: '${{ github.token }}'
+          repository: "NHSDigital/${{ inputs.domain }}"
+          retain_days: ${{ inputs.retain_days }}
+          keep_minimum_runs: ${{ inputs.minimum_history }}
+          dry_run: true
+    # steps:
+    #   - name: Delete workflow runs
+    #     uses: NHSDigital/uec-dos-management/.github/actions/delete-workflow-runs@task/DR-644_Truncate_action_history
+    #     with:
+    #       domain: ${{ inputs.domain }}
