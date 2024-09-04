@@ -1,0 +1,29 @@
+name: Pipeline manage workflow run history
+
+on:
+  workflow_call:
+    inputs:
+      domain:
+        description: "The code repository to checkout"
+        required: false
+        type: string
+      retain_days:
+        description: "Workflow runs older than this number of days may be removed"
+        required: false
+        type: number
+      minimum_history:
+        description: "The minimum number of previous runs to keep"
+        required: false
+        type: number
+
+jobs:
+  delete_past_runs:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: Delete workflow runs
+        uses: NHSDigital/uec-dos-management/.github/actions/delete-workflow-runs@task/DR-644_Truncate_action_history
+        with:
+          domain: ${{ inputs.domain }}

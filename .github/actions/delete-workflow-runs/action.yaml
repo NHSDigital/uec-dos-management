@@ -1,0 +1,32 @@
+name: "Action maintain workflow run history"
+description: "Maintains backlog of previous action runs"
+
+inputs:
+  domain:
+    description: "The code repository to checkout"
+    required: false
+    default: ${{ github.event.repository.name }}
+  retain_days:
+    description: "Workflow runs older than this number of days may be removed"
+    required: false
+    default: '25'
+  minimum_history:
+    description: "The minimum number of previous runs to keep"
+    required: false
+    default: '100'
+  dry_run:
+    description: 'Logs simulated changes, no deletions are performed'
+    required: false
+    default: 'True'
+
+runs:
+  using: "composite"
+
+  steps:
+    - name: Delete workflow runs
+      uses: Mattraks/delete-workflow-runs@v2
+      with:
+        token: ${{ github.token }}
+        repository: "NHSDigital/${{ inputs.domain }}"
+        retain_days: ${{ inputs.retain_days }}
+        keep_minimum_runs: ${{ inputs.minimum_history }}
