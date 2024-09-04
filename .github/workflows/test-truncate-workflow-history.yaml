@@ -20,6 +20,8 @@ jobs:
     uses: ./.github/workflows/truncate-workflow-history.yaml
     with:
       domain: "uec-dos-management"
+      retain_days: 25
+      minimum_history: 100
     secrets: inherit
 
   slack-notifications:
