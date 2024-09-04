@@ -1,0 +1,31 @@
+name: Test Truncate Workflow History
+
+on:
+  push:
+    branches:
+      # - main
+      - task/DR-644_Truncate_action_history
+#   # schedule:
+#   #   - cron: '0 1 * * *'
+#   # Run daily, at 01:00 .
+
+jobs:
+
+
+  test_delete_past_runs:
+    name: "Apply Deploy Infrastructure"
+
+    uses: ./.github/workflows/truncate-workflow-history.yaml
+    with:
+      domain: "uec-dos-management"
+    secrets: inherit
+
+  slack-notifications:
+    needs: [
+      test_delete_past_runs,
+    ]
+    if: always()
+    uses: ./.github/workflows/slack-notifications.yaml
+    with:
+      env: mgmt
+    secrets: inherit
