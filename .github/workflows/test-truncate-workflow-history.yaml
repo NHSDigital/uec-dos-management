@@ -4,7 +4,7 @@ on:
   push:
     branches:
       # - main
-      - task/DR-644_Truncate_action_history
+      - v0.45
 #   # schedule:
 #   #   - cron: '0 1 * * *'
 #   # Run daily, at 01:00 .
