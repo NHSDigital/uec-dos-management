@@ -91,6 +91,8 @@ PREVIOUS_VERSION=$(expr "${LATEST_VERSION}" - 1)
 ALIAS_NAME="${LATEST_VERSION}-${COMMIT_HASH}"
 aws lambda create-alias --function-name="${LAMBDA_FUNCTION}" --name="${ALIAS_NAME}" --function-version="${LATEST_VERSION}"
 
+echo "alias name is ${ALIAS_NAME}"
+
 if [ -z "${ARTEFACT_SUB_DIR}" ]; then
   echo "Artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
   echo "Deployed to version ${LATEST_VERSION} of the lambda ${LAMBDA_FUNCTION} in the ${WORKSPACE} in the ${ENVIRONMENT} environment"
