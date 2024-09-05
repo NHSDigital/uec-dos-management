@@ -32,8 +32,3 @@ jobs:
           retain_days: ${{ inputs.retain_days }}
           keep_minimum_runs: ${{ inputs.minimum_history }}
           dry_run: true
-    # steps:
-    #   - name: Delete workflow runs
-    #     uses: NHSDigital/uec-dos-management/.github/actions/delete-workflow-runs@task/DR-644_Truncate_action_history
-    #     with:
-    #       domain: ${{ inputs.domain }}
