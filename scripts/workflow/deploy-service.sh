@@ -89,7 +89,7 @@ LATEST_VERSION=$(jq -r '.Version' --compact-output <<< "$LAMBDA_OUTPUT" )
 PREVIOUS_VERSION=$(expr "${LATEST_VERSION}" - 1)
 
 ALIAS_NAME="${LATEST_VERSION}-${COMMIT_HASH}"
-aws lambda create-alias --function-name="${SERVICE}" --name="${ALIAS_NAME}" --function-version="${LATEST_VERSION}"
+aws lambda create-alias --function-name="${LAMBDA_FUNCTION}" --name="${ALIAS_NAME}" --function-version="${LATEST_VERSION}"
 
 if [ -z "${ARTEFACT_SUB_DIR}" ]; then
   echo "Artefact ${ARTEFACT_BUCKET_NAME}/${WORKSPACE}/${COMMIT_HASH}/${DEPLOYMENT_FILE_NAME}"
