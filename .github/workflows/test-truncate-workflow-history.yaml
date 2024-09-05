@@ -13,7 +13,7 @@ jobs:
 
 
   test_delete_past_runs:
-    name: "Apply Deploy Infrastructure"
+    name: "Truncate github workflow run history"
     permissions:
       id-token: write
       contents: read
