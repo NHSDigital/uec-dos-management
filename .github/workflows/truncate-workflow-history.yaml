@@ -11,7 +11,7 @@ on:
         description: "Workflow runs older than this number of days may be removed"
         required: false
         type: number
-        default: 5
+        default: 211
       minimum_history:
         description: "The minimum number of previous runs to keep"
         required: false
