@@ -61,7 +61,7 @@ jobs:
         services: ${{ steps.derive-service-names.outputs.services }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-644_Truncate_action_history
         with:
           repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
@@ -85,12 +85,12 @@ jobs:
         commit_hash: ${{ steps.derive-commit-hash-lambda.outputs.commit_hash }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-644_Truncate_action_history
         with:
           repository: ${{ inputs.domain }}
       - name: Derive Commit Hash For Lambda code App
         id: derive-commit-hash-lambda
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@task/DR-644_Truncate_action_history
         with:
           commit_hash: ${{ inputs.commit_hash}}
 
@@ -113,20 +113,20 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-644_Truncate_action_history
         with:
           repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-644_Truncate_action_history
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
           multi_domain: ${{ inputs.multi_domain }}
 
       - name: "Deploy service"
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@task/DR-644_Truncate_action_history
         with:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}

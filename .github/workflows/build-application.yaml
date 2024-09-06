@@ -52,24 +52,24 @@ jobs:
         service: ${{ fromJSON(inputs.services) }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-644_Truncate_action_history
         with:
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-644_Truncate_action_history
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: "Build service"
-        uses: NHSDigital/uec-dos-management/.github/actions/build-service@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/build-service@task/DR-644_Truncate_action_history
         with:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
 
       - name: "Upload service to S3 bucket"
-        uses: NHSDigital/uec-dos-management/.github/actions/push-artefact@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/push-artefact@task/DR-644_Truncate_action_history
         with:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
