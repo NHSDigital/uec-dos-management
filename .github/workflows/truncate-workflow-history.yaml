@@ -11,7 +11,7 @@ on:
         description: "Workflow runs older than this number of days may be removed"
         required: false
         type: number
-        default: 211
+        default: 200
       minimum_history:
         description: "The minimum number of previous runs to keep"
         required: false
@@ -33,3 +33,4 @@ jobs:
           repository: "NHSDigital/${{ inputs.domain }}"
           retain_days: ${{ inputs.retain_days }}
           keep_minimum_runs: ${{ inputs.minimum_history }}
+          dry_run: false
