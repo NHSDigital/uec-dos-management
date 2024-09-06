@@ -1,7 +1,6 @@
 name: Test Truncate Workflow History
 
 on:
-  on:
   push:
     branches:
       - task/DR-644_Truncate_action_history
@@ -10,8 +9,6 @@ on:
   #   - cron: '0 1 * * *'
 
 jobs:
-
-
   test_delete_past_runs:
     name: "Truncate github workflow run history"
     permissions:
