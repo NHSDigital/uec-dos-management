@@ -44,4 +44,5 @@ runs:
           echo "artefact_commit_hash=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})"
           echo "artefact_commit_hash=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})" >> $GITHUB_OUTPUT
         fi
+        echo "pr number: ${{ github.event.number }}"
 
