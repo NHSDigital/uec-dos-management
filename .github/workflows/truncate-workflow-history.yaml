@@ -22,9 +22,10 @@ jobs:
   delete_past_runs:
     runs-on: ubuntu-latest
     permissions:
+      actions: write
       id-token: write
       contents: read
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
       - name: Delete workflow runs
         uses: Mattraks/delete-workflow-runs@v2
@@ -33,4 +34,3 @@ jobs:
           repository: "NHSDigital/${{ inputs.domain }}"
           retain_days: ${{ inputs.retain_days }}
           keep_minimum_runs: ${{ inputs.minimum_history }}
-          dry_run: false
