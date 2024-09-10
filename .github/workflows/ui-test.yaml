@@ -27,7 +27,7 @@ jobs:
   run-ui-tests:
     name: "Run ui tests"
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     environment: ${{ inputs.environment }}
     permissions:
       id-token: write
@@ -35,27 +35,27 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-800_Dependabot_pull_requests
         with:
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR-800_Dependabot_pull_requests
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: Set up Node.js
-        uses: NHSDigital/uec-dos-management/.github/actions/install-node@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/install-node@task/DR-800_Dependabot_pull_requests
 
       - name: Install Allure command-line tool
         id: install-allure
         continue-on-error: true
-        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/install-allure@task/DR-800_Dependabot_pull_requests
 
       - name: Run ui tests
         id: run-ui-test-pack
-        uses: NHSDigital/uec-dos-management/.github/actions/ui-test@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/ui-test@task/DR-800_Dependabot_pull_requests
         with:
           aws_region: ${{ vars.AWS_REGION }}
           environment: ${{ inputs.environment }}
@@ -64,7 +64,7 @@ jobs:
       - name: Upload allure report
         if: always()
         id: upload_allure_report
-        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@task/DR-800_Dependabot_pull_requests
         with:
           name: allure-report
           path: tests/ui/allure-reports/index.html
@@ -73,7 +73,7 @@ jobs:
       - name: Upload accessibiity results
         if: always()
         id: accessibiity-artifact-upload-step
-        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/upload-artefact@task/DR-800_Dependabot_pull_requests
         with:
           name: axe-report
           path: tests/ui/accessibility-reports/artifacts/*.html

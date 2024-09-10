@@ -4,15 +4,19 @@ echo "Trigger action: $TRIGGER_ACTION"
 echo "Trigger reference: $TRIGGER_REFERENCE"
 echo "Trigger head reference: $TRIGGER_HEAD_REFERENCE "
 echo "Trigger event reference $TRIGGER_EVENT_REF"
+echo "Dependabot Pull request number: $PR_NUMBER"
 
 WORKSPACE="Unknown"
 
 # If we are dealing with a tagging action, then the workspace is the name of the tag
 if [ "$TRIGGER" == "tag" ] ; then
   WORKSPACE="$TRIGGER_REFERENCE"
-  export WORKSPACE
   echo "Triggered by tagging - deriving workspace directly from tag: $WORKSPACE"
-else
+  echo "Branch name: $BRANCH_NAME"
+  echo "Workspace: $WORKSPACE"
+  export WORKSPACE
+  exit
+fi
 
   # If we are dealing with a push action or workflow_dispatch and the trigger is not a tag, we'll need to look at the branch name
   # to derive the workspace
@@ -28,18 +32,27 @@ else
     echo "Triggered by a branch deletion - setting branch name to trigger event ref "
     BRANCH_NAME="$TRIGGER_EVENT_REF"
   fi
-
-  BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/refs\/heads\/task/task/g')
-  if [ "$BRANCH_NAME" == "main" ] ; then
-    WORKSPACE="default"
-    echo "Workspace from main branch: $WORKSPACE"
-  else
-    IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
-    IFS='_' read -r -a ref <<< "${name_array[1]}"
-    WORKSPACE=$(echo "${ref[0]}" | tr "[:upper:]" "[:lower:]")
-    echo "Workspace from feature branch: $WORKSPACE"
-  fi
-
+echo "branch name: $BRANCH_NAME"
+# handle dependabot branches
+if [ "${BRANCH_NAME:0:10}" == "dependabot" ]; then
+  WORKSPACE="dependabot-$PR_NUMBER"
+  echo "Dependabot Branch name: $BRANCH_NAME"
+  echo "Workspace: $WORKSPACE"
+  export WORKSPACE
+  exit
+fi
+# handle task branches
+BRANCH_NAME=$(echo "$BRANCH_NAME" | sed 's/refs\/heads\/task/task/g')
+if [ "$BRANCH_NAME" == "main" ] ; then
+  WORKSPACE="default"
+  echo "Workspace from main branch: $WORKSPACE"
+else
+  IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
+  IFS='_' read -r -a ref <<< "${name_array[1]}"
+  WORKSPACE=$(echo "${ref[0]}" | tr "[:upper:]" "[:lower:]")
+  echo "Workspace from feature branch: $WORKSPACE"
 fi
 
+echo "Branch name: $BRANCH_NAME"
+echo "Workspace: $WORKSPACE"
 export WORKSPACE

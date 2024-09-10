@@ -1,0 +1,64 @@
+name: Deploy to dev and test from Dependabot branch
+
+on:
+  pull_request:
+    types: [ labeled ]
+
+jobs:
+  metadata:
+    if: ${{ github.event.label.name == 'Test Dependabot' && startswith(github.head_ref, 'dependabot/') }}
+    name: "Get Metadata"
+    uses: ./.github/workflows/metadata.yaml
+
+  deploy-infrastructure-apply:
+    name: "Apply Deploy Infrastructure"
+    needs:
+      [
+        metadata,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['lambda-stack']"
+      action: apply
+    secrets: inherit
+
+  build-application:
+    name: Build application
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-apply,
+      ]
+    uses: ./.github/workflows/build-application.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      services: "['healthcare-services-data-manager']"
+      directory: 'application'
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    secrets: inherit
+
+  deploy-application:
+    name: Deploy lambda application code
+    needs:
+      [
+        metadata,
+        deploy-infrastructure-apply,
+        build-application
+      ]
+    uses: ./.github/workflows/deploy-lambda-code.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      services: "['healthcare-services-data-manager']"
+      directory: 'application'
+      artefact_sub_dir: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      multi_domain: "false"
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    secrets: inherit

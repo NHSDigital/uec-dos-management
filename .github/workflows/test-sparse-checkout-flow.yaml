@@ -13,7 +13,7 @@ jobs:
     timeout-minutes: 2
     steps:
       - name: "Checkout repo"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR-800_Dependabot_pull_requests
       - name: "Check sparse checkout"
         shell: bash
         run : |
