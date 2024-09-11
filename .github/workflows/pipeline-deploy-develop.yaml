@@ -1,5 +1,9 @@
 name: Pipeline Controlling Deployment to Development Environment
-
+# trigger if
+# pushing a feature branch
+# or merging to main
+# or labelling a PR for dependabot branch
+# should NOT trigger if we label a standard task branch PR
 on:
   push:
     branches:
@@ -11,22 +15,9 @@ on:
 jobs:
   build-and-deploy-dependabot-pr:
     if: ${{ github.event.label.name == 'Test Ready' && startswith(github.head_ref, 'dependabot/') }}
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-dev.yaml@task/DR-800_Dependabot_pull_requests
+    uses: NHSDigital/uec-dos-management/.github/workflows/pipeline-deploy-app-develop@task/DR-800_Dependabot_pull_requests
 
   build-and-deploy-branch:
     if: ${{ github.event_name == 'push' && startswith(github.ref_name, 'task/') }}
-    uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-dev.yaml@task/DR-800_Dependabot_pull_requests
-    # with:
-    #   environment: mgmt
-    secrets: inherit
-  slack-notifications:
-    needs: [
-      build-and-deploy-dependabot-pr,
-      build-and-deploy-branch,
-
-    ]
-    if: always()
-    uses: ./.github/workflows/slack-notifications.yaml
-    with:
-      env: mgmt
+    uses: NHSDigital/uec-dos-management/.github/workflows/pipeline-deploy-app-develop@task/DR-800_Dependabot_pull_requests
     secrets: inherit

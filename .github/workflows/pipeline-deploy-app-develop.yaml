@@ -1,10 +1,13 @@
 name: Pipeline Deployment Application Development Environment
+#  Now called from a controlling workflow triggering on push or pr labelling
+# on:
+#   push:
+#     branches:
+#       - main
+#       - 'task/*'
 
 on:
-  push:
-    branches:
-      - main
-      - 'task/*'
+  workflow_call:
 
 jobs:
   metadata:
