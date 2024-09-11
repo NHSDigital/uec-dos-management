@@ -27,11 +27,11 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.48
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
         with:
           tag: ${{ inputs.tag }}
       - name: "Get arteafact address"
         id: get-artefact-address
         with:
           tag: ${{ inputs.tag }}
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-address@v0.48
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-artefact-address@latest

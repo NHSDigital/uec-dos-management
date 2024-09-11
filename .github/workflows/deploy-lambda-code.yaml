@@ -61,7 +61,7 @@ jobs:
         services: ${{ steps.derive-service-names.outputs.services }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.48
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
         with:
           repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
@@ -85,12 +85,12 @@ jobs:
         commit_hash: ${{ steps.derive-commit-hash-lambda.outputs.commit_hash }}
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.48
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
         with:
           repository: ${{ inputs.domain }}
       - name: Derive Commit Hash For Lambda code App
         id: derive-commit-hash-lambda
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@v0.48
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-commit-hash@latest
         with:
           commit_hash: ${{ inputs.commit_hash}}
 
@@ -113,20 +113,20 @@ jobs:
 
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@v0.48
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
         with:
           repository: ${{ inputs.domain }}
           tag: ${{ inputs.tag }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@v0.48
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
           multi_domain: ${{ inputs.multi_domain }}
 
       - name: "Deploy service"
-        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@v0.48
+        uses: NHSDigital/uec-dos-management/.github/actions/deploy-service@latest
         with:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
