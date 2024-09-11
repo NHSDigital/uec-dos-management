@@ -1,0 +1,30 @@
+name: Pipeline Controlling Deployment to Development Environment
+
+on:
+  push:
+    branches:
+      - main
+      - 'task/*'
+  pull_request:
+    types: [ labeled ]
+
+jobs:
+  build-and-deploy-dependabot-pr:
+    if: ${{ github.event.label.name == 'Test Ready' && startswith(github.head_ref, 'dependabot/') }}
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-dev.yaml@task/DR-800_Dependabot_pull_requests
+
+  build-and-deploy-branch:
+    if: ${{ github.event.type == 'Push Event' && startswith(github.head_ref, 'task/') }}
+    uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-dev.yaml@task/DR-800_Dependabot_pull_requests
+
+  slack-notifications:
+    needs: [
+      build-and-deploy-dependabot-pr,
+      build-and-deploy-branch,
+
+    ]
+    if: always()
+    uses: ./.github/workflows/slack-notifications.yaml
+    with:
+      env: mgmt
+    secrets: inherit
