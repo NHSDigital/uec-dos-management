@@ -23,7 +23,7 @@ runs:
   steps:
     - name: "Install python"
       id: unit_test_python_install
-      uses: NHSDigital/uec-dos-management/.github/actions/install-python@task/DR-800_Dependabot_pull_requests
+      uses: NHSDigital/uec-dos-management/.github/actions/install-python@v0.48
       with:
         python_version: ${{ inputs.python_version }}
     - name: Run unit tests of python code
