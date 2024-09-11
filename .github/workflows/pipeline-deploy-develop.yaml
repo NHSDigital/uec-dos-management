@@ -18,7 +18,7 @@ jobs:
     uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-dev.yaml@task/DR-800_Dependabot_pull_requests
 
   build-and-deploy-branch:
-    if: ${{ github.event.name == 'push' && startswith(github.head_ref, 'task/') }}
+    if: ${{ github.event_name == 'push' && startswith(github.head_ref, 'task/') }}
     uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-dev.yaml@task/DR-800_Dependabot_pull_requests
 
   slack-notifications:
