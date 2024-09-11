@@ -1,8 +1,5 @@
 name: Pipeline Deployment Application Development Environment
-#  Now called from a controlling workflow triggering on push or pr labelling
 
-# on:
-#   workflow_call:
 on:
   push:
     branches:
