@@ -12,11 +12,25 @@ jobs:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
+  quality-checks:
+    name: Run quality checks
+    needs:
+      [
+        metadata,
+      ]
+    uses: ./.github/workflows/quality-checks.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      stacks: '["github-runner", "terraform_management"]'
+    secrets: inherit
+
   deploy-infrastructure-apply:
     name: "Apply Deploy Infrastructure"
     needs:
       [
         metadata,
+        quality-checks,
       ]
     uses: ./.github/workflows/deploy-infrastructure.yaml
     with:
