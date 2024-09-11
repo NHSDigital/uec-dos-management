@@ -9,10 +9,6 @@ on:
     types: [ labeled ]
 
 jobs:
-  metadata:
-    name: "Get Metadata"
-    uses: ./.github/workflows/metadata.yaml
-
   build-and-deploy-dependabot-pr:
     if: ${{ github.event.label.name == 'Test Ready' && startswith(github.head_ref, 'dependabot/') }}
     uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-dev.yaml@task/DR-800_Dependabot_pull_requests
@@ -20,10 +16,11 @@ jobs:
   build-and-deploy-branch:
     if: ${{ github.event_name == 'push' && startswith(github.ref_name, 'task/') }}
     uses: NHSDigital/uec-dos-management/.github/workflows/build-and-deploy-dev.yaml@task/DR-800_Dependabot_pull_requests
-
+    # with:
+    #   environment: mgmt
+    secrets: inherit
   slack-notifications:
     needs: [
-      metadata,
       build-and-deploy-dependabot-pr,
       build-and-deploy-branch,
 
