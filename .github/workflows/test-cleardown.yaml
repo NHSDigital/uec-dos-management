@@ -5,10 +5,11 @@ on:
     branches:
       - main
       - 'task/*'
+      - dependabot/*
 
 jobs:
   metadata:
-    if: github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]'
+    if: (github.event.ref_type == 'branch' && startswith(github.event.ref, 'task/') && github.actor != 'github-merge-queue[bot]') || (github.event.ref_type == 'branch' && startswith(github.event.ref, 'dependabot/') && github.actor != 'github-merge-queue[bot]')
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 

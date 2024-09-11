@@ -1,12 +1,14 @@
 name: Deploy to dev and test from Dependabot branch
-
+# This needs to be different to the standard push to branch workflow as we don't create these branches
+# so they don't go thru our push to branch workflow and the standard build artefact steps
+# but could also go to both dev and test at same time potentially
 on:
   pull_request:
     types: [ labeled ]
 
 jobs:
   metadata:
-    if: ${{ github.event.label.name == 'Test Dependabot' && startswith(github.head_ref, 'dependabot/') }}
+    if: ${{ github.event.label.name == 'Test Ready' && startswith(github.head_ref, 'dependabot/') }}
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
