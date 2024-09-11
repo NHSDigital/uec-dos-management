@@ -15,9 +15,9 @@ on:
 jobs:
   build-and-deploy-dependabot-pr:
     if: ${{ github.event.label.name == 'Test Ready' && startswith(github.head_ref, 'dependabot/') }}
-    uses: NHSDigital/uec-dos-management/.github/workflows/pipeline-deploy-app-develop@task/DR-800_Dependabot_pull_requests
+    uses: NHSDigital/uec-dos-management/.github/workflows/pipeline-deploy-app-develop.yaml@task/DR-800_Dependabot_pull_requests
 
   build-and-deploy-branch:
     if: ${{ github.event_name == 'push' && startswith(github.ref_name, 'task/') }}
-    uses: NHSDigital/uec-dos-management/.github/workflows/pipeline-deploy-app-develop@task/DR-800_Dependabot_pull_requests
+    uses: NHSDigital/uec-dos-management/.github/workflows/pipeline-deploy-app-develop.yaml@task/DR-800_Dependabot_pull_requests
     secrets: inherit
