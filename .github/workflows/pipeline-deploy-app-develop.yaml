@@ -1,13 +1,19 @@
 name: Pipeline Deployment Application Development Environment
-
+# Intended to run if
+# - dependabot PR is labelled Test Ready
+# - changes pushed to task branch
+# - changes pushed to main branch
 on:
   push:
     branches:
       - main
       - 'task/*'
+  pull_request:
+    types: [ labeled ]
 
 jobs:
   metadata:
+    if: ( ${{ github.event.label.name == 'Test Ready' && startswith(github.head_ref, 'dependabot/') }} ) || ( ${{ github.event_name == 'push' }} && ( ${{ startswith(github.ref_name, 'task/') || startswith(github.ref_name, 'main') }} ) )
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
