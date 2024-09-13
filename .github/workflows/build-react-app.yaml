@@ -33,15 +33,6 @@ on:
         description: "Name of s3 bucket holding domain artefacts"
         required: true
         type: string
-      sonar_organisation_key:
-        description: "Sonar organisation key, used to identify the project"
-        required: false
-      sonar_project_key:
-        description: "Sonar project key, used to identify the project"
-        required: false
-      sonar_token:
-        description: "Sonar token, the API key"
-        required: false
 
 jobs:
 
