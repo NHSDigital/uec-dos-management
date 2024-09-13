@@ -5,15 +5,6 @@ inputs:
   python_version:
     description: 'Version of python to use'
     required: true
-  sonar_organisation_key:
-    description: 'Sonar Organisation'
-    required: true
-  sonar_project_key:
-    description: 'Sonar Project'
-    required: true
-  sonar_token:
-    description: 'Sonar Token'
-    required: true
   aws_region:
     description: "AWS region"
     required: true
@@ -32,12 +23,3 @@ runs:
       run: |
         export AWS_DEFAULT_REGION=${{ inputs.aws_region }}
         ./uec-dos-management/scripts/workflow/run-test-coverage.sh
-    - name: Run static analysis
-      id: run-static-analysis
-      shell: bash
-      run: |
-        export BRANCH_NAME=${{ github.ref }}
-        export SONAR_ORGANISATION_KEY=${{ inputs.sonar_organisation_key }}
-        export SONAR_PROJECT_KEY=${{ inputs.sonar_project_key }}
-        export SONAR_TOKEN=${{ inputs.sonar_token }}
-        ./uec-dos-management/scripts/workflow/perform-static-analysis.sh
