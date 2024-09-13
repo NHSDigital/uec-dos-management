@@ -18,6 +18,15 @@ on:
         required: false
         default: 5
         type: number
+      sonar_organisation_key:
+        description: "Sonar organisation key, used to identify the project"
+        required: false
+      sonar_project_key:
+        description: "Sonar project key, used to identify the project"
+        required: false
+      sonar_token:
+        description: "Sonar token, the API key"
+        required: false
 
 jobs:
   unit-test-python:
@@ -40,8 +49,11 @@ jobs:
       - name: "Run python unit test"
         uses: NHSDigital/uec-dos-management/.github/actions/unit-test-python@latest
         with:
+          aws_region: ${{ vars.AWS_REGION }}
+          python_version: ${{ inputs.python_version }}
+      - name: Perform static analysis
+        uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@latest
+        with:
           sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
           sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}
           sonar_token: ${{ secrets.SONAR_TOKEN }}
-          aws_region: ${{ vars.AWS_REGION }}
-          python_version: ${{ inputs.python_version }}
