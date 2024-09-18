@@ -42,9 +42,12 @@ jobs:
         with:
           aws_region: ${{ vars.AWS_REGION }}
           python_version: ${{ inputs.python_version }}
-      - name: Perform static analysis
-        uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@task/DR-1117_Add_static_code_analysis_to_build_react_app
-        with:
           sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
           sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}
           sonar_token: ${{ secrets.SONAR_TOKEN }}
+      # - name: Perform static analysis
+      #   uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@task/DR-1117_Add_static_code_analysis_to_build_react_app
+      #   with:
+      #     sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
+      #     sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}
+      #     sonar_token: ${{ secrets.SONAR_TOKEN }}
