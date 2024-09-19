@@ -11,8 +11,7 @@ WORKSPACE="Unknown"
 # If we are dealing with a tagging action, then the workspace is the name of the tag
 if [ "$TRIGGER" == "tag" ] ; then
   WORKSPACE="$TRIGGER_REFERENCE"
-  echo "Triggered by tagging - deriving workspace directly from tag: $WORKSPACE"
-  echo "Branch name: $BRANCH_NAME"
+  echo "Triggered by tagging - deriving workspace directly from tag: $TRIGGER_REFERENCE"
   echo "Workspace: $WORKSPACE"
   export WORKSPACE
   exit
