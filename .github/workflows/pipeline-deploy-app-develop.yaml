@@ -68,13 +68,79 @@ jobs:
       env: mgmt
     secrets: inherit
 
+  deploy-react-infrastructure-apply:
+    name: "Apply Deploy React Infrastructure"
+    needs:
+      [
+        metadata,
+        unit-tests,
+      ]
+    uses: ./.github/workflows/deploy-infrastructure.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: "uec-dos-management"
+      stacks: "['ui-test-stack']"
+      action: apply
+      workflow_timeout: 10
+    secrets: inherit
+
+  build-react-application:
+    name: "Build react application code"
+    needs: [
+      metadata,
+      deploy-react-infrastructure-apply,
+    ]
+    uses: ./.github/workflows/build-react-app.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: ${{ needs.metadata.outputs.reponame }}
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    secrets: inherit
+
+  deploy-react-application:
+    name: "Deploy react application code"
+    needs: [
+      metadata,
+      build-react-application
+    ]
+    uses: ./.github/workflows/deploy-react-app.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+      domain: ${{ needs.metadata.outputs.reponame }}
+      commit_hash: ${{ needs.metadata.outputs.commit_hash }}
+      artefact_bucket_name: ${{ needs.metadata.outputs.artefact_bucket_name }}
+    secrets: inherit
+
+  test-react-application:
+    name: "Run ui tests against react app"
+    needs: [
+      metadata,
+      deploy-react-application
+    ]
+    uses: ./.github/workflows/ui-test.yaml
+    with:
+      environment: mgmt
+      workspace: ${{ needs.metadata.outputs.workspace }}
+    secrets: inherit
+
+
+
   slack-notifications:
     needs: [
       metadata,
       quality-checks,
       deploy-infrastructure-plan,
       deploy-infrastructure-apply,
-      unit-tests
+      unit-tests,
+      deploy-react-infrastructure-apply,
+      build-react-application,
+      deploy-react-application,
+      test-react-application
+
     ]
     if: always()
     uses: ./.github/workflows/slack-notifications.yaml
