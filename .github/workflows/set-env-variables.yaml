@@ -1,0 +1,44 @@
+name: Set Environment Variables
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: "Deployment environment"
+        required: false
+        type: string
+      domain:
+        description: "Deployment domain"
+        required: true
+        type: string
+      project:
+        description: "Deployment project"
+        required: true
+        type: string
+    outputs:
+      environment:
+        description: "Deployment environment"
+        value: ${{ jobs.set_environment_vars.outputs.environment }}
+      domain:
+        description: "Deployment domain"
+        value: ${{ jobs.set_environment_vars.outputs.domain }}
+      project:
+        description: "Deployment project"
+        value: ${{ jobs.set_environment_vars.outputs.project }}
+
+jobs:
+  set_environment_vars:
+    name: "Set Environment Variables"
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set-environment-vars.outputs.environment }}
+      domain: ${{ steps.set-environment-vars.outputs.domain }}
+      project: ${{ steps.set-environment-vars.outputs.project }}
+    steps:
+      - name: "Set Environment Variables"
+        id: set-environment-vars
+        uses: NHSDigital/uec-dos-management/.github/actions/set-env-variables@task/DR-1119_Refactor_github_workflows
+        with:
+          environment: ${{ inputs.environment }}
+          domain: ${{ inputs.domain }}
+          project: ${{ inputs.project }}

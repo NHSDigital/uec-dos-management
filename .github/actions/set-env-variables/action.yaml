@@ -1,0 +1,51 @@
+name: "Set Environment Variables"
+description: "Set environment variables for the pipeline being executed"
+
+inputs:
+  environment:
+    description: 'Deployment environment'
+    required: false
+    type: string
+  domain:
+    description: "Deployment domain"
+    required: true
+    type: string
+  project:
+    description: "Deployment project"
+    required: true
+    type: string
+
+outputs:
+  environment:
+    description: "Deployment environment"
+    value: ${{ steps.set-environment-vars.outputs.environment }}
+  domain:
+    description: "Deployment domain"
+    value: ${{ steps.set-environment-vars.outputs.domain }}
+  project:
+    description: "Deployment project"
+    value: ${{ steps.set-environment-vars.outputs.project }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: "Set Environment Variables"
+      id: set-environment-vars
+      shell: bash
+      run: |
+        if [[ "${{ inputs.environment }}" != "" ]]; then
+          echo "environment=${{ inputs.environment }}" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.event.label.name }}" == "Test Ready" ]]; then
+          echo "environment=test" >> $GITHUB_OUTPUT
+        elif [[ "${{ github.event.label.name }}" == "Int Ready" ]]; then
+          echo "environment=int" >> $GITHUB_OUTPUT
+        else
+          echo "environment=dev" >> $GITHUB_OUTPUT
+        fi
+
+        echo "domain=${{ inputs.domain }}" >> $GITHUB_OUTPUT
+        echo "project=${{ inputs.project }}" >> $GITHUB_OUTPUT
+
+        echo "The determined environment is: $(cat $GITHUB_OUTPUT | grep environment | cut -d '=' -f2)"
+        echo "The determined domain is: $(cat $GITHUB_OUTPUT | grep domain | cut -d '=' -f2)"
+        echo "The determined project is: $(cat $GITHUB_OUTPUT | grep project | cut -d '=' -f2)"
