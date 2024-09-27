@@ -78,3 +78,30 @@ jobs:
       - name: "Derive workspace"
         id: derive_workspace
         uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@latest
+
+  set-environment-vars:
+    name: "Set Environment Variables"
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set-env.outputs.environment }}
+      # domain: ${{ env.DOMAIN }}
+      # project: ${{ env.PROJECT }}
+    steps:
+      - name: "Determine Environment"
+        id: set-env
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" != "" ]]; then
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.label.name }}" == "Test Ready" ]]; then
+            echo "environment=test" >> $GITHUB_ENV
+            echo "environment=test" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.label.name }}" == "Int Ready" ]]; then
+            echo "environment=int" >> $GITHUB_ENV
+            echo "environment=int" >> $GITHUB_OUTPUT
+          else
+            echo "environment=dev" >> $GITHUB_ENV  # Default to dev if no label or condition doesn't match
+            echo "environment=dev" >> $GITHUB_OUTPUT
+          fi
+
+          echo "The determined environment is: $(cat $GITHUB_ENV | grep environment | cut -d '=' -f2)"
