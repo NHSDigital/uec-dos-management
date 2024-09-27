@@ -12,6 +12,11 @@ on:
         required: false
         default: 5
         type: number
+      environment:
+        description: 'Deployment environment'
+        required: false
+        default: 'dev'
+        type: string
     outputs:
       reponame:
         description: "The name of the code repo"
