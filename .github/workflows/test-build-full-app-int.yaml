@@ -15,10 +15,17 @@ on:
         required: true
         type: string
 
+env:
+  DOMAIN: uec-dos-management
+  PROJECT: dos
+
 jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
+    with:
+      project: ${{ env.PROJECT }}
+      domain: ${{ env.DOMAIN }}
 
   build-full-application:
     name: Build full application

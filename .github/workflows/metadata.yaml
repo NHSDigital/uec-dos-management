@@ -17,6 +17,14 @@ on:
         required: false
         default: 'dev'
         type: string
+      domain:
+        description: 'Domain repo name'
+        required: true
+        type: string
+      project:
+        description: 'Project name - eg dos or cm'
+        required: true
+        type: string
     outputs:
       reponame:
         description: "The name of the code repo"
@@ -33,6 +41,10 @@ on:
       artefact_commit_hash:
         description: "The unique commit hash for artefacts for flows triggered by a pull request "
         value: ${{ jobs.echo-metadata.outputs.artefact_commit_hash }}
+      project:
+        value: ${{ inputs.project}}
+      domain:
+        value: ${{ inputs.domain}}
 
 jobs:
   code-line-count:
