@@ -17,14 +17,6 @@ on:
         required: false
         default: 'dev'
         type: string
-      domain:
-        description: 'Domain repo name'
-        required: true
-        type: string
-      project:
-        description: 'Project name - eg dos or cm'
-        required: true
-        type: string
     outputs:
       reponame:
         description: "The name of the code repo"
