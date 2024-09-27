@@ -33,6 +33,9 @@ on:
       artefact_commit_hash:
         description: "The unique commit hash for artefacts for flows triggered by a pull request "
         value: ${{ jobs.echo-metadata.outputs.artefact_commit_hash }}
+      environment:
+        description: "Derived dployment environment"
+        value: "${{ jobs.set-environment.outputs.environment }}"
 
 jobs:
   code-line-count:
@@ -84,8 +87,8 @@ jobs:
         id: derive_workspace
         uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@latest
 
-  set-environment-vars:
-    name: "Set Environment Variables"
+  set-environment:
+    name: "Set Environment "
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ steps.set-env.outputs.environment }}
