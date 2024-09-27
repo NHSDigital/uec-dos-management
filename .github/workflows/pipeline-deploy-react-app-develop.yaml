@@ -6,17 +6,10 @@ on:
       - main
       - 'task/*'
 
-env:
-  DOMAIN: uec-dos-management
-  PROJECT: dos
-
 jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
-    with:
-      project: ${{ env.PROJECT }}
-      domain: ${{ env.DOMAIN }}
 
   deploy-infrastructure-apply:
     name: "Apply Deploy Infrastructure"

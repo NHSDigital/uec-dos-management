@@ -10,17 +10,10 @@ on:
   pull_request:
     types: [ labeled ]
 
-env:
-  DOMAIN: uec-dos-management
-  PROJECT: dos
-
 jobs:
   metadata:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
-    with:
-      project: ${{ env.PROJECT }}
-      domain: ${{ env.DOMAIN }}
 
   generate-tag-name:
     name: "Generate Tag Name"

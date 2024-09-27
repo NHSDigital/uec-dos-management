@@ -41,10 +41,6 @@ on:
       artefact_commit_hash:
         description: "The unique commit hash for artefacts for flows triggered by a pull request "
         value: ${{ jobs.echo-metadata.outputs.artefact_commit_hash }}
-      project:
-        value: ${{ inputs.project}}
-      domain:
-        value: ${{ inputs.domain}}
 
 jobs:
   code-line-count:
@@ -101,8 +97,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       environment: ${{ steps.set-env.outputs.environment }}
-      # domain: ${{ env.DOMAIN }}
-      # project: ${{ env.PROJECT }}
     steps:
       - name: "Determine Environment"
         id: set-env

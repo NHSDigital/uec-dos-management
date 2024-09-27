@@ -11,18 +11,11 @@ on:
       - 'task/*'
       - dependabot/*
 
-env:
-  DOMAIN: uec-dos-management
-  PROJECT: dos
-
 jobs:
   metadata:
     if: ( ${{ github.event.ref_type == 'branch' && github.actor != 'github-merge-queue[bot]' }} )
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
-    with:
-      project: ${{ env.PROJECT }}
-      domain: ${{ env.DOMAIN }}
 
   deploy-infrastructure-apply:
     name: "Apply Deploy Infrastructure"
