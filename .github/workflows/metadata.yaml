@@ -97,16 +97,19 @@ jobs:
         id: set-env
         run: |
           if [[ "${{ github.event.inputs.environment }}" != "" ]]; then
-            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
             echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event.label.name }}" == "Test Ready" ]]; then
-            echo "environment=test" >> $GITHUB_ENV
             echo "environment=test" >> $GITHUB_OUTPUT
           elif [[ "${{ github.event.label.name }}" == "Int Ready" ]]; then
-            echo "environment=int" >> $GITHUB_ENV
             echo "environment=int" >> $GITHUB_OUTPUT
           else
-            echo "environment=dev" >> $GITHUB_ENV  # Default to dev if no label or condition doesn't match
+          # Handling pull request closed event
+          if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.action }}" == "closed" ]]; then
+            echo "environment=test" >> $GITHUB_OUTPUT
+          # Handling branch deletion event
+          elif [[ "${{ github.event_name }}" == "delete" && "${{ github.ref }}" == "refs/heads/task/"* ]]; then
+            echo "environment=dev" >> $GITHUB_OUTPUT
+          else
             echo "environment=dev" >> $GITHUB_OUTPUT
           fi
 
