@@ -114,4 +114,4 @@ jobs:
             fi
           fi
 
-          echo "The determined environment is: $(cat $GITHUB_ENV | grep environment | cut -d '=' -f2)"
+          echo "The determined environment is: $(cat $GITHUB_OUTPUT | grep environment | cut -d '=' -f2)"
