@@ -17,7 +17,6 @@ jobs:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
-
   quality-checks:
     name: Run quality checks
     needs:

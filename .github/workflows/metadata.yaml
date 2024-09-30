@@ -34,7 +34,7 @@ on:
         description: "The unique commit hash for artefacts for flows triggered by a pull request "
         value: ${{ jobs.echo-metadata.outputs.artefact_commit_hash }}
       environment:
-        description: "Derived dployment environment"
+        description: "Derived deployment environment"
         value: "${{ jobs.set-environment.outputs.environment }}"
 
 jobs:
