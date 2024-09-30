@@ -12,6 +12,11 @@ on:
         required: false
         default: 5
         type: number
+      environment:
+        description: 'Deployment environment'
+        required: false
+        default: 'dev'
+        type: string
     outputs:
       reponame:
         description: "The name of the code repo"
@@ -28,6 +33,9 @@ on:
       artefact_commit_hash:
         description: "The unique commit hash for artefacts for flows triggered by a pull request "
         value: ${{ jobs.echo-metadata.outputs.artefact_commit_hash }}
+      environment:
+        description: "Derived deployment environment"
+        value: "${{ jobs.set-environment.outputs.environment }}"
 
 jobs:
   code-line-count:
@@ -78,3 +86,32 @@ jobs:
       - name: "Derive workspace"
         id: derive_workspace
         uses: NHSDigital/uec-dos-management/.github/actions/derive-workspace@latest
+
+  set-environment:
+    name: "Set Environment "
+    runs-on: ubuntu-latest
+    outputs:
+      environment: ${{ steps.set-env.outputs.environment }}
+    steps:
+      - name: "Determine Environment"
+        id: set-env
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" != "" ]]; then
+            echo "environment=${{ github.event.inputs.environment }}" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.label.name }}" == "Test Ready" ]]; then
+            echo "environment=test" >> $GITHUB_OUTPUT
+          elif [[ "${{ github.event.label.name }}" == "Int Ready" ]]; then
+            echo "environment=int" >> $GITHUB_OUTPUT
+          else
+            # Handling pull request closed event
+            if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.action }}" == "closed" ]]; then
+              echo "environment=test" >> $GITHUB_OUTPUT
+            # Handling branch deletion event
+            elif [[ "${{ github.event_name }}" == "delete" && "${{ github.ref }}" == "refs/heads/task/"* ]]; then
+              echo "environment=dev" >> $GITHUB_OUTPUT
+            else
+              echo "environment=dev" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+          echo "The determined environment is: $(cat $GITHUB_OUTPUT | grep environment | cut -d '=' -f2)"
