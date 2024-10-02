@@ -107,7 +107,7 @@ jobs:
             if [[ "${{ github.event_name }}" == "pull_request" && "${{ github.event.action }}" == "closed" ]]; then
               echo "environment=[\"test\", \"int\"]" >> $GITHUB_OUTPUT
             # Handling branch deletion event
-            elif [[ "${{ github.event_name }}" == "delete" && "${{ github.ref }}" == "refs/heads/task/"* ]]; then
+            elif [[ "${{ github.event_name }}" == "delete" && startswith(github.event.ref, 'task/') ]]; then
               echo "environment=[\"dev\"]" >> $GITHUB_OUTPUT
             else
               echo "environment=dev" >> $GITHUB_OUTPUT
