@@ -61,6 +61,27 @@ resource "aws_s3_bucket_policy" "bucket_policy_cm_artefacts-released" {
   policy     = data.aws_iam_policy_document.bucket_policy_cm_artefacts_released.json
 }
 
+# Capacity management prototype
+module "cm_prototype_artefacts_bucket" {
+  source      = "../../modules/s3"
+  bucket_name = var.cm_prototype_artefacts_bucket_name
+}
+resource "aws_s3_bucket_policy" "bucket_policy_cm_prototype_artefacts" {
+  depends_on = [module.cm_prototype_artefacts_bucket]
+  bucket     = var.cm_prototype_artefacts_bucket_name
+  policy     = data.aws_iam_policy_document.bucket_policy_cm_prototype_artefacts.json
+}
+
+module "cm_prototype_artefacts_released_bucket" {
+  source      = "../../modules/s3"
+  bucket_name = var.cm_prototype_artefacts_released_bucket_name
+}
+resource "aws_s3_bucket_policy" "bucket_policy_cm_prototype_artefacts_released" {
+  depends_on = [module.cm_prototype_artefacts_released_bucket]
+  bucket     = var.cm_prototype_artefacts_released_bucket_name
+  policy     = data.aws_iam_policy_document.bucket_policy_cm_prototype_artefacts_released.json
+}
+
 # User management
 module "um_artefacts_bucket" {
   source      = "../../modules/s3"
