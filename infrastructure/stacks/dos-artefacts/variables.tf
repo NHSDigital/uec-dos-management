@@ -21,9 +21,17 @@ variable "cm_artefacts_bucket_name" {
   description = "Capacity Management Artefacts Bucket"
   default     = "nhse-mgmt-uec-cm-artefacts"
 }
+variable "cm_prototype_artefacts_bucket_name" {
+  description = "Capacity Management Prototype Artefacts Bucket"
+  default     = "nhse-mgmt-uec-cm-prototype-artefacts"
+}
 variable "cm_artefacts_released_bucket_name" {
   description = "Capacity Management Artefacts Released Bucket"
   default     = "nhse-mgmt-uec-cm-artefacts-released"
+}
+variable "cm_prototype_artefacts_released_bucket_name" {
+  description = "Capacity Management Prototype Artefacts Released Bucket"
+  default     = "nhse-mgmt-uec-cm-prototype-artefacts-released"
 }
 variable "um_artefacts_bucket_name" {
   description = "User Management Artefacts Bucket"
