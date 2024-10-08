@@ -96,6 +96,9 @@ jobs:
         with:
           code_directory: ${{ inputs.code_directory }}
 
+      - name: Check coverage file
+        run: ls -la src/frontend/coverage/
+
       - name: Perform static analysis
         uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@task/DR-1117_Add_static_code_analysis_to_build_react_app
         with:
