@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'task/*'
 
 jobs:
     metadata:
@@ -19,9 +20,9 @@ jobs:
         with:
           environment: mgmt
           domain: "uec-dos-management"
-          workspace: ${{ needs.metadata.outputs.workspace }}
+          workspace: "default"
           stacks: "['terraform_management','github-runner','dos-artefacts','parameter_store','route-53']"
-          action: apply
+          action: plan
         secrets: inherit
     deploy-int-account-infrastructure-apply:
       name: "Deploy integration account level infrastructure"
@@ -33,9 +34,9 @@ jobs:
       with:
         environment: int
         domain: "uec-dos-management"
-        workspace: ${{ needs.metadata.outputs.workspace }}
+        workspace: "default"
         stacks: "['terraform_management','github-runner']"
-        action: apply
+        action: plan
       secrets: inherit
     slack-notifications:
       needs: [
