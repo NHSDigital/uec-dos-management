@@ -18,6 +18,11 @@ on:
         required: false
         default: 5
         type: number
+      code_directory:
+        description: "The root directory for python code"
+        required: false
+        type: string
+        default: "application"
 
 jobs:
   unit-test-python:
@@ -45,6 +50,7 @@ jobs:
       - name: Perform static analysis
         uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@task/DR-1117_Add_static_code_analysis_to_build_react_app
         with:
+          code_directory: ${{ inputs.code_directory }}
           sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
           sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}
           sonar_token: ${{ secrets.SONAR_TOKEN }}
