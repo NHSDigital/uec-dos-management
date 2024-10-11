@@ -46,7 +46,7 @@ jobs:
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: Set up Node.js
-        uses: NHSDigital/uec-dos-management/.github/actions/install-node@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/install-node@task/DR-1113_Standardise_eslint_config
 
       - name: Install Allure command-line tool
         id: install-allure
