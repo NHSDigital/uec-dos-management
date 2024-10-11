@@ -86,15 +86,22 @@ jobs:
         with:
           code_directory: ${{ inputs.code_directory }}
 
+      - name: Build React application
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@latest
+        with:
+          code_directory: ${{ inputs.code_directory }}
+
       - name: Run Unit Tests
         uses: NHSDigital/uec-dos-management/.github/actions/react-npm-unit-tests@latest
         with:
           code_directory: ${{ inputs.code_directory }}
 
-      - name: Build React application
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@latest
+      - name: Perform static analysis
+        uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@latest
         with:
-          code_directory: ${{ inputs.code_directory }}
+          sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
+          sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}
+          sonar_token: ${{ secrets.SONAR_TOKEN }}
 
       - name: "Upload react app to S3 bucket"
         uses: NHSDigital/uec-dos-management/.github/actions/push-react-artefact@latest
