@@ -48,7 +48,7 @@ jobs:
           action: destroy
         secrets: inherit
 
-  delete-ft-state:
+  delete-tf-state:
     name: "Delete terraform state file"
     runs-on: ubuntu-latest
     timeout-minutes: ${{ inputs.workflow_timeout }}
@@ -77,3 +77,32 @@ jobs:
           workspace: ${{ inputs.workspace }}
           environment: ${{ inputs.environment }}
           stack: ${{ matrix.stack }}
+
+  check-tf-state:
+    name: "Check state files cleared down"
+    runs-on: ubuntu-latest
+    timeout-minutes: ${{ inputs.workflow_timeout }}
+    environment: ${{ inputs.environment }}
+    permissions:
+      id-token: write
+      contents: read
+    needs: [
+      delete-tf-state
+    ]
+    steps:
+      - name: "Checkout code"
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        with:
+          tag: ${{ inputs.tag }}
+      - name: Configure AWS Credentials
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
+        with:
+            aws_account_id: ${{ secrets.ACCOUNT_ID }}
+            aws_region: ${{ vars.AWS_REGION }}
+      - name: "Check terraform state file"
+        id: check_tf_state
+        uses: NHSDigital/uec-dos-management/.github/actions/check-tf-state@latest
+        with:
+          workspace: ${{ inputs.workspace }}
+          environment: ${{ inputs.environment }}
+
