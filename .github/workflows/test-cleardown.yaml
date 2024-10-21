@@ -47,10 +47,13 @@ jobs:
       stacks:
         "[
           'test-stack-1',
+          'test-stack-2',
           'test-stack-3',
           'ui-test-stack',
           'lambda-stack',
           'test-ready-for-test-stack',
+          'github-runner',
+          'terraform_management'
         ]"
       workflow_timeout: 10
     secrets: inherit
