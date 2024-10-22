@@ -166,11 +166,14 @@ jobs:
     name: "Send Notification to Slack"
     needs: [
       metadata,
+      generate-tag-name,
+      tag-repository,
       quality-checks,
       build-python-application
       build-react-application,
-      deploy-infrastructure-plan,
-      deploy-infrastructure-apply,
+      deploy-infrastructure,
+      deploy-python-application,
+      deploy-react-application,
       react-ui-tests
     ]
     if: always()
