@@ -169,7 +169,7 @@ jobs:
       generate-tag-name,
       tag-repository,
       quality-checks,
-      build-python-application
+      build-python-application,
       build-react-application,
       deploy-infrastructure,
       deploy-python-application,
