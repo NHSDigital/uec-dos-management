@@ -26,7 +26,7 @@ export TERRAFORM_BUCKET_NAME="nhse-$ENVIRONMENT-$TF_VAR_repo_name-terraform-stat
 echo "Checking for terraform workspace --> $WORKSPACE"
 echo "Terraform state S3 bucket name being checked --> $TERRAFORM_BUCKET_NAME"
 
-CLEARED=$(aws s3 ls s3://$TERRAFORM_BUCKET_NAME/env:/$WORKSPACE | awk '{print $2}')
+CLEARED=$(aws s3 ls s3://$TERRAFORM_BUCKET_NAME/env:/$WORKSPACE/ | awk '{print $2}')
 if [ -n "$CLEARED" ] ; then
   echo "Not all state cleared - $CLEARED"
   exit 1
