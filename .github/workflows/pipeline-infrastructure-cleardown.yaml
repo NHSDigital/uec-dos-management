@@ -17,21 +17,6 @@ jobs:
     name: "Get Metadata"
     uses: ./.github/workflows/metadata.yaml
 
-  deploy-infrastructure-apply:
-    name: "Apply Deploy Infrastructure"
-    needs:
-      [
-        metadata,
-      ]
-    uses: ./.github/workflows/deploy-infrastructure.yaml
-    with:
-      environment: mgmt
-      workspace: ${{ needs.metadata.outputs.workspace }}
-      domain: "uec-dos-management"
-      stacks: "['test-stack-3']"
-      action: apply
-    secrets: inherit
-
   cleardown-infrastructure:
     name: "Cleardown Infrastructure"
     needs:
@@ -46,11 +31,10 @@ jobs:
       domain: "uec-dos-management"
       stacks:
         "[
+          'lambda-stack',
           'test-stack-1',
           'test-stack-2',
-          'test-stack-3',
           'ui-test-stack',
-          'lambda-stack',
           'test-ready-for-test-stack',
           'github-runner',
           'terraform_management'
