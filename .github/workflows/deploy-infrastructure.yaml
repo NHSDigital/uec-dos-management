@@ -43,7 +43,7 @@ on:
       workflow_timeout:
         description: "Timeout duration in minutes"
         required: false
-        default: 5
+        default: 8
         type: number
 
 jobs:
@@ -73,7 +73,7 @@ jobs:
           multi_domain: ${{ inputs.multi_domain }}
 
       - name: "Deploy infrastructure stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-1164_Rationalise_test_workflows
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
