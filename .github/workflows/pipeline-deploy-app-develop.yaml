@@ -121,8 +121,13 @@ jobs:
     needs:
       [
         metadata,
+        build-python-application,
         deploy-infrastructure,
       ]
+    if: always() && !cancelled() &&
+      (
+        (needs.build-python-application.result == 'success' || needs.build-python-application.result == 'skipped'
+      )
     uses: ./.github/workflows/deploy-lambda-code.yaml
     with:
       environment: mgmt
@@ -140,8 +145,13 @@ jobs:
     name: "Deploy React Application to Mgmt Environment"
     needs: [
       metadata,
+      build-react-application,
       deploy-infrastructure,
     ]
+    if: always() && !cancelled() &&
+      (
+        (needs.build-react-application.result == 'success' || needs.build-react-application.result == 'skipped'
+      )
     uses: ./.github/workflows/deploy-react-app.yaml
     with:
       environment: mgmt
