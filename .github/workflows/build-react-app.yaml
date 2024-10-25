@@ -103,7 +103,7 @@ jobs:
           path: ${{ inputs.code_directory }}/coverage/lcov.info
 
       - name: Perform static analysis
-        uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@task/DR-1164_Rationalise_test_workflows
+        uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@latest
         with:
           sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
           sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}

@@ -73,7 +73,7 @@ jobs:
           multi_domain: ${{ inputs.multi_domain }}
 
       - name: "Deploy infrastructure stack"
-        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@task/DR-1164_Rationalise_test_workflows
+        uses: NHSDigital/uec-dos-management/.github/actions/action-infrastructure-stack@latest
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
