@@ -22,7 +22,6 @@ jobs:
     needs:
       [
         metadata,
-        deploy-infrastructure-apply,
       ]
     uses: ./.github/workflows/infrastructure-cleardown.yaml
     with:
