@@ -96,6 +96,12 @@ jobs:
         with:
           code_directory: ${{ inputs.code_directory }}
 
+      - name: Archive React code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+          name: react-code-coverage-report
+          path: ${{ inputs.code_directory }}/coverage/lcov.info
+
       - name: Perform static analysis
         uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@latest
         with:

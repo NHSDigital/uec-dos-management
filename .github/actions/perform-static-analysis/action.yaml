@@ -13,6 +13,16 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Download Python Coverage Report
+      uses: actions/download-artifact@v4
+      with:
+        name: python-code-coverage-report
+      continue-on-error: true
+    - name: Download React Coverage Report
+      uses: actions/download-artifact@v4
+      with:
+        name: react-code-coverage-report
+      continue-on-error: true
     - name: "Check prerequisites for performing static analysis"
       shell: bash
       id: check
