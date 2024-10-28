@@ -31,8 +31,6 @@ jobs:
       stacks:
         "[
           'lambda-stack',
-          'test-stack-1',
-          'test-stack-2',
           'ui-test-stack',
           'test-ready-for-test-stack',
           'github-runner',
