@@ -111,9 +111,10 @@ jobs:
       workspace: ${{ needs.metadata.outputs.workspace }}
       domain: "uec-dos-management"
       stacks: |
-          ${{ github.event_name == 'push' && '["lambda-stack","test-stack-1","test-stack-2","ui-test-stack"]' ||
+          ${{ github.event_name == 'push' && '["lambda-stack","ui-test-stack"]' ||
           github.event.action == 'labeled' && '["ui-test-stack","test-ready-for-test-stack"]' }}
       action: apply
+      workflow_timeout: 8
     secrets: inherit
 
   deploy-python-application:
