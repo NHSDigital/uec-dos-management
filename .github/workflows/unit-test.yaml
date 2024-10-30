@@ -48,7 +48,7 @@ jobs:
           name: "python-code-coverage-report"
           path: coverage.xml
       - name: Perform static analysis
-        uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@task/DR-1164_Fix_python_code_coverage_report_upload
+        uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@latest
         with:
           sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
           sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}

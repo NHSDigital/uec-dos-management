@@ -67,7 +67,7 @@ jobs:
         metadata,
         quality-checks,
       ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/unit-test.yaml@task/DR-1164_Fix_python_code_coverage_report_upload
+    uses: NHSDigital/uec-dos-management/.github/workflows/unit-test.yaml@latest
     with:
       env: mgmt
     secrets: inherit
