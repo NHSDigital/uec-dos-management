@@ -67,7 +67,7 @@ jobs:
         metadata,
         quality-checks,
       ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/unit-test.yaml@task/DR-1172_Correctly_align_terraform_config
+    uses: NHSDigital/uec-dos-management/.github/workflows/unit-test.yaml@task/DR-1164_Fix_python_code_coverage_report_upload
     with:
       env: mgmt
     secrets: inherit
