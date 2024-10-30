@@ -189,6 +189,7 @@ jobs:
       generate-tag-name,
       tag-repository,
       quality-checks,
+      unit-tests,
       build-python-application,
       build-react-application,
       deploy-infrastructure,
