@@ -74,25 +74,6 @@ jobs:
           service: ${{ matrix.service }}
           directory: ${{ inputs.directory }}
 
-      - name: "Run python unit test"
-        uses: NHSDigital/uec-dos-management/.github/actions/unit-test-python@latest
-        with:
-          aws_region: ${{ vars.AWS_REGION }}
-          python_version: ${{ inputs.python_version }}
-
-      - name: "Archive python code coverage results"
-        uses: actions/upload-artifact@v4
-        with:
-          name: python-code-coverage-report
-          path: coverage.xml
-
-      - name: "Perform static analysis"
-        uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@latest
-        with:
-          sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
-          sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}
-          sonar_token: ${{ secrets.SONAR_TOKEN }}
-
       - name: "Upload service to S3 bucket"
         uses: NHSDigital/uec-dos-management/.github/actions/push-artefact@latest
         with:

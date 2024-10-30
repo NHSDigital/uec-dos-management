@@ -59,11 +59,25 @@ jobs:
       stacks: '["github-runner", "terraform_management"]'
     secrets: inherit
 
+  unit-tests:
+    if: ${{ github.event_name == 'push' }}
+    name: "Python Unit Tests"
+    needs:
+      [
+        metadata,
+        quality-checks,
+      ]
+    uses: NHSDigital/uec-dos-management/.github/workflows/unit-test.yaml@task/DR-1172_Correctly_align_terraform_config
+    with:
+      env: mgmt
+    secrets: inherit
+
   build-python-application:
     name: "Build Python Application"
     needs:
       [
         metadata,
+        unit-tests,
       ]
     if: ${{ github.event_name == 'push' }}
     uses: ./.github/workflows/build-application.yaml
