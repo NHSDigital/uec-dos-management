@@ -10,7 +10,7 @@ include scripts/init.mk
 dependencies: # Install dependencies needed to build and test the project @Pipeline
 	# TODO: Implement installation of your project dependencies
 
-build: # Build the project artefact @Pipeline
+build: # Build the project artefact add comment @Pipeline
 	# TODO: Implement the artefact build step
 
 publish: # Publish the project artefact @Pipeline
