@@ -26,28 +26,31 @@ jobs:
         echo "Workflow Status: ${{ github.event.workflow_run.conclusion }}"
         echo "GitHub Actor: ${{ github.actor }}"
         echo "Pull Request URL: ${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-    - uses: technote-space/workflow-conclusion-action@v3.0.3
+    - uses: martialonline/workflow-status@v3
+      id: check
     - name: Echo result of pipeline if success
+      if: ${{ steps.check.outputs.status == 'success' }}
       run: |
-        echo conc ${{ env.WORKFLOW_CONCLUSION }}
-        echo run id ${{ github.run_id }}
+        echo "Workflow concluded successfully."
+        echo "Run ID: ${{ github.run_id }}"
     - name: Echo result of pipeline if failure
-      if: ${{ env.WORKFLOW_CONCLUSION == 'failure' }}
+      if: ${{ steps.check.outputs.status == 'failure' }}
       run: |
-        echo run id ${{ github.run_id }}
+        echo "Workflow failed."
+        echo "Run ID: ${{ github.run_id }}"
     - name: Send custom JSON data to Slack workflow on failure
-      uses: slackapi/slack-github-action@v1.24.0
-      if: ${{ env.WORKFLOW_CONCLUSION == 'failure' }}
+      uses: slackapi/slack-github-action@v1.27.0
+      if: ${{ steps.check.outputs.status == 'failure' }}
       with:
         payload: |
             {
-            "text": "GitHub Action build result: ${{ env.WORKFLOW_CONCLUSION }}\nhttps://github.com/${{ inputs.organisation }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }} \nPushed by: @${{ github.actor }}",
+            "text": "GitHub Action build result: ${{ steps.check.outputs.status }}\nhttps://github.com/${{ inputs.organisation }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }} \nPushed by: @${{ github.actor }}",
             "blocks": [
                 {
                 "type": "section",
                 "text": {
                     "type": "mrkdwn",
-                    "text": "GitHub Action build result: ${{ env.WORKFLOW_CONCLUSION }}\nhttps://github.com/${{ inputs.organisation }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }}\nPushed by: @${{ github.actor }}"
+                    "text": "GitHub Action build result: ${{ steps.check.outputs.status }}\nhttps://github.com/${{ inputs.organisation }}/${{ github.event.repository.name }}/actions/runs/${{ github.run_id }}\nPushed by: @${{ github.actor }}"
                 }
                 }
             ]
