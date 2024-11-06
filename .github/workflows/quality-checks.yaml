@@ -70,7 +70,7 @@ jobs:
         with:
           tag: ${{ inputs.tag }}
       - name: "Check format of terraform code"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@task/DR-752_Review_dupl_scripts
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-terraform@latest
 
   check-file-format:
     name: "Check File Format"
@@ -83,7 +83,7 @@ jobs:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check general formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@task/DR-752_Review_dupl_scripts
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-general@latest
 
   check-markdown-format:
     name: "Check Markdown Format"
@@ -96,7 +96,7 @@ jobs:
           tag: ${{ inputs.tag }}
           fetch-depth: 0
       - name: "Check markdown file formatting"
-        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@task/DR-752_Review_dupl_scripts
+        uses: NHSDigital/uec-dos-management/.github/actions/check-format-markdown@latest
 
   check-python-black-format:
     name: "Check Python Format"
