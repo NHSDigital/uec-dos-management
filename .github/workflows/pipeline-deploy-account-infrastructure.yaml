@@ -7,7 +7,7 @@ on:
 jobs:
     metadata:
       name: "Get Metadata"
-      uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR-1196_Separate_env_tfvars
+      uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
 
     deploy-account-infrastructure-apply:
         name: "Deploy mgmt account level infrastructure"
@@ -15,7 +15,7 @@ jobs:
           [
             metadata,
           ]
-        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-1196_Separate_env_tfvars
+        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
         with:
           environment: mgmt
           domain: "uec-dos-management"
@@ -29,7 +29,7 @@ jobs:
         [
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR-1196_Separate_env_tfvars
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
       with:
         environment: int
         domain: "uec-dos-management"
@@ -44,7 +44,7 @@ jobs:
         deploy-int-account-infrastructure-apply,
       ]
       if: always()
-      uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@task/DR-1196_Separate_env_tfvars
+      uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
       with:
         env: mgmt
       secrets: inherit
