@@ -18,6 +18,7 @@ Make use of this repository template to expedite your project setup and enhance 
 
 - [Repository Template](#repository-template)
   - [Table of Contents](#table-of-contents)
+  - [Branch naming](#branch-naming)
   - [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Configuration](#configuration)
@@ -29,6 +30,8 @@ Make use of this repository template to expedite your project setup and enhance 
   - [Contributing](#contributing)
   - [Contacts](#contacts)
   - [Licence](#licence)
+
+## Branch naming
 
 ## Setup
 
