@@ -104,6 +104,7 @@ COMMON_TF_VARS_FILE="common.tfvars"
 STACK_TF_VARS_FILE="$STACK.tfvars"
 PROJECT_TF_VARS_FILE="project.tfvars"
 ENV_TF_VARS_FILE="$ENVIRONMENT.tfvars"
+ENVIRONMENTS_SUB_DIR="environments"
 
 echo "Preparing to run terraform $ACTION for stack $STACK to terraform workspace $WORKSPACE for environment $ENVIRONMENT and project $PROJECT"
 ROOT_DIR=$PWD
@@ -130,6 +131,11 @@ if [ ! -f "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE" ] ; then
   TEMP_STACK_TF_VARS_FILE=1
 fi
 
+ENVIRONMENTS_DIR="$ROOT_DIR/$INFRASTRUCTURE_DIR/"
+
+[ -d "$ROOT_DIR/$INFRASTRUCTURE_DIR/$ENVIRONMENTS_SUB_DIR" ]  && ENVIRONMENTS_DIR="$ENVIRONMENTS_DIR/$ENVIRONMENTS_SUB_DIR"
+echo "Pulling environment variables from $ENVIRONMENTS_DIR"
+
 # init terraform
 terraform-initialise
 #
@@ -137,10 +143,10 @@ terraform workspace select "$WORKSPACE" || terraform workspace new "$WORKSPACE"
 # plan
 if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
   terraform plan \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+  -var-file "$ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE" \
+  -var-file "$ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE" \
+  -var-file "$ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE" \
+  -var-file "$ENVIRONMENTS_DIR/$ENV_TF_VARS_FILE"
 fi
 
 if [ -n "$ACTION" ] && [ "$ACTION" = 'apply' ] ; then
@@ -148,7 +154,7 @@ if [ -n "$ACTION" ] && [ "$ACTION" = 'apply' ] ; then
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
-    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+    -var-file "$ENVIRONMENTS_DIR/$ENV_TF_VARS_FILE"
 fi
 
 if [ -n "$ACTION" ] && [ "$ACTION" = 'destroy' ] ; then
@@ -156,7 +162,7 @@ if [ -n "$ACTION" ] && [ "$ACTION" = 'destroy' ] ; then
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
-    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+    -var-file "$ENVIRONMENTS_DIR/$ENV_TF_VARS_FILE"
 fi
 if [ -n "$ACTION" ] && [ "$ACTION" = 'validate' ] ; then
   terraform validate

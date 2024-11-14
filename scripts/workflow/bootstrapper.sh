@@ -19,6 +19,8 @@ export TF_VAR_terraform_lock_table_name="nhse-$ENVIRONMENT-$TF_VAR_repo_name-ter
 export WORKSPACE="${WORKSPACE:-"default"}"
 INFRASTRUCTURE_DIR="${INFRASTRUCTURE_DIR:-"infrastructure"}"
 TERRAFORM_DIR="${TERRAFORM_DIR:-"$INFRASTRUCTURE_DIR/stacks"}"
+ENVIRONMENTS_SUB_DIR="environments"
+
 
 # Github org
 export TF_VAR_github_org="NHSDigital"
@@ -157,7 +159,7 @@ function github_runner_stack {
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
-    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+    -var-file "$ENVIRONMENTS_DIR/$ENV_TF_VARS_FILE"
   fi
 
   if [ -n "$ACTION" ] && [ "$ACTION" = 'apply' ] ; then
@@ -165,7 +167,7 @@ function github_runner_stack {
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
     -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
-    -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+    -var-file "$ENVIRONMENTS_DIR/$ENV_TF_VARS_FILE"
   fi
   # cleardown temp files
   rm -f "$STACK_DIR"/common-variables.tf
@@ -183,6 +185,10 @@ ROOT_DIR=$PWD
 COMMON_TF_VARS_FILE="common.tfvars"
 PROJECT_TF_VARS_FILE="project.tfvars"
 ENV_TF_VARS_FILE="$ENVIRONMENT.tfvars"
+ENVIRONMENTS_DIR="$ROOT_DIR/$INFRASTRUCTURE_DIR"
+
+[ -d "$ROOT_DIR/$INFRASTRUCTURE_DIR/$ENVIRONMENTS_SUB_DIR" ]  && ENVIRONMENTS_DIR="$ENVIRONMENTS_DIR/$ENVIRONMENTS_SUB_DIR"
+echo "Pulling environment variables from $ENVIRONMENTS_DIR"
 
 
 if [[ "$USE_REMOTE_STATE_STORE" =~ ^(false|no|n|off|0|FALSE|NO|N|OFF) ]]; then
@@ -225,21 +231,21 @@ if [ -n "$ACTION" ] && [ "$ACTION" = 'plan' ] ; then
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+  -var-file "$ENVIRONMENTS_DIR/$ENV_TF_VARS_FILE"
 fi
 if [ -n "$ACTION" ] && [ "$ACTION" = 'apply' ] ; then
   terraform apply -auto-approve \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+  -var-file "$ENVIRONMENTS_DIR/$ENV_TF_VARS_FILE"
 fi
 if [ -n "$ACTION" ] && [ "$ACTION" = 'destroy' ] ; then
   terraform destroy -auto-approve \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$COMMON_TF_VARS_FILE \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$STACK_TF_VARS_FILE \
   -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$PROJECT_TF_VARS_FILE \
-  -var-file $ROOT_DIR/$INFRASTRUCTURE_DIR/$ENV_TF_VARS_FILE
+  -var-file "$ENVIRONMENTS_DIR/$ENV_TF_VARS_FILE"
 fi
 # cleardown temp files
 rm -f "$STACK_DIR"/common-variables.tf
