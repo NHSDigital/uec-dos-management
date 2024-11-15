@@ -13,7 +13,7 @@
 
 ## Git branching strategy diagram
 
-![Git branching strategy diagram](../diagrams/Git_branching_strategy.png)
+![Git branching strategy diagram](../diagrams/Git_branching_strategy.drawio.png)
 
 ## Branch naming conventions
 
@@ -41,12 +41,14 @@
 ## To test a ticket
 
 - Complete testing of the ticket on the develop branch
-- If there are test failures, should that be:
-  - Fixed within the current ticket (since QA is not met)?
-  - Or should that be a bug ticket?
-- (To clarify, in the diagram earlier, “record bug” could mean
-  - To comment on ticket and resolve as part of that ticket, by addressing fixes in a follow up PR using same branch?
-  - Or, to create a new ticket to make the fixes on a new branch?)
+- If there are test failures
+  - before merge to develop
+    - (so there are failing integration tests),
+    - then resolve the issues as part of the original ticket.
+  - after merge to develop
+    - (so all the integration tests passed),
+    - but manual testing identifies issues with the functionality/implementation,
+    - then raise a bug to fix this separately.
 
 ## Identify release candidates
 
@@ -58,6 +60,7 @@
 ## Once release candidates are merged to main
 
 - Tag main with the release version.
+- Currently, the process of tagging releases will be performed manually. However, this could be automated when we start releasing.
 
 ## Hotfix process
 
