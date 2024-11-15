@@ -45,29 +45,31 @@ function check_git_branch_name_length {
     fi
 }
 
+function check_jira_ref {
+  BRANCH_NAME=$1
+  BUILD_COMMIT_MESSAGE=$2
+  IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
+  IFS='_' read -r -a ref <<< "${name_array[1]}"
+  JIRA_REF=$(echo "${ref[0]}"-"${ref[1]}")
+
+  # Check if commit message starts with jira ref
+  if [[ $BUILD_COMMIT_MESSAGE != $JIRA_REF* ]] ; then
+    BUILD_COMMIT_MESSAGE="$JIRA_REF $BUILD_COMMIT_MESSAGE"
+  fi
+  echo "$BUILD_COMMIT_MESSAGE"
+}
+
 function check_git_commit_message {
   # # Handle task branches with names delimited by underscore eg dr_9999_My_branch_name
   BUILD_COMMIT_MESSAGE=$1
-  BRANCH_NAME=$2
-    IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
-    IFS='_' read -r -a ref <<< "${name_array[1]}"
-    JIRA_REF=$(echo "${ref[0]}"-"${ref[1]}")
-
-    # Check if commit message starts with jira ref
-    if [[ $BUILD_COMMIT_MESSAGE != $JIRA_REF* ]] ; then
-      echo "$BUILD_COMMIT_MESSAGE does NOT start with $JIRA_REF - prepend jira ref"
-      BUILD_COMMIT_MESSAGE="$JIRA_REF $BUILD_COMMIT_MESSAGE"
-    else
-      echo "$BUILD_COMMIT_MESSAGE" starts with $JIRA_REF - nothing to do
-    fi
-    echo "Validating commit message $BUILD_COMMIT_MESSAGE"
-    VALID_FORMAT=$(check_commit_message_format "$BUILD_COMMIT_MESSAGE")
-    VALID_LENGTH=$(check_commit_message_length "$BUILD_COMMIT_MESSAGE")
-    if [[ ! -z "$VALID_LENGTH" || ! -z "$VALID_FORMAT" ]] ; then
-      [[ ! -z "$VALID_FORMAT" ]] && echo $VALID_FORMAT
-      [[ ! -z "$VALID_LENGTH" ]] && echo $VALID_LENGTH
-      return 1
-    fi
+  echo "Validating commit message $BUILD_COMMIT_MESSAGE"
+  VALID_FORMAT=$(check_commit_message_format "$BUILD_COMMIT_MESSAGE")
+  VALID_LENGTH=$(check_commit_message_length "$BUILD_COMMIT_MESSAGE")
+  if [[ ! -z "$VALID_LENGTH" || ! -z "$VALID_FORMAT" ]] ; then
+    [[ ! -z "$VALID_FORMAT" ]] && echo $VALID_FORMAT
+    [[ ! -z "$VALID_LENGTH" ]] && echo $VALID_LENGTH
+    return 1
+  fi
 }
 
 function check_commit_message_format {
