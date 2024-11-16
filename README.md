@@ -19,6 +19,7 @@ Make use of this repository template to expedite your project setup and enhance 
 - [Repository Template](#repository-template)
   - [Table of Contents](#table-of-contents)
   - [Branch naming](#branch-naming)
+  - [Commit message](#commit-message)
   - [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Configuration](#configuration)
@@ -33,7 +34,50 @@ Make use of this repository template to expedite your project setup and enhance 
 
 ## Branch naming
 
-The following branch naming strategy has been applied
+All development work should relate to a JIRA ticket and that ticket must be referenced in the branch name help trace work. The following branch naming rules apply to temporary development branches:
+
+- the whole branch name must be 60 characters or less in length
+- start with task/ followed by
+- the JIRA ticket reference - separated by an underscore rather than a hyphen eg DR_99 followed by
+- a description of minimum three words where
+  - the first letter of the first word is uppercase and
+  - all words are separated by an underscore
+
+The format is important as a non-default terraform workspace is based on the JIRA reference and derived from the branch name.
+
+Examples of a valid branch name
+
+- task/DR_1_Update_s3_terraform
+- task/DR_2_Add_new_data_item
+
+Examples of an invalid task names
+
+- feature/DR_1_Update_s3_terraform (does not start with task)
+- task/DR-1_Update_s3_terraform (JIRA ref contains hyphen not an underscore)
+- task/Update_s3_terraform (no JIRA ref)
+- task/DR_1_update_s3_terraform (first word of description not uppercase)
+
+## Commit message
+
+Commit messages must :
+
+- start with a hyphenated version of the JIRA reference used in the branch name
+- consist of at least three words
+  - where the first letter of the first word is uppercase and
+  - all words are separated by a space
+- not exceed 100 characters
+
+If the commit message does not start with same JIRA reference used to name the branch the JIRA reference
+used for the branch name is inserted at the start of the commit message
+
+Examples of a valid commit message might be:
+
+- DR-1 Add new user role
+- Add new user role
+
+Examples of an invalid commit message might be:
+
+- Add role (too short)
 
 ## Setup
 
