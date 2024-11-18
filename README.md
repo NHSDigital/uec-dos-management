@@ -20,6 +20,7 @@ Make use of this repository template to expedite your project setup and enhance 
   - [Table of Contents](#table-of-contents)
   - [Branch naming](#branch-naming)
   - [Commit message](#commit-message)
+    - [Note](#note)
   - [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Configuration](#configuration)
@@ -59,16 +60,18 @@ Examples of an invalid task names
 
 ## Commit message
 
-Commit messages must :
+The commit message must:
 
-- start with a hyphenated version of the JIRA reference used in the branch name
+- start with a hyphenated version of the JIRA reference used in the branch name (see note below)
 - consist of at least three words
   - where the first letter of the first word is uppercase and
   - all words are separated by a space
 - not exceed 100 characters
 
-If the commit message does not start with same JIRA reference used to name the branch the JIRA reference
-used for the branch name is inserted at the start of the commit message
+### Note
+
+Commit messages must start with a hyphenated version of the JIRA reference used in the branch name. If you do not enter it a pre-commit hook
+will insert it at the start of your entered commit message.
 
 Examples of a valid commit message might be:
 
@@ -78,6 +81,7 @@ Examples of a valid commit message might be:
 Examples of an invalid commit message might be:
 
 - Add role (too short)
+- add new role (no initial capital)
 
 ## Setup
 
