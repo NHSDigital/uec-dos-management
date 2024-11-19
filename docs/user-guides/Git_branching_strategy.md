@@ -40,22 +40,47 @@
 
 ## To test a ticket
 
-- Complete testing of the ticket on the develop branch
-- If there are test failures
-  - before merge to develop
-    - (so there are failing integration tests),
-    - then resolve the issues as part of the original ticket.
-  - after merge to develop
-    - (so all the integration tests passed),
-    - but manual testing identifies issues with the functionality/implementation,
-    - then raise a bug to fix this separately.
+Before Merging to develop:
+
+- Developers test that the functionality is met by using unit and integration tests, as part of their PR.
+- If there are test failures (e.g. failing integration tests), then resolve the issues as part of the original ticket.
+
+After Merging to develop:
+
+- Testers then commence testing of the ticket.
+- If an issue is found during manual testing, an issue is raised.
+  - This issue needs to be fixed within the original ticket, so that ticket is moved back into progress.
+  - The ticket cannot moved to done until the linked bug/issue is fixed.
+- If the bug is different from the functionality of the original ticket:
+  - The bug is handled outside of that ticket.
+  - The bug can sometimes be taken into the next sprint, depending on its severity and priority.
 
 ## Identify release candidates
 
-- The team will identify the tickets and their subsequent commits for to include in the release
-- A confluence document records the tickets included for the release
-- Merge the subsequent commits into main
-- Where relevant, use feature flagging to merge code to main but in the “off” position
+Identify Tickets and Commits for Release
+
+- The team will identify the tickets and their subsequent commits to include in the release.
+
+Create Confluence Document
+
+- A Confluence document is created to record each release:
+  - Use JIRA to produce the release notes to hold in Confluence. See [Atlassian Support: Create Release Notes](https://support.atlassian.com/jira-cloud-administration/docs/create-release-notes/)
+  - This document records the list of tickets in the release, planning descriptions, and technical details.
+
+Pre-PR Procedures
+
+- Before raising a PR from develop to main:
+  - Developers call for a code freeze to ensure no unconfirmed merges are made to develop.
+  - Confirm all tickets in the release have been QA’d and signed off.
+
+Raising a PR from develop to main
+
+- Ensure team consensus on the contents of the release PR versus the release document.
+- Where relevant, use feature flagging to merge code to main in the “off” position.
+
+Post-Approval
+
+- Once the PR is approved, merge to main.
 
 ## Once release candidates are merged to main
 
