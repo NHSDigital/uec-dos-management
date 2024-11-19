@@ -7,7 +7,7 @@ on:
 jobs:
     metadata:
       name: "Get Metadata"
-      uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/metadata.yaml@task/DR_1211_Update_branch_naming
 
     deploy-account-infrastructure-apply:
         name: "Deploy mgmt account level infrastructure"
@@ -15,7 +15,7 @@ jobs:
           [
             metadata,
           ]
-        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+        uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR_1211_Update_branch_naming
         with:
           environment: mgmt
           domain: "uec-dos-management"
@@ -29,7 +29,7 @@ jobs:
         [
           metadata,
         ]
-      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/deploy-infrastructure.yaml@task/DR_1211_Update_branch_naming
       with:
         environment: int
         domain: "uec-dos-management"
@@ -44,7 +44,7 @@ jobs:
         deploy-int-account-infrastructure-apply,
       ]
       if: always()
-      uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@latest
+      uses: NHSDigital/uec-dos-management/.github/workflows/slack-notifications.yaml@task/DR_1211_Update_branch_naming
       with:
         env: mgmt
       secrets: inherit

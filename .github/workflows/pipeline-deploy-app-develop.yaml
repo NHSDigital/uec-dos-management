@@ -67,7 +67,7 @@ jobs:
         metadata,
         quality-checks,
       ]
-    uses: NHSDigital/uec-dos-management/.github/workflows/unit-test.yaml@latest
+    uses: NHSDigital/uec-dos-management/.github/workflows/unit-test.yaml@task/DR_1211_Update_branch_naming
     with:
       env: mgmt
     secrets: inherit

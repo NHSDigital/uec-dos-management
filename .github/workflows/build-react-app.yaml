@@ -46,20 +46,20 @@ jobs:
     timeout-minutes: 5
     steps:
       - name: "Checkout code"
-        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/checkout-repository@task/DR_1211_Update_branch_naming
         with:
           tag: ${{ inputs.tag }}
           repository: ${{ inputs.domain }}
 
       - name: Configure AWS Credentials
-        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/configure-credentials@task/DR_1211_Update_branch_naming
         with:
           aws_account_id: ${{ secrets.ACCOUNT_ID }}
           aws_region: ${{ vars.AWS_REGION }}
 
       - name: Derive spa bucket
         id: derive_spa_bucket
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-frontend-bucket@task/DR_1211_Update_branch_naming
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
@@ -67,32 +67,32 @@ jobs:
 
       - name: Derive cloudfront dist id
         id: derive_cloudfront_dist_id
-        uses: NHSDigital/uec-dos-management/.github/actions/derive-cloudfront-dist-id@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/derive-cloudfront-dist-id@task/DR_1211_Update_branch_naming
         with:
           environment: ${{ inputs.environment }}
           workspace: ${{ inputs.workspace }}
           domain: ${{ inputs.domain }}
 
       - name: Set up Node.js
-        uses: NHSDigital/uec-dos-management/.github/actions/install-node@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/install-node@task/DR_1211_Update_branch_naming
 
       - name: Install dependencies
-        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/install-npm-dependencies@task/DR_1211_Update_branch_naming
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Run Linter
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-lint@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-lint@task/DR_1211_Update_branch_naming
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Build React application
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-build@task/DR_1211_Update_branch_naming
         with:
           code_directory: ${{ inputs.code_directory }}
 
       - name: Run Unit Tests
-        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-unit-tests@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/react-npm-unit-tests@task/DR_1211_Update_branch_naming
         with:
           code_directory: ${{ inputs.code_directory }}
 
@@ -103,14 +103,14 @@ jobs:
           path: ${{ inputs.code_directory }}/coverage/lcov.info
 
       - name: Perform static analysis
-        uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/perform-static-analysis@task/DR_1211_Update_branch_naming
         with:
           sonar_organisation_key: ${{ vars.SONAR_ORGANISATION_KEY }}
           sonar_project_key: ${{ vars.SONAR_PROJECT_KEY }}
           sonar_token: ${{ secrets.SONAR_TOKEN }}
 
       - name: "Upload react app to S3 bucket"
-        uses: NHSDigital/uec-dos-management/.github/actions/push-react-artefact@latest
+        uses: NHSDigital/uec-dos-management/.github/actions/push-react-artefact@task/DR_1211_Update_branch_naming
         with:
           code_directory: ${{ inputs.code_directory }}
           workspace: ${{ inputs.workspace }}
