@@ -27,8 +27,8 @@ The following branch naming rules apply to temporary development branches create
 - it must start with task/ followed by
   - the JIRA ticket reference - separated by an underscore rather than a hyphen eg DR_99 followed by
   - a description of minimum three words where
-- the first letter of the first word is uppercase and
-- all words are separated by an underscore
+    - the first letter of the first word is uppercase and
+    - all words are separated by an underscore
 
 - Valid branch names would be
   - `task/DR_1_Update_s3_terraform`
@@ -52,7 +52,7 @@ The commit message must:
 
 ### Note
 
-If a hyphenated version of the JIRA reference used in the branch name is not included at the start of the submitted commit message, a pre-commit hook add it.
+If a hyphenated version of the JIRA reference used in the branch name is not included at the start of the submitted commit message, a pre-commit hook will add it.
 
 Examples of a valid commit message might be:
 
