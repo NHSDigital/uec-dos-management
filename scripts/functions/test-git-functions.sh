@@ -32,6 +32,7 @@ unset BUILD_COMMIT_MESSAGE
 
 
 all_pass=0
+testcount=1
 
 echo "start valid branch name checks"
 export BRANCH_NAME=task/DPTS_2211_My_valid_branch
@@ -42,16 +43,40 @@ if [[ $? = 1 ]]; then
 fi
 unset BRANCH_NAME
 unset BUILD_COMMIT_MESSAGE
+testcount=$((testcount+1))
 export BRANCH_NAME=main
 export BUILD_COMMIT_MESSAGE="DR-1 My message takes exactly 100 characters to describe the new commit here on this turbo tabletop"
 /bin/bash ./scripts/githooks/git-branch-commit-msg.sh
 if [[ $? = 1 ]]; then
     all_pass=1
 fi
+
+echo start invalid checks
+
 unset BRANCH_NAME
 unset BUILD_COMMIT_MESSAGE
-echo start invalid checks
-testcount=1
+testcount=$((testcount+1))
+export BRANCH_NAME=hotfix/DPTS_2211_My_valid_branch
+export BUILD_COMMIT_MESSAGE="DR-1 My message takes exactly 100 characters to describe the new commit here on this turbo tabletop"
+/bin/bash ./scripts/githooks/git-branch-commit-msg.sh
+if [[ $? = 0 ]]; then
+echo "Test $testcount failed"
+    all_pass=1
+fi
+
+unset BRANCH_NAME
+unset BUILD_COMMIT_MESSAGE
+testcount=$((testcount+1))
+export BRANCH_NAME=feature/DPTS_2211_My_valid_branch
+export BUILD_COMMIT_MESSAGE="DR-1 My message takes exactly 100 characters to describe the new commit here on this turbo tabletop"
+/bin/bash ./scripts/githooks/git-branch-commit-msg.sh
+if [[ $? = 0 ]]; then
+echo "Test $testcount failed"
+    all_pass=1
+fi
+unset BRANCH_NAME
+unset BUILD_COMMIT_MESSAGE
+testcount=$((testcount+1))
 # invalid - jira project ref -hyphenated
 export BRANCH_NAME=task/DPTS-2211_My_invalid_branch
 export BUILD_COMMIT_MESSAGE="DR-1 My message takes exactly 100 characters to describe the new commit here on this turbo tabletop"

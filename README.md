@@ -18,9 +18,7 @@ Make use of this repository template to expedite your project setup and enhance 
 
 - [Repository Template](#repository-template)
   - [Table of Contents](#table-of-contents)
-  - [Branch naming](#branch-naming)
-  - [Commit message](#commit-message)
-    - [Note](#note)
+  - [Branch naming and commit message rules](#branch-naming-and-commit-message-rules)
   - [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Configuration](#configuration)
@@ -33,65 +31,22 @@ Make use of this repository template to expedite your project setup and enhance 
   - [Contacts](#contacts)
   - [Licence](#licence)
 
-## Branch naming
+## Branch naming and commit message rules
 
-All development work should relate to a JIRA ticket and that ticket must be referenced in the branch name help trace work. The following branch naming rules apply to temporary development branches:
-
-- the whole branch name must be 60 characters or less in length
-- start with task/ followed by
-- the JIRA ticket reference - separated by an underscore rather than a hyphen eg DR_99 followed by
-- a description of minimum three words where
-  - the first letter of the first word is uppercase and
-  - all words are separated by an underscore
-
-The format is important as a non-default terraform workspace is based on the JIRA reference and derived from the branch name.
-
-Examples of a valid branch name
-
-- task/DR_1_Update_s3_terraform
-- task/DR_2_Add_new_data_item
-
-Examples of an invalid task names
-
-- feature/DR_1_Update_s3_terraform (does not start with task)
-- task/DR-1_Update_s3_terraform (JIRA ref contains hyphen not an underscore)
-- task/Update_s3_terraform (no JIRA ref)
-- task/DR_1_update_s3_terraform (first word of description not uppercase)
-
-## Commit message
-
-The commit message must:
-
-- start with a hyphenated version of the JIRA reference used in the branch name (see note below)
-- consist of at least three words
-  - where the first letter of the first word is uppercase and
-  - all words are separated by a space
-- not exceed 100 characters
-
-### Note
-
-Commit messages must start with a hyphenated version of the JIRA reference used in the branch name. If you do not enter it a pre-commit hook
-will insert it at the start of your entered commit message.
-
-Examples of a valid commit message might be:
-
-- DR-1 Add new user role
-- Add new user role
-
-Examples of an invalid commit message might be:
-
-- Add role (too short)
-- add new role (no initial capital)
+See [Branching strategy user guide](./docs/user-guides/Git_branching_strategy.md)
 
 ## Setup
 
-By including preferably a one-liner or if necessary a set of clear CLI instructions we improve user experience. This should be a frictionless installation process that works on various operating systems (macOS, Linux, Windows WSL) and handles all the dependencies.
+To enable githooks run
+
+```shell
+git clone https://github.com/NHSDigital/uec-dos-management.git
+```
 
 Clone the repository
 
 ```shell
-git clone https://github.com/nhs-england-tools/repository-template.git
-cd nhs-england-tools/repository-template
+/bin/bash ./scripts/git/git-config-set-up.sh
 ```
 
 ### Prerequisites
