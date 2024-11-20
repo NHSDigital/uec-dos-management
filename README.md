@@ -18,6 +18,7 @@ Make use of this repository template to expedite your project setup and enhance 
 
 - [Repository Template](#repository-template)
   - [Table of Contents](#table-of-contents)
+  - [Branch naming and commit message rules](#branch-naming-and-commit-message-rules)
   - [Setup](#setup)
     - [Prerequisites](#prerequisites)
     - [Configuration](#configuration)
@@ -30,15 +31,22 @@ Make use of this repository template to expedite your project setup and enhance 
   - [Contacts](#contacts)
   - [Licence](#licence)
 
+## Branch naming and commit message rules
+
+See [Branching strategy user guide](./docs/user-guides/Git_branching_strategy.md)
+
 ## Setup
 
-By including preferably a one-liner or if necessary a set of clear CLI instructions we improve user experience. This should be a frictionless installation process that works on various operating systems (macOS, Linux, Windows WSL) and handles all the dependencies.
+To enable githooks run
+
+```shell
+git clone https://github.com/NHSDigital/uec-dos-management.git
+```
 
 Clone the repository
 
 ```shell
-git clone https://github.com/nhs-england-tools/repository-template.git
-cd nhs-england-tools/repository-template
+/bin/bash ./scripts/git/git-config-set-up.sh
 ```
 
 ### Prerequisites

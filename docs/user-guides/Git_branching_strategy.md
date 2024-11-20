@@ -3,6 +3,8 @@
 - [Guide: Git Branching Strategy](#guide-git-branching-strategy)
   - [Git branching strategy diagram](#git-branching-strategy-diagram)
   - [Branch naming conventions](#branch-naming-conventions)
+  - [Commit message rules](#commit-message-rules)
+    - [Note](#note)
   - [To start work on a new ticket](#to-start-work-on-a-new-ticket)
   - [To test a ticket](#to-test-a-ticket)
   - [Identify release candidates](#identify-release-candidates)
@@ -17,11 +19,16 @@
 
 ## Branch naming conventions
 
-- We prefer task over 'feature' as task better encapsulates the short-lived nature of transient branches.
-- It is a task to be delivered (on the way to delivering a full feature) rather than the full feature.
-- Consequently temporary branches created from main should follow this naming pattern: `task/JIRA_REF_Min_three_word_desc`
-  - Where the minimum three word description starts with an initial capital
-  - And the max length for a branch name is 60 characters.
+All development work should relate to a JIRA ticket and that ticket must be referenced in the branch name to help trace work. We prefer task over 'feature' as task better encapsulates the short-lived nature of transient branches. A task represents part of a feature rather than the full feature.
+
+The following branch naming rules apply to temporary development branches created from the develop branch:
+
+- the whole branch name must be 60 characters or less in length
+- it must start with task/ followed by
+  - the JIRA ticket reference - separated by an underscore rather than a hyphen eg DR_99 followed by
+  - a description of minimum three words where
+    - the first letter of the first word is uppercase and
+    - all words are separated by an underscore
 
 - Valid branch names would be
   - `task/DR_1_Update_s3_terraform`
@@ -32,6 +39,30 @@
   - `task/DR-1_Update_s3_terraform` (Jira ref doesn’t use underscore)
   - `task/Update_s3_terraform` (doesn't include Jira ref)
   - `task/DR_1_update_s3_terraform` (first word after Jira ref not capitalised)
+
+## Commit message rules
+
+The commit message must:
+
+- start with a hyphenated version of the JIRA reference used in the branch name (see note below)
+- consist of at least three words
+  - where the first letter of the first word is uppercase and
+  - all words are separated by a space
+- not exceed 100 characters
+
+### Note
+
+If a hyphenated version of the JIRA reference used in the branch name is not included at the start of the submitted commit message, a pre-commit hook will add it.
+
+Examples of a valid commit message might be:
+
+- DR-1 Add new user role - left unchanged by the pre-commit hook
+- Add new user role - edited by the pre-commit hook to be DR-1 Add new user role
+
+Examples of an invalid commit message might be:
+
+- Add role (too short)
+- add new role (no initial capital)
 
 ## To start work on a new ticket
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GIT_BRANCH_PATTERN_PREFIX=task
-GIT_BRANCH_PATTERN_SUFFIX='[A-Z]{2,5}-[0-9]{1,5}_[A-Z][a-z]+_[A-Za-z0-9]+_[A-Za-z0-9_]'
+GIT_BRANCH_PATTERN_SUFFIX='[A-Z]{2,5}[_]{1}[0-9]{1,5}_[A-Z][a-z]+_[A-Za-z0-9]+_[A-Za-z0-9_]'
 GIT_BRANCH_PATTERN=$GIT_BRANCH_PATTERN_PREFIX/$GIT_BRANCH_PATTERN_SUFFIX
 GIT_BRANCH_MAX_LENGTH=60
 GIT_COMMIT_MESSAGE_MAX_LENGTH=100
@@ -45,14 +45,31 @@ function check_git_branch_name_length {
     fi
 }
 
+function check_jira_ref {
+  BRANCH_NAME=$1
+  BUILD_COMMIT_MESSAGE=$2
+  IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
+  IFS='_' read -r -a ref <<< "${name_array[1]}"
+  JIRA_REF=$(echo "${ref[0]}"-"${ref[1]}")
+
+  # Check if commit message starts with jira ref
+  if [[ $BUILD_COMMIT_MESSAGE != $JIRA_REF* ]] ; then
+    BUILD_COMMIT_MESSAGE="$JIRA_REF $BUILD_COMMIT_MESSAGE"
+  fi
+  echo "$BUILD_COMMIT_MESSAGE"
+}
+
 function check_git_commit_message {
-    VALID_FORMAT=$(check_commit_message_format "$1")
-    VALID_LENGTH=$(check_commit_message_length "$1")
-    if [[ ! -z "$VALID_LENGTH" || ! -z "$VALID_FORMAT" ]] ; then
-      [[ ! -z "$VALID_FORMAT" ]] && echo $VALID_FORMAT
-      [[ ! -z "$VALID_LENGTH" ]] && echo $VALID_LENGTH
-      return 1
-    fi
+  # # Handle task branches with names delimited by underscore eg dr_9999_My_branch_name
+  BUILD_COMMIT_MESSAGE=$1
+  echo "Validating commit message $BUILD_COMMIT_MESSAGE"
+  VALID_FORMAT=$(check_commit_message_format "$BUILD_COMMIT_MESSAGE")
+  VALID_LENGTH=$(check_commit_message_length "$BUILD_COMMIT_MESSAGE")
+  if [[ ! -z "$VALID_LENGTH" || ! -z "$VALID_FORMAT" ]] ; then
+    [[ ! -z "$VALID_FORMAT" ]] && echo $VALID_FORMAT
+    [[ ! -z "$VALID_LENGTH" ]] && echo $VALID_LENGTH
+    return 1
+  fi
 }
 
 function check_commit_message_format {
