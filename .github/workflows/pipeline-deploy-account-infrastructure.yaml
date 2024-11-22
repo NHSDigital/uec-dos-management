@@ -3,7 +3,7 @@ on:
   push:
     branches:
       - 'main'
-
+      - develop
 jobs:
     metadata:
       name: "Get Metadata"
