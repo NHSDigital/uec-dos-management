@@ -29,7 +29,6 @@ runs:
       shell: bash
       run: |
         export WORKSPACE=${{ inputs.workspace }}
-        export TAG_TYPE=${{ inputs.tag_type }}
         export USE_COMMIT_HASH=${{ inputs.use_commit_hash }}
         export COMMIT_HASH=${{ inputs.commit_hash }}
         . uec-dos-management/scripts/workflow/generate-tag-name.sh

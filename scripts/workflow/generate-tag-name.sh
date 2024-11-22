@@ -18,11 +18,6 @@ if [ -z "$WORKSPACE" ] ; then
     EXPORTS_SET=1
 fi
 
-if [ -z "$TAG_TYPE" ] ; then
-    echo TAG_TYPE not set
-    EXPORTS_SET=1
-fi
-
 if [ -z "$USE_COMMIT_HASH" ] ; then
     echo USE_COMMIT_HASH not set
     EXPORTS_SET=1
@@ -40,14 +35,13 @@ fi
 
 echo "Generate Tag Name Script invoked with the following parameters: "
 echo "WORKSPACE: $WORKSPACE"
-echo "TAG_TYPE: $TAG_TYPE"
 echo "USE_COMMIT_HASH: $USE_COMMIT_HASH"
 echo "COMMIT_HASH: $COMMIT_HASH"
 
 if [ "$USE_COMMIT_HASH" == "yes" ]; then
-  TAG_NAME="$WORKSPACE-$COMMIT_HASH-$TAG_TYPE"
+  TAG_NAME="$WORKSPACE-$COMMIT_HASH"
 else
-  TAG_NAME="$WORKSPACE-$TAG_TYPE"
+  TAG_NAME="$WORKSPACE"
 fi
 
 echo "Generated tag: $TAG_NAME"
