@@ -5,9 +5,6 @@ inputs:
   workspace:
     description: "The name of the workspace that is used to generate the name of the tag"
     required: true
-  tag_type:
-    description: "The type of tag to generate; i.e. test, stage, prod"
-    required: true
   use_commit_hash:
     description: "Option to configure the tag generator to include the commit hash in the tag name"
     required: false
@@ -29,7 +26,6 @@ runs:
       shell: bash
       run: |
         export WORKSPACE=${{ inputs.workspace }}
-        export TAG_TYPE=${{ inputs.tag_type }}
         export USE_COMMIT_HASH=${{ inputs.use_commit_hash }}
         export COMMIT_HASH=${{ inputs.commit_hash }}
         . uec-dos-management/scripts/workflow/generate-tag-name.sh

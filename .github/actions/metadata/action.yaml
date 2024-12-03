@@ -14,10 +14,33 @@ outputs:
   artefact_bucket_name:
     description: "Repository for domain artefacts"
     value: ${{ steps.metadata.outputs.artefact_bucket_name }}
+  build_datetime_london:
+    description: "The build date and time in London timezone"
+    value: ${{ steps.metadata.outputs.build_datetime_london }}
+  build_datetime:
+    description: "The build date and time in the repository's default timezone"
+    value: ${{ steps.metadata.outputs.build_datetime }}
+  build_timestamp:
+    description: "Timestamp of the build"
+    value: ${{ steps.metadata.outputs.build_timestamp }}
+  build_epoch:
+    description: "Epoch time of the build"
+    value: ${{ steps.metadata.outputs.build_epoch }}
+  nodejs_version:
+    description: "Version of Node.js used in the build"
+    value: ${{ steps.metadata.outputs.nodejs_version }}
+  python_version:
+    description: "Version of Python used in the build"
+    value: ${{ steps.metadata.outputs.python_version }}
+  terraform_version:
+    description: "Version of Terraform used in the build"
+    value: ${{ steps.metadata.outputs.terraform_version }}
+  version:
+    description: "Version of the repository or application"
+    value: ${{ steps.metadata.outputs.version }}
 
 runs:
   using: "composite"
-
   steps:
     - name: "Get metadata"
       id: "metadata"
@@ -44,4 +67,7 @@ runs:
           echo "artefact_commit_hash=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})"
           echo "artefact_commit_hash=$(git rev-parse --short ${{ github.event.pull_request.head.sha }})" >> $GITHUB_OUTPUT
         fi
-
+        echo "nodejs_version=$(grep "^nodejs" .tool-versions | cut -f2 -d' ')" >> $GITHUB_OUTPUT
+        echo "python_version=$(grep "^python" .tool-versions | cut -f2 -d' ')" >> $GITHUB_OUTPUT
+        echo "terraform_version=$(grep "^terraform" .tool-versions | cut -f2 -d' ')" >> $GITHUB_OUTPUT
+        echo "version=$(head -n 1 .version 2> /dev/null || echo unknown)" >> $GITHUB_OUTPUT
