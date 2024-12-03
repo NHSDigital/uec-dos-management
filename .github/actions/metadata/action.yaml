@@ -47,6 +47,7 @@ runs:
       shell: bash
       run : |
         datetime=$(date -u +'%Y-%m-%dT%H:%M:%S%z')
+        echo "build_datetime_london=$(TZ=Europe/London date --date=$datetime +'%Y-%m-%dT%H:%M:%S%z')" >> $GITHUB_OUTPUT
         echo "build_datetime=$datetime" >> $GITHUB_OUTPUT
         echo "build_timestamp=$(date --date=$datetime -u +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
         echo "build_epoch=$(date --date=$datetime -u +'%s')" >> $GITHUB_OUTPUT
