@@ -43,6 +43,10 @@ elif [[ "$BRANCH_NAME" == "main" ]]; then
   # Handle main branch
   WORKSPACE="default"
   echo "Workspace from main branch: $WORKSPACE"
+elif [[ "$BRANCH_NAME" == "develop" ]]; then
+  # Handle develop branch
+  WORKSPACE="default"
+  echo "Workspace from develop branch: $WORKSPACE"
 else
   # Handle task branches
   IFS='/' read -r -a name_array <<< "$BRANCH_NAME"
