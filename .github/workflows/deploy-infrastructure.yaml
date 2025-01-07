@@ -40,6 +40,10 @@ on:
           description: "The git tag identifying the timeline in the repository to deploy from"
           required: false
           type: string
+      application_tag:
+          description: "The application tag identifying the timeline in the repository to deploy from"
+          required: false
+          type: string
       workflow_timeout:
         description: "Timeout duration in minutes"
         required: false
@@ -80,3 +84,4 @@ jobs:
           stack: ${{ matrix.stack }}
           action: ${{ inputs.action }}
           project: ${{ inputs.project }}
+          application_tag: ${{ inputs.application_tag }}
