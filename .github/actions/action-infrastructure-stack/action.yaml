@@ -18,6 +18,9 @@ inputs:
     project:
         description: "The project - eg dos or cm."
         required: true
+    application_tag:
+        description: "The application tag for deployment"
+        required: false
 
 runs:
   using: "composite"
@@ -42,4 +45,5 @@ runs:
           export ENVIRONMENT=${{ inputs.environment }}
           export WORKSPACE=${{ inputs.workspace }}
           export PROJECT=${{ inputs.project }}
+          export APPLICATION_TAG=${{ inputs.application_tag }}
           /bin/bash ./uec-dos-management/scripts/workflow/action-infra-stack.sh
